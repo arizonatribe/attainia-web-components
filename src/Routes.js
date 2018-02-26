@@ -28,7 +28,6 @@ const withLayout = withTheseNavItems([
     {label: 'Pencils', link: '/pencils', iconName: 'edit'}
 ])
 
-
 export default (
     <ThemeProvider theme={theme}>
         <Provider store={store}>
