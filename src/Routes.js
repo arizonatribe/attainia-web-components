@@ -45,8 +45,6 @@ export default (
                     </Switch>
                 </BrowserRouter>
             </AuthProvider>
-            
-
         </Provider>
     </ThemeProvider>
 )
