@@ -3,15 +3,13 @@ import {reduxForm} from 'redux-form'
 import {graphql} from 'react-apollo'
 
 import RegistrationConfirmation from './RegistrationConfirmation'
-import validators from './validators'
 import {CONFIRM_USER_REGISTRATION} from './mutations'
 import ducks from './ducks'
 
-const {userRegistrationConfirmation: {validate}} = validators
-const {creators: {handleError, register}} = ducks
+const {validators, creators: {handleError, register}} = ducks
 
 const FormedRegistration = reduxForm({
-    validate,
+    validate: validators.userRegistrationConfirmation,
     fields: ['password', 'confirm'],
     form: 'ConfirmUserRegistrationForm'
 })(RegistrationConfirmation)

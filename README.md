@@ -12,7 +12,7 @@ This means if you import a component that uses no dependencies it will be as sma
 
 In general you can expect to encounter a "missing dependency" error (which you solve by simply running an `npm install <some missing dependency>`) rarely if you are using a normal React/Redux application (these are the primary deps).
 
-Some components are meant to work with [react-apollo](https://github.com/apollographql/react-apollo) (such as the `AuthProvider`) and some components that collect user input are meant to work with [redux-form](https://github.com/erikras/redux-form) and [validatorjs](https://github.com/skaterdav85/validatorjs). Also, this library opts for [ramda](https://www.npmjs.com/package/ramda) [rather than lodash/underscore](https://www.youtube.com/watch?v=ixbJrJTOnF8) for many of the low-level JavaScript tasks.
+Some components are meant to work with [react-apollo](https://github.com/apollographql/react-apollo) (such as the `AuthProvider`) and some components that collect user input are meant to work with [redux-form](https://github.com/erikras/redux-form) and [spected](https://github.com/25th-floor/spected). Also, this library opts for [ramda](https://www.npmjs.com/package/ramda) [rather than lodash/underscore](https://www.youtube.com/watch?v=ixbJrJTOnF8) for many of the low-level JavaScript tasks.
 
 These components may or may not implement one or many of the following dependencies (most especially you'll find these used in the `.container` component wrappers):
 * [redux](https://github.com/reactjs/redux) - Unidirectional data flow in a React application
@@ -20,12 +20,13 @@ These components may or may not implement one or many of the following dependenc
 * [react-apollo](https://github.com/apollographql/react-apollo) - Data provider to wrap around components that can run or subscribe to server queries
 * [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Higher order component used to decorate routable components with conditional rendering and/or redirector based on a redux selector
 * [redux-form](https://github.com/erikras/redux-form) - HTML Form helpers and validation that flow into a Redux store
-* [validatorjs](https://github.com/skaterdav85/validatorjs) - Build validation objects that Redux-Form can easily use
+* [spected](https://github.com/25th-floor/spected) - Build validation objects that Redux-Form can easily use
 * [styled-components](https://github.com/styled-components/styled-components) - Possibly the first truly elegant marriage of CSS and JavaScript that can (potentially) please developers who fall on either side of the CSS or JS development
 * [subscriptions-transport-ws](https://github.com/apollographql/subscriptions-transport-ws) - Used by any of these components that leverage GraphQL subscriptions
 
 Additionally, certain low-level libraries are also servicing these components:
 * [Ramda](https://www.npmjs.com/package/ramda) - Utils library (similar to Lodash) but more properly geared towards functional programming paradigms
+* [Attadux](https://github.com/Attainia/attadux) - A [modular ducks](https://github.com/erikras/ducks-modular-redux) implementation, forked from [extensible-duck](https://github.com/investtools/extensible-duck) to provide custom features (state machines, form validators, and middleware).
 * [UUID](https://github.com/kelektiv/node-uuid) - Generates guids
 
 ## Installing
@@ -43,21 +44,21 @@ As an example, the "Login" component consists of a `Login.js`, a `Login.containe
 To add the reducer for the auth components into your application, just import the `reducer.js` from this library's `auth/` folder into your `combineReducers()` method. In a typical application you might have a `reducers.js` above your `components/` folder:
 
 ```javascript
-import {combineReducers} from 'redux';
-import {reducer as formReducer} from 'redux-form';
+import {combineReducers} from 'redux'
+import {reducer as formReducer} from 'redux-form'
 
 /* reducer for the `auth` component(s) from attainia-web-componets library */
-import auth from 'attainia-web-components/auth/reducer';
+import authDux from 'attainia-web-components/auth/ducks'
 
 /* your local reducers */
-import resources from './components/resources/reducer';
+import resourcesDux from './components/resources/ducks'
 
 /* combine your local reducers with the reducer(s) for the attain web components */
 export default combineReducers({
-    auth,
-    resources,
+    auth: authDux.reducer,
+    resources: resourcesDux.reducer,
     form: formReducer
-});
+})
 ```
 
 Now, your `Login.container.js` will have access to the `auth` section of your application's Redux store, which is where the functionality specific to these components take place.

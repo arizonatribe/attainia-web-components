@@ -18,7 +18,7 @@ const Li = styled.li`
     border-left-style: solid;
 
     &:hover {
-        border-color: ${getThemeProp(['colors', 'secondary', 'default'], 'royalblue')};
+        border-color: ${getThemeProp(['colors', 'primary', 'default'], 'crimson')};
         background: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
     }
     & a {
@@ -37,7 +37,7 @@ const Li = styled.li`
     }
 
     & a.active {
-        background: ${getThemeProp(['colors', 'secondary', 'default'], 'royalblue')};
+        background: ${getThemeProp(['colors', 'primary', 'default'], 'crimson')};
     }
 `
 const Ul = styled.ul`
@@ -48,14 +48,16 @@ const Ul = styled.ul`
     box-sizing: border-box;
 `
 
-const NavBarList = ({items, theme}) => (
+const NavBarList = ({items, theme}) =>
     <Ul>
-        {items.map(({iconName, link, label}) =>
+        {items.map(({iconName, link, label, width = 25, height = 25}) =>
             <Li key={uuid()} role="presentation">
                 <NavLink to={link}>
                     {iconName &&
                         <SimpleSvgIcon
                           icon={iconName}
+                          width={width}
+                          height={height}
                           fill={getThemeProp(['colors', 'grayscale', 'white'], 'white')({theme})}
                         />
                     }
@@ -64,7 +66,6 @@ const NavBarList = ({items, theme}) => (
             </Li>
         )}
     </Ul>
-)
 
 NavBarList.propTypes = {
     theme: PropTypes.shape({
@@ -77,7 +78,9 @@ NavBarList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
         iconName: PropTypes.string,
         label: PropTypes.string.isRequired,
-        link: PropTypes.string.isRequired
+        link: PropTypes.string.isRequired,
+        height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     }))
 }
 

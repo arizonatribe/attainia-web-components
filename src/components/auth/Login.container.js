@@ -4,13 +4,11 @@ import {reduxForm} from 'redux-form'
 import {withApollo, compose} from 'react-apollo'
 
 import Login from './Login'
-import validators from './validators'
 import {LOGIN_USER} from './mutations'
 import {setToken} from './helpers'
 import ducks from './ducks'
 
-const {login: {validate}} = validators
-const {selectors, creators: {handleError, login, toggleRememberMe, finishedLoading, startedLoading}} = ducks
+const {selectors, validators, creators: {handleError, login, toggleRememberMe, finishedLoading, startedLoading}} = ducks
 
 const mapStateToProps = state => ({
     email: selectors.email(state),
@@ -68,7 +66,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 export default compose(
     withApollo,
     reduxForm({
-        validate,
+        validate: validators.login,
         form: 'LoginForm',
         fields: ['email', 'password']
     }),

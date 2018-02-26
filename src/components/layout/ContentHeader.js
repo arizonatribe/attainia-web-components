@@ -3,11 +3,11 @@ import uuid from 'uuid/v4'
 import pluralize from 'pluralize'
 import PropTypes from 'prop-types'
 import Link from 'react-router-dom/Link'
-import {isNotNil} from 'ramda-adjunct'
 import styled, {withTheme} from 'styled-components'
-import {compose, pickBy, replace, toUpper, toLower} from 'ramda'
+import {compose, complement, isNil, pickBy, replace, toUpper, toLower} from 'ramda'
 import {getThemeProp, LinkButton, SimpleSvgIcon} from '../common'
 
+const isNotNil = complement(isNil)
 const capitalize = str => str.replace(/(?:^|\s)\S/g, toUpper)
 const hyphenate = compose(replace(/--/g, '-'), replace(/\s/g, '-'))
 const formatButtonText = compose(str => `Add a ${str}`, capitalize, toLower)
@@ -42,12 +42,11 @@ const ListHeader = styled.ul`
     @supports (display: grid) {
         display: grid;
         grid-template-columns: 1fr${
-    props => Boolean(props.numOfIconButtons) && ` repeat(${props.numOfIconButtons}, 50px)`
-}${props => props.hasAddButton && ' minmax(auto,140px)'};
+    props => props.numOfIconButtons > 0 && ` repeat(${props.numOfIconButtons}, 50px)`}${
+    props => props.hasAddButton && ' minmax(auto,140px)'};
         grid-template-rows: 50px;
-        grid-template-areas: "title${
-    props => Array(Number(props.numOfIconButtons)).fill(' icon')
-}${props => props.hasAddButton && ' button'}";
+        grid-template-areas: "title${props => Array(Number(props.numOfIconButtons)).fill(' icon')}${
+    props => props.hasAddButton && ' button'}";
         ${props => (Boolean(props.numOfIconButtons) || props.hasAddButton) && 'grid-column-gap: 3px;'}
 
         .titleAndSubtitle {
@@ -111,6 +110,8 @@ ContentHeader.propTypes = {
     hasAddButton: PropTypes.bool,
     iconsButtons: PropTypes.arrayOf(PropTypes.shape({
         icon: PropTypes.string.isRequired,
+        height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         onClick: PropTypes.func
     })).isRequired,
     resourceSubtitle: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

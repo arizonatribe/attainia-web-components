@@ -1,3 +1,4 @@
+import Chevron from './Chevron'
 import ContentCentered from './ContentCentered'
 import ContentCenteredMiddle from './ContentCenteredMiddle'
 import ContentFullSize from './ContentFullSize'
@@ -6,15 +7,15 @@ import ContentWrapper from './ContentWrapper'
 import Footer from './Footer'
 import Header from './Header'
 import HeaderImage from './HeaderImage'
-import Layout, {withLayout} from './Layout'
+import Layout, {withLayout, withTheseNavItems} from './Layout'
 import Main from './Main'
 import Modal from './Modal'
-import NavBarListContainer from './NavBarList.container'
 import NavBarList from './NavBarList'
 import NotFound from './NotFound'
 import Page from './Page'
 
 export {
+    Chevron,
     ContentCentered,
     ContentCenteredMiddle,
     ContentFullSize,
@@ -26,9 +27,9 @@ export {
     Layout,
     Main,
     Modal,
-    NavBarListContainer,
     NavBarList,
     NotFound,
     Page,
-    withLayout
+    withLayout,
+    withTheseNavItems
 }

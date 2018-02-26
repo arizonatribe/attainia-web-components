@@ -45,7 +45,7 @@ storiesOf('DataTable', module)
                   pageData: {
                       page: 1,
                       totalPages: 1,
-                      perPage: 50,
+                      pageSize: 50,
                       totalResults: 0
                   },
                   rows: []

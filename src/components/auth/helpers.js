@@ -1,13 +1,13 @@
-import {path, is, allPass} from 'ramda'
+import {allPass, compose, equals, is, not, path, test} from 'ramda'
 
-export const isSupportedStorageType = storage => /(local|session)/i.test(storage)
+export const isSupportedStorageType = test(/(local|session)/i)
 export const isValidToken = allPass([
-    token => !/\s/.test(token),
-    token => token !== '[object Object]',
+    compose(not, test(/\s/)),
+    compose(not, equals('[object Object]')),
     is(String)
 ])
 export const formatBaseUri = uri => (/^https?:\/\//i.test(uri) ? uri : `http://${uri}`)
-export const getAccessToken = props => path(['user', 'token', 'access_token'], props)
+export const getAccessToken = path(['user', 'token', 'access_token'])
 export const getAccessTokenFromStorage = storage => {
     if (/local/i.test(storage)) {
         return localStorage.getItem('token')

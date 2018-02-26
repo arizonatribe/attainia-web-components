@@ -1,21 +1,41 @@
-import Duck from 'extensible-duck'
-import {complement, omit, converge, memoize, last, identity, init, path, trim, compose, is, toString} from 'ramda'
-
-import {isStringieThingie} from './validators'
+import LocalizedStrings from 'react-localization'
+import {createDuck, createSelector, createDuckSelector} from 'attadux'
+import {
+    allPass,
+    complement,
+    compose,
+    either,
+    find,
+    identity,
+    ifElse,
+    is,
+    isNil,
+    not,
+    omit,
+    path,
+    prop,
+    split,
+    test,
+    toString,
+    trim
+} from 'ramda'
 
 const ONE_HOUR = 3600000
 
-const createSelector = (...selectors) => memoize(converge(last(selectors), init(selectors)))
-
-const parseError = compose(
+export const isNotNil = complement(isNil)
+export const isNotBlankString = compose(not, test(/^\s*$/))
+export const isStringieThingie = allPass([isNotBlankString, either(is(Number), is(String)), isNotNil])
+export const isValidEmail = test(/^[^.\s@:][^\s@:]*(?!\.)@[^.\s@]+(?:\.[^.\s@]+)*$/)
+export const isValidPassword = test(/^([A-Z]|[a-z])([a-z]|[0-9]|[!@#$%^&*()[\];:,.<>?*^+=_-]){6,50}$/)
+export const parseError = compose(
     trim,
-    ([label, message]) => message || label,
-    str => str.split(/error:/i),
-    val => (is(String, val) ? val : toString(val)),
-    err => (is(Object, err) ? err.message : err)
+    find(isStringieThingie),
+    split(/(?:\S*\s*)?error:/i),
+    ifElse(is(String), identity, toString),
+    ifElse(is(Object), prop('message'), identity)
 )
 
-export default new Duck({
+export default createDuck({
     store: 'auth',
     namespace: 'awc',
     types: [
@@ -25,7 +45,6 @@ export default new Duck({
         'CONFIRM_USER_REGISTRATION',
         'DECODED_JWT',
         'ERROR',
-        'GET_USER_NAV_MENU',
         'LOADING_FINISHED',
         'LOADING_STARTED',
         'LOGIN',
@@ -46,7 +65,6 @@ export default new Duck({
         error: '',
         loading: false,
         menu: {
-            navigation: [],
             profile: []
         },
         rememberMe: false,
@@ -62,35 +80,40 @@ export default new Duck({
         email: path(['auth', 'user', 'email']),
         parsedToken: path(['auth', 'parsed_token']),
         token: path(['auth', 'user', 'token', 'access_token']),
-        navigationItems: path(['auth', 'menu', 'navigation']),
-        storedToken: new Duck.Selector(selectors =>
-            createSelector(
-                selectors.token,
-                selectors.parsedToken,
-                (t, pt) => t || pt
-            )
+        expires_in: path(['auth', 'user', 'token', 'expires_in']),
+        hasAuthError: createDuckSelector(selectors =>
+            createSelector(selectors.error, Boolean)
         ),
-        hasUser: new Duck.Selector(selectors =>
+        hasUser: createDuckSelector(selectors =>
             createSelector(
                 selectors.id,
                 selectors.name,
                 (...props) => props.every(isStringieThingie)
             )
         ),
-        hasAuthError: new Duck.Selector(selectors => createSelector(selectors.error, Boolean)),
-        isAuthenticated: new Duck.Selector(selectors => createSelector(selectors.id, isStringieThingie)),
-        isNotAuthenticated: new Duck.Selector(selectors => createSelector(selectors.id, complement(isStringieThingie))),
-        expires_in: path(['auth', 'user', 'token', 'expires_in']),
-        refreshInMs: new Duck.Selector(selectors =>
+        isAuthenticated: createDuckSelector(selectors =>
+            createSelector(selectors.id, isStringieThingie)
+        ),
+        isNotAuthenticated: createDuckSelector(selectors =>
+            createSelector(selectors.id, complement(isStringieThingie))
+        ),
+        refreshInMs: createDuckSelector(selectors =>
             createSelector(
                 selectors.expires_in,
                 expiresIn => Math.max((Number(expiresIn || ONE_HOUR) - 10) * 1000, 0)
             )
         ),
-        refreshAt: new Duck.Selector(selectors =>
+        refreshAt: createDuckSelector(selectors =>
             createSelector(
                 selectors.refreshInMs,
                 refreshInMs => new Date(Date.now() + refreshInMs)
+            )
+        ),
+        storedToken: createDuckSelector(selectors =>
+            createSelector(
+                selectors.token,
+                selectors.parsedToken,
+                (t, pt) => t || pt
             )
         )
     },
@@ -99,7 +122,6 @@ export default new Duck({
         clearError: () => ({type: types.CLEAR_ERROR}),
         confirmRegistration: () => ({type: types.CONFIRM_USER_REGISTRATION}),
         decodedJwt: jwt => ({jwt, type: types.DECODED_JWT}),
-        getUserNavMenu: navigation => ({navigation, type: types.GET_USER_NAV_MENU}),
         passwordHelp: email => ({email, type: types.PASSWORD_HELP}),
         refresh: refreshTimeout => ({refreshTimeout, type: types.REFRESH}),
         clearRefresh: () => ({type: types.CLEAR_REFRESH}),
@@ -115,6 +137,98 @@ export default new Duck({
         startedLoading: () => ({type: types.LOADING_STARTED}),
         finishedLoading: () => ({type: types.LOADING_FINISHED})
     }),
+    validators: {
+        passwordHelp: {
+            email: [
+                [isStringieThingie, new LocalizedStrings({
+                    en: {email: 'Please enter your email'},
+                    fr: {email: 'Entrez votre adresse e-mail'},
+                    es: {email: 'Por favor, introduzca su dirección de correo electrónico'}
+                }).email]
+            ]
+        },
+        login: {
+            password: [
+                [isStringieThingie, new LocalizedStrings({
+                    en: {password: 'Please enter your password'},
+                    fr: {password: 's\'il vous plait entrez votre mot de passe'},
+                    es: {password: 'Por favor, introduzca su contraseña'}
+                }).password]
+            ],
+            email: [
+                [isStringieThingie, new LocalizedStrings({
+                    en: {email: 'Please enter your email'},
+                    fr: {email: 'Entrez votre adresse e-mail'},
+                    es: {email: 'Por favor, introduzca su dirección de correo electrónico'}
+                }).email]
+            ]
+        },
+        applicationRegistration: {
+            name: [
+                [isStringieThingie, new LocalizedStrings({
+                    en: {name: 'Please enter your name'},
+                    fr: {name: 'S\'il vous plaît entrez votre nom'},
+                    es: {name: 'por favor, escriba su nombre'}
+                }).name]
+            ],
+            redirect: [
+                [isStringieThingie, new LocalizedStrings({
+                    en: {redirect: 'Please enter a URL'},
+                    fr: {redirect: 'Entrez une URL'},
+                    es: {redirect: 'Ingrese una URL'}
+                }).redirect]
+            ]
+        },
+        userRegistrationConfirmation: {
+            password: [
+                [isStringieThingie, new LocalizedStrings({
+                    en: {password: 'Please enter your password'},
+                    fr: {password: 's\'il vous plait entrez votre mot de passe'},
+                    es: {password: 'Por favor, introduzca su contraseña'}
+                }).password],
+                [isValidPassword, new LocalizedStrings({
+                    /* eslint-disable max-len */
+                    en: {password: 'Passwords should be greater than 6 alphanumeric characters. Some special characters are allowed.'},
+                    fr: {password: 'Les mots de passe doivent être supérieurs à 6 caractères. Algunos caracteres especiales están permitidos.'},
+                    es: {password: 'Las contraseñas deben tener más de 6 caracteres. Certains caractères spéciaux sont autorisés.'}
+                    /* eslint-enable max-len */
+                }).password]
+            ],
+            confirm: [
+                [isStringieThingie, new LocalizedStrings({
+                    en: {confirm: 'Please confirm your password'},
+                    fr: {confirm: 's\'il vous plait entrez votre mot de passe'},
+                    es: {confirm: 'Por favor, introduzca su contraseña'}
+                }).confirm],
+                [(conf, fields) => conf === fields.password, new LocalizedStrings({
+                    en: {confirm: 'Passwords do not match'},
+                    fr: {confirm: 'Les mots de passe ne correspondent pas'},
+                    es: {confirm: 'Las contraseñas no coinciden'}
+                }).confirm]
+            ]
+        },
+        userRegistration: {
+            name: [
+                [isStringieThingie, new LocalizedStrings({
+                    en: {name: 'Please enter your name'},
+                    fr: {name: 'S\'il vous plaît entrez votre nom'},
+                    es: {name: 'por favor, escriba su nombre'}
+                }).name]
+            ],
+            email: [
+                [isStringieThingie, new LocalizedStrings({
+                    en: {email: 'Please enter your email address'},
+                    fr: {email: 'Entrez votre adresse e-mail'},
+                    es: {email: 'Por favor, introduzca su dirección de correo electrónico'}
+                }).email],
+                [isValidEmail, new LocalizedStrings({
+                    en: {email: 'Invalid email address'},
+                    fr: {email: 'Adresse e-mail invalide'},
+                    es: {email: 'Dirección de correo electrónico no válida'}
+                }).email]
+            ]
+        }
+    },
     reducer(state, action, {types, initialState}) {
         switch (action.type) {
             case types.CANCEL:
@@ -133,14 +247,6 @@ export default new Duck({
                     ...state,
                     error: parseError(action.error),
                     loading: false
-                }
-            case types.GET_USER_NAV_MENU:
-                return {
-                    ...state,
-                    menu: {
-                        ...state.menu,
-                        navigation: action.navigation.map(label => ({label}))
-                    }
                 }
             case types.DECODED_JWT:
                 return {
