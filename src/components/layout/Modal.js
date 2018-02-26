@@ -20,16 +20,12 @@ class Modal extends React.Component {
         this.openPortal = this.openPortal.bind(this)
         this.closePortal = this.closePortal.bind(this)
         this.wrapWithPortal = this.wrapWithPortal.bind(this)
-        this.handleOutsideMouseClick = this.handleOutsideMouseClick.bind(this)
         this.handleKeydown = this.handleKeydown.bind(this)
     }
   
     componentDidMount() {
         if (this.props.closeOnEsc) {
             document.addEventListener('keydown', this.handleKeydown)
-        }
-        if (this.props.closeOnOutsideClick) {
-            document.addEventListener('click', this.handleOutsideMouseClick)
         }
     }
   
@@ -71,17 +67,6 @@ class Modal extends React.Component {
         )
     }
 
-    handleOutsideMouseClick(e) {
-        if (!this.state.active) {
-            return
-        }
-        const root = this.portalNode.props.node || this.portalNode.defaultNode
-        if (!root || root.contains(e.target) || (e.button && e.button !== 0)) {
-            return
-        }
-        this.closePortal()
-    }
-    
     handleKeydown(e) {
         if (e.keyCode === KEYCODES.ESCAPE && this.state.active) {
             this.closePortal()
@@ -106,7 +91,6 @@ Modal.propTypes = {
     children: PropTypes.func.isRequired,
     defaultOpen: PropTypes.bool,
     closeOnEsc: PropTypes.bool,
-    closeOnOutsideClick: PropTypes.bool,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     // node can be a div in index.html instead of a React Node.
