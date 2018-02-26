@@ -1,51 +1,121 @@
-import ReactDOM from 'react-dom'
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import {Portal} from 'react-portal'
 
-const modalRoot = document.querySelector('#modal-root')
-
-const StyledModal = styled.div`
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+const ModalPosition = styled.div`
+  position: relative;
+  z-index: 999;
 `
 
+const KEYCODES = {
+    ESCAPE: 27
+}
+  
 class Modal extends React.Component {
     constructor(props) {
         super(props)
-        // Create a div that we'll render the modal into. Because each
-        // Modal component has its own element, we can render multiple
-        // modal components into the modal container.
-        this.el = StyledModal
+        this.portalNode = null
+        this.state = { active: !!props.defaultOpen }
+        this.openPortal = this.openPortal.bind(this)
+        this.closePortal = this.closePortal.bind(this)
+        this.wrapWithPortal = this.wrapWithPortal.bind(this)
+        this.handleOutsideMouseClick = this.handleOutsideMouseClick.bind(this)
+        this.handleKeydown = this.handleKeydown.bind(this)
     }
-
+  
     componentDidMount() {
-        // The portal element is inserted in the DOM tree after
-        // the Modal's children are mounted, meaning that children
-        // will be mounted on a detached DOM node.
-        modalRoot.appendChild(this.el)
+        if (this.props.closeOnEsc) {
+            document.addEventListener('keydown', this.handleKeydown)
+        }
+        if (this.props.closeOnOutsideClick) {
+            document.addEventListener('click', this.handleOutsideMouseClick)
+        }
     }
-
+  
     componentWillUnmount() {
-        modalRoot.removeChild(this.el)
+        if (this.props.closeOnEsc) {
+            document.removeEventListener('keydown', this.handleKeydown)
+        }
+    }
+  
+    openPortal(e) {
+        if (this.state.active) {
+            return
+        }
+        if (e && e.nativeEvent) {
+            e.nativeEvent.stopImmediatePropagation()
+        }
+        this.setState({ active: true }, this.props.onOpen)
+    }
+  
+    closePortal() {
+        if (!this.state.active) {
+            return
+        }
+        this.setState({ active: false }, this.props.onClose)
+    }
+  
+    wrapWithPortal(children) {
+        if (!this.state.active) {
+            return null
+        }
+        return (
+            <Portal
+              node={this.props.node}
+              key="react-portal"
+              ref={(portalNode) => { this.portalNode = portalNode }}
+            >
+                {children}
+            </Portal>
+        )
     }
 
+    handleOutsideMouseClick(e) {
+        if (!this.state.active) {
+            return
+        }
+        const root = this.portalNode.props.node || this.portalNode.defaultNode
+        if (!root || root.contains(e.target) || (e.button && e.button !== 0)) {
+            return
+        }
+        this.closePortal()
+    }
+    
+    handleKeydown(e) {
+        if (e.keyCode === KEYCODES.ESCAPE && this.state.active) {
+            this.closePortal()
+        }
+    }
+  
     render() {
-        // Use a portal to render the children into the element
-        return ReactDOM.createPortal(
-            // Any valid React child: JSX, strings, arrays, etc.
-            this.props.children,
-            // A DOM element
-            this.el
+        return (
+            <ModalPosition>
+                {this.props.children({
+                    openPortal: this.openPortal,
+                    closePortal: this.closePortal,
+                    portal: this.wrapWithPortal,
+                    isOpen: this.state.active
+                })}
+            </ModalPosition>
         )
     }
 }
-
+  
 Modal.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.func.isRequired,
+    defaultOpen: PropTypes.bool,
+    closeOnEsc: PropTypes.bool,
+    closeOnOutsideClick: PropTypes.bool,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    // node can be a div in index.html instead of a React Node.
+    node: PropTypes.any // eslint-disable-line react/forbid-prop-types
 }
-
+  
+Modal.defaultProps = {
+    onOpen: () => {},
+    onClose: () => {}
+}
+  
 export default Modal

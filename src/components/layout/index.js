@@ -10,6 +10,8 @@ import HeaderImage from './HeaderImage'
 import Layout, {withLayout, withTheseNavItems} from './Layout'
 import Main from './Main'
 import Modal from './Modal'
+import ModalButton from './ModalButton'
+import ModalChild from './ModalChild'
 import NavBarList from './NavBarList'
 import NotFound from './NotFound'
 import Page from './Page'
@@ -27,6 +29,8 @@ export {
     Layout,
     Main,
     Modal,
+    ModalButton,
+    ModalChild,
     NavBarList,
     NotFound,
     Page,
