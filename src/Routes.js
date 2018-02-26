@@ -25,8 +25,7 @@ const withLayout = withTheseNavItems([
     {label: 'Printers', link: '/printers', iconName: 'print'},
     {label: 'Paper', link: '/paper', iconName: 'document'},
     {label: 'Garbage Cans', link: '/wastebaskets', iconName: 'delete'},
-    {label: 'Pencils', link: '/pencils', iconName: 'edit'},
-    {label: 'Modal', link: '/modal', iconName: 'search'}
+    {label: 'Pencils', link: '/pencils', iconName: 'edit'}
 ])
 
 
