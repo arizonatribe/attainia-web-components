@@ -39,7 +39,7 @@ injectGlobal`
     }
 
     @supports (display: grid) {
-        #root {
+        #app-root {
             display: grid;
             align-items: center;
         }

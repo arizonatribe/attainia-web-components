@@ -17,10 +17,6 @@ class Modal extends React.Component {
         super(props)
         this.portalNode = null
         this.state = { active: !!props.defaultOpen }
-        this.openPortal = this.openPortal.bind(this)
-        this.closePortal = this.closePortal.bind(this)
-        this.wrapWithPortal = this.wrapWithPortal.bind(this)
-        this.handleKeydown = this.handleKeydown.bind(this)
     }
   
     componentDidMount() {
@@ -35,24 +31,24 @@ class Modal extends React.Component {
         }
     }
   
-    openPortal(e) {
+    openPortal = event => {
         if (this.state.active) {
             return
         }
-        if (e && e.nativeEvent) {
-            e.nativeEvent.stopImmediatePropagation()
+        if (event && event.nativeEvent) {
+            event.nativeEvent.stopImmediatePropagation()
         }
         this.setState({ active: true }, this.props.onOpen)
     }
   
-    closePortal() {
+    closePortal = () => {
         if (!this.state.active) {
             return
         }
         this.setState({ active: false }, this.props.onClose)
     }
   
-    wrapWithPortal(children) {
+    wrapWithPortal = (children) => {
         if (!this.state.active) {
             return null
         }
@@ -67,8 +63,8 @@ class Modal extends React.Component {
         )
     }
 
-    handleKeydown(e) {
-        if (e.keyCode === KEYCODES.ESCAPE && this.state.active) {
+    handleKeydown = event => {
+        if (event.keyCode === KEYCODES.ESCAPE && this.state.active) {
             this.closePortal()
         }
     }

@@ -31,7 +31,7 @@ const StyledModalContent = styled.div`
 const ModalChild = ({closePortal}) =>
     <StyledModal>
         <StyledModalContent>
-            <h1>You've opened a Modal</h1>
+            <h1>You&#39;e opened a Modal</h1>
             <Button className="close-modal" onClick={closePortal}>Close Modal</Button>
         </StyledModalContent>
     </StyledModal>
