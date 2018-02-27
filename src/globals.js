@@ -5,7 +5,7 @@ import initReactFastclick from 'react-fastclick'
 
 initReactFastclick()
 injectGlobal`
-    html, body, #root {
+    html, body, #app-root {
         margin: 0;
         padding: 0;
         height: 100%;
