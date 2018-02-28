@@ -5,7 +5,7 @@ import initReactFastclick from 'react-fastclick'
 
 initReactFastclick()
 injectGlobal`
-    html, body, #root {
+    html, body, #app-root {
         margin: 0;
         padding: 0;
         height: 100%;
@@ -39,7 +39,7 @@ injectGlobal`
     }
 
     @supports (display: grid) {
-        #root {
+        #app-root {
             display: grid;
             align-items: center;
         }

@@ -3,7 +3,7 @@ import Routes from './Routes'
 import './globals'
 
 function renderApp(Component) {
-    render(Component, document.querySelector('#root'))
+    render(Component, document.querySelector('#app-root'))
 }
 
 renderApp(Routes)
