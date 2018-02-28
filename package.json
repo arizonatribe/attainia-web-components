@@ -1,6 +1,6 @@
 {
   "name": "attainia-web-components",
-  "version": "0.3.21",
+  "version": "0.3.22",
   "description": "A collection of Attainia branded web components to be used in an Attainia React.js web application.",
   "main": "index.js",
   "engines": {
@@ -71,7 +71,7 @@
     "react-scripts": "1.1.0",
     "react-table": "6.7.6",
     "react-tooltip": "3.3.1",
-    "react-widgets": "^4.2.0",
+    "react-widgets": "4.2.0",
     "redux": "3.7.2",
     "redux-auth-wrapper": "2.0.2",
     "redux-form": "7.0.4",
