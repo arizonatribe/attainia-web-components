@@ -1,3 +1,4 @@
+import Banner from './Banner'
 import Chevron from './Chevron'
 import ContentCentered from './ContentCentered'
 import ContentCenteredMiddle from './ContentCenteredMiddle'
@@ -17,6 +18,7 @@ import NotFound from './NotFound'
 import Page from './Page'
 
 export {
+    Banner,
     Chevron,
     ContentCentered,
     ContentCenteredMiddle,
