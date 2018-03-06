@@ -1,6 +1,6 @@
 {
   "name": "attainia-web-components",
-  "version": "0.3.23",
+  "version": "0.3.25",
   "description": "A collection of Attainia branded web components to be used in an Attainia React.js web application.",
   "main": "index.js",
   "engines": {
@@ -38,11 +38,13 @@
     "component"
   ],
   "license": "Apache-2.0",
-  "author": "David Nunez <david.nunez@attainia.com>",
+  "author": "Attainia Developers <developers@attainia.com>",
   "contributors": [
     "Alex <alex.maskovyak@attainia.com>",
     "Ana <ana.tomboulian@attainia.com>",
-    "Jason <jason.rego@attainia.com>",
+    "David <david.nunez@attainia.com>",
+    "Lawrence <lawrence.grant@attainia.com>",
+    "Michael <michael.tomcal@attainia.com>",
     "Jono <jono.mercier@attainia.com>",
     "Glenn <glenn.siegman@attainia.com>",
     "Marcos <marcos.gonzales@attainia.com>",
@@ -100,7 +102,7 @@
     "babel-plugin-transform-object-rest-spread": "6.23.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.10",
     "babel-plugin-transform-runtime": "6.23.0",
-    "babel-polyfill": "6.23.0",
+    "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
     "copyfiles": "1.2.0",

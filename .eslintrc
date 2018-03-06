@@ -24,6 +24,7 @@
           "./src/components/auth",
           "./src/components/common",
           "./src/components/data-table",
+          "./src/components/react-table",
           "./src/components/layout"
         ]
       }
