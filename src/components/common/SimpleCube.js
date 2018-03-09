@@ -53,12 +53,11 @@ const parseDimensions = (maxSideLength = 0, dimensions) => (
  * @func
  * @sig ({k: v}, Number, Number, {k: v}, {k: v}) -> undefined
  * @name cubeMe
- * @param ctx A context object (obtained via a canvas.getContext('2d') method call)
+ * @param {Object} ctx A context object (obtained via a canvas.getContext('2d') method call)
  * @param {Object} dimensions An object containing width, depth, height,
  * as well as an optional maxSideLength value. That value serves as a threshold limit
  * which the width, depth and height cannot exceed (and if they do, this limit
  * will be used to calculate an aspect ratio to scale the dimensions)
- * @param ...restOfProps}
  * @param {Object} styles An object containing configuration options for colors
  * (baseColor, topColor, fontColor) and fontSizeAndFace
  * (formatted as 'fontsize fontfamily')
