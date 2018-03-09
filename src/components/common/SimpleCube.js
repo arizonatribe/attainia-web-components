@@ -132,6 +132,7 @@ class SimpleCube extends PureComponent {
     componentDidMount() {
         const {maxSideLength, dimensions, styles} = this.props
         const shadingOffset = validateShadingOffset(this.props.shadingOffset)
+        const dimensionDefaults = {maxSideLength, width: 0, height: 0, depth: 0, ...dimensions}
 
         const baseColor = styles.baseColor || getPrimaryColor(this.props)
         const topColor = color(baseColor).lighten(shadingOffset).hex()
@@ -141,7 +142,7 @@ class SimpleCube extends PureComponent {
 
         const ctx = this.canvas.getContext('2d')
 
-        cubeMe(ctx, {maxSideLength, ...dimensions}, {
+        cubeMe(ctx, dimensionDefaults, {
             baseColor,
             topColor,
             sideColor,
