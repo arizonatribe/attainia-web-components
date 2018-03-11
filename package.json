@@ -1,6 +1,6 @@
 {
   "name": "attainia-web-components",
-  "version": "0.3.27",
+  "version": "0.3.28",
   "description": "A collection of Attainia branded web components to be used in an Attainia React.js web application.",
   "main": "index.js",
   "engines": {
@@ -51,10 +51,12 @@
     "Tim <tim.graf@attainia.com>"
   ],
   "dependencies": {
+    "apollo-fetch": "0.7.0",
     "attadux": "0.1.1",
     "babel-polyfill": "6.26.0",
     "color": "2.0.1",
     "fixed-data-table-2": "0.8.1",
+    "graphiql": "0.11.11",
     "history": "4.7.2",
     "hoist-non-react-statics": "2.3.1",
     "jwt-decode": "2.2.0",
