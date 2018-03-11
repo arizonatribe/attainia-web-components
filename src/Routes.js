@@ -13,18 +13,18 @@ import {
     RegistrationConfirmationContainer,
     RegisterApplicationContainer
 } from './components/auth'
-import {ApiBrowser} from './components/api-browser'
+import DemoQueryEditor from './dev-components/DemoQueryEditor'
+import SimpleCube from './dev-components/DemoSimpleCube'
 
 import {withLoginEnhancers} from './components/auth/enhancers'
 import {withAuthentication} from './components/auth/decorators'
 
-import store, {apolloFetch} from './store'
+import store from './store'
 import theme from './theme'
-
-const ApiBrowserWithFetcher = props => <ApiBrowser {...props} graphQlFetcher={apolloFetch} />
 
 const withLayout = withTheseNavItems([
     {label: 'Apis', link: '/api-browser', iconName: 'search'},
+    {label: 'Cube', link: '/cube', iconName: 'cube'},
     {label: 'Bells', link: '/bells', iconName: 'notification'},
     {label: 'Printers', link: '/printers', iconName: 'print'},
     {label: 'Paper', link: '/paper', iconName: 'document'},
@@ -44,7 +44,8 @@ export default (
                         <Route exact path="/register" component={RegistrationContainer} />
                         <Route exact path="/confirm-registration" component={RegistrationConfirmationContainer} />
                         <Route exact path="/register-application" component={RegisterApplicationContainer} />
-                        <Route exact path="/api-browser" component={withAuthentication(ApiBrowserWithFetcher)} />
+                        <Route exact path="/cube" component={withLayout(SimpleCube)} />
+                        <Route exact path="/api-browser" component={withAuthentication(withLayout(DemoQueryEditor))} />
                         <Route component={NotFound} />
                     </Switch>
                 </BrowserRouter>
