@@ -3,8 +3,7 @@ import {Provider} from 'react-redux'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import {ThemeProvider} from 'styled-components'
 
-import Home from './App'
-import {withTheseNavItems, NotFound} from './components/layout'
+import {withTheseNavItems} from './components/layout'
 import {
     AuthProvider,
     LoginContainer,
@@ -13,8 +12,12 @@ import {
     RegistrationConfirmationContainer,
     RegisterApplicationContainer
 } from './components/auth'
-import DemoQueryEditor from './dev-components/DemoQueryEditor'
-import SimpleCube from './dev-components/DemoSimpleCube'
+import {
+    DemoHome,
+    DemoNotFound,
+    DemoSimpleCube,
+    DemoQueryEditor
+} from './dev-components'
 
 import {withLoginEnhancers} from './components/auth/enhancers'
 import {withAuthentication} from './components/auth/decorators'
@@ -22,7 +25,12 @@ import {withAuthentication} from './components/auth/decorators'
 import store from './store'
 import theme from './theme'
 
+import attainiaHome from './images/attainia_foyer.jpg'
+
+const Home = props => <DemoHome imgSrc={attainiaHome} {...props} />
+
 const withLayout = withTheseNavItems([
+    {label: 'Home', link: '/home', iconName: 'home'},
     {label: 'Apis', link: '/api-browser', iconName: 'search'},
     {label: 'Cube', link: '/cube', iconName: 'cube'},
     {label: 'Bells', link: '/bells', iconName: 'notification'},
@@ -39,14 +47,15 @@ export default (
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/" component={withAuthentication(withLayout(Home))} />
+                        <Route exact path="/home" component={withAuthentication(withLayout(Home))} />
                         <Route exact path="/login" component={withLoginEnhancers(LoginContainer)} />
                         <Route exact path="/password-help" component={PasswordHelpContainer} />
                         <Route exact path="/register" component={RegistrationContainer} />
                         <Route exact path="/confirm-registration" component={RegistrationConfirmationContainer} />
                         <Route exact path="/register-application" component={RegisterApplicationContainer} />
-                        <Route exact path="/cube" component={withLayout(SimpleCube)} />
+                        <Route exact path="/cube" component={withLayout(DemoSimpleCube)} />
                         <Route exact path="/api-browser" component={withAuthentication(withLayout(DemoQueryEditor))} />
-                        <Route component={NotFound} />
+                        <Route render={props => <DemoNotFound imgSrc={attainiaHome} {...props} />} />
                     </Switch>
                 </BrowserRouter>
             </AuthProvider>

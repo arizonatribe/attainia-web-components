@@ -1,6 +1,7 @@
 import React from 'react'
 import uuid from 'uuid/v4'
 import pluralize from 'pluralize'
+import {articlize} from 'articles'
 import PropTypes from 'prop-types'
 import Link from 'react-router-dom/Link'
 import styled, {withTheme} from 'styled-components'
@@ -10,7 +11,7 @@ import {getThemeProp, LinkButton, SimpleSvgIcon} from '../common'
 const isNotNil = complement(isNil)
 const capitalize = str => str.replace(/(?:^|\s)\S/g, toUpper)
 const hyphenate = compose(replace(/--/g, '-'), replace(/\s/g, '-'))
-const formatButtonText = compose(str => `Add a ${str}`, capitalize, toLower)
+const formatButtonText = compose(str => `Add ${articlize(str)}`, capitalize, toLower)
 const formatResourceName = compose(pluralize, capitalize, toLower, hyphenate)
 const formatRoutePath = compose(pluralize, toLower, hyphenate)
 
