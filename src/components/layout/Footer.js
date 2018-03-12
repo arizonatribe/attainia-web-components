@@ -21,7 +21,7 @@ const Footer = styled.footer`
 const WrappedFooter = ({className}) =>
     <Footer className={className}>
         <small>
-            2017 © Attainia, Inc. All Rights Reserved.
+            2018 © Attainia, Inc. All Rights Reserved.
             <span> | </span>
             <a href="http://www.attainia.com/privacy_policy">Privacy Policy</a>
             <span> | </span>

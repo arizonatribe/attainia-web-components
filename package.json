@@ -1,6 +1,6 @@
 {
   "name": "attainia-web-components",
-  "version": "0.3.27",
+  "version": "0.3.28",
   "description": "A collection of Attainia branded web components to be used in an Attainia React.js web application.",
   "main": "index.js",
   "engines": {
@@ -51,10 +51,14 @@
     "Tim <tim.graf@attainia.com>"
   ],
   "dependencies": {
+    "apollo-fetch": "0.7.0",
+    "articles": "0.2.2",
     "attadux": "0.1.1",
     "babel-polyfill": "6.26.0",
     "color": "2.0.1",
+    "create-react-context": "0.2.1",
     "fixed-data-table-2": "0.8.1",
+    "graphiql": "0.11.11",
     "history": "4.7.2",
     "hoist-non-react-statics": "2.3.1",
     "jwt-decode": "2.2.0",
@@ -63,6 +67,7 @@
     "ramda": "0.25.0",
     "react": "16.0.0",
     "react-apollo": "1.4.15",
+    "react-async-hoc": "0.4.1",
     "react-dom": "16.0.0",
     "react-fastclick": "3.0.2",
     "react-localization": "0.1.2",
@@ -118,6 +123,7 @@
     "pre-commit": "1.2.2",
     "prettier": "1.7.0",
     "prettier-eslint-cli": "4.3.2",
+    "redoc": "2.0.0-alpha.5",
     "rimraf": "2.6.1"
   },
   "prettier": {

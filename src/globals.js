@@ -39,9 +39,14 @@ injectGlobal`
     }
 
     @supports (display: grid) {
-        #app-root {
+        #app-root, #modal-root {
             display: grid;
             align-items: center;
         }
+    }
+
+    #modal-root {
+        position: relative;
+        z-index: 999;
     }
 `

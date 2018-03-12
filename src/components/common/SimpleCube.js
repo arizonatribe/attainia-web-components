@@ -57,13 +57,12 @@ const parseDimensions = (maxSideLength = 0, dimensions) => (
  * @param {Object} dimensions An object containing width, depth, height,
  * as well as an optional maxSideLength value. That value serves as a threshold limit
  * which the width, depth and height cannot exceed (and if they do, this limit
- * will be used to calculate an aspect ratio to scale the dimensions)
- * @param {Object} styles An object containing configuration options for colors
- * (baseColor, topColor, fontColor) and fontSizeAndFace
- * (formatted as 'fontsize fontfamily')
+ * will be used to calculate an aspect ratio to scale the dimensions). Also
+ * contains a styles object containing configuration options for colors
+ * (baseColor, topColor, fontColor) and fontSizeAndFace (formatted as 'fontsize fontfamily')
  * @returns {undefined}
  */
-function cubeMe(ctx, {maxSideLength, ...restOfProps}, styles = {}) {
+function cubeMe(ctx, {maxSideLength, styles, ...restOfProps}) {
     const {width, height, depth} = parseDimensions(maxSideLength, restOfProps)
     const {baseColor, topColor, sideColor, fontColor, fontSizeAndFace} = styles
 
@@ -72,7 +71,7 @@ function cubeMe(ctx, {maxSideLength, ...restOfProps}, styles = {}) {
     const DEPTH_SCALING = depth * 0.5
     const DEPTH_MIDPOINT = Math.sqrt((DEPTH_SCALING ** 2) * 0.5) * 0.5
 
-    ctx.canvas.width = width + DEPTH_SCALING + 50
+    ctx.canvas.width = width + DEPTH_SCALING + 60
     ctx.canvas.height = height + DEPTH_SCALING + 20
 
     // side
@@ -89,8 +88,8 @@ function cubeMe(ctx, {maxSideLength, ...restOfProps}, styles = {}) {
     ctx.font = fontSizeAndFace
     ctx.fillText(
         restOfProps.depth.toLocaleString('en-US', numFormatOpts),
-        x + (DEPTH_MIDPOINT - min(15, DEPTH_SCALING + 5)),
-        y + height + DEPTH_MIDPOINT + min(15, DEPTH_SCALING + 5)
+        x + (DEPTH_MIDPOINT - min(25, DEPTH_SCALING + 5)),
+        y + height + DEPTH_MIDPOINT + min(25, DEPTH_SCALING + 5)
     )
 
     // center
@@ -128,35 +127,48 @@ function cubeMe(ctx, {maxSideLength, ...restOfProps}, styles = {}) {
     )
 }
 
-class SimpleCube extends PureComponent {
-    componentDidMount() {
-        const {maxSideLength, dimensions, styles} = this.props
-        const shadingOffset = validateShadingOffset(this.props.shadingOffset)
-        const dimensionDefaults = {maxSideLength, width: 0, height: 0, depth: 0, ...dimensions}
+function updateCubeConfiguration(props) {
+    const {maxSideLength, dimensions, styles} = props
+    const shadingOffset = validateShadingOffset(props.shadingOffset)
 
-        const baseColor = styles.baseColor || getPrimaryColor(this.props)
-        const topColor = color(baseColor).lighten(shadingOffset).hex()
-        const sideColor = color(baseColor).darken(shadingOffset).hex()
-        const fontColor = styles.fontColor || getFontColor(this.props)
-        const fontSizeAndFace = styles.fontSizeAndFace || getFontSizeAndFace(this.props)
+    const baseColor = styles.baseColor || getPrimaryColor(props)
+    const topColor = color(baseColor).lighten(shadingOffset).hex()
+    const sideColor = color(baseColor).darken(shadingOffset).hex()
+    const fontColor = styles.fontColor || getFontColor(props)
+    const fontSizeAndFace = styles.fontSizeAndFace || getFontSizeAndFace(props)
 
-        const ctx = this.canvas.getContext('2d')
-
-        cubeMe(ctx, dimensionDefaults, {
-            baseColor,
+    return {
+        depth: 0,
+        width: 0,
+        height: 0,
+        maxSideLength,
+        ...dimensions,
+        styles: {
             topColor,
             sideColor,
+            baseColor,
             fontColor,
             fontSizeAndFace
-        })
+        }
     }
+}
 
+class SimpleCube extends PureComponent {
+    componentDidMount() {
+        const ctx = this.canvas.getContext('2d')
+        cubeMe(ctx, updateCubeConfiguration(this.props))
+    }
+    componentWillUpdate(nextProps) {
+        const ctx = this.canvas.getContext('2d')
+        cubeMe(ctx, updateCubeConfiguration(nextProps))
+    }
     render() {
         return <canvas ref={(c) => { this.canvas = c }} />
     }
 }
 
 SimpleCube.propTypes = {
+    /* eslint-disable react/no-unused-prop-types */
     dimensions: PropTypes.shape({
         depth: PropTypes.number,
         height: PropTypes.number,
