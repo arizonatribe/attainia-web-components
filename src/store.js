@@ -11,6 +11,7 @@ import reducers from './reducers'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const GRAPHQL_URL = process.env.REACT_APP_GRAPHQL_URL || 'http://localhost/graphql'
+export const OPENAPI_URL = process.env.REACT_APP_OPENAPI_URL || 'http://localhost'
 
 export const apolloFetch = createApolloFetch({uri: GRAPHQL_URL})
 

@@ -67,6 +67,7 @@
     "ramda": "0.25.0",
     "react": "16.0.0",
     "react-apollo": "1.4.15",
+    "react-async-hoc": "0.4.1",
     "react-dom": "16.0.0",
     "react-fastclick": "3.0.2",
     "react-localization": "0.1.2",
@@ -122,6 +123,7 @@
     "pre-commit": "1.2.2",
     "prettier": "1.7.0",
     "prettier-eslint-cli": "4.3.2",
+    "redoc": "2.0.0-alpha.5",
     "rimraf": "2.6.1"
   },
   "prettier": {

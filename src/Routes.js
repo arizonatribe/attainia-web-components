@@ -2,6 +2,7 @@ import React from 'react'
 import {Provider} from 'react-redux'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import {ThemeProvider} from 'styled-components'
+import {RedocStandalone} from 'redoc'
 
 import {withTheseNavItems} from './components/layout'
 import {
@@ -22,22 +23,19 @@ import {
 import {withLoginEnhancers} from './components/auth/enhancers'
 import {withAuthentication} from './components/auth/decorators'
 
-import store from './store'
+import store, {OPENAPI_URL} from './store'
 import theme from './theme'
 
 import attainiaHome from './images/attainia_foyer.jpg'
 
+const DemoRedoc = props => <RedocStandalone {...props} specUrl={OPENAPI_URL} />
 const Home = props => <DemoHome imgSrc={attainiaHome} {...props} />
 
 const withLayout = withTheseNavItems([
     {label: 'Home', link: '/home', iconName: 'home'},
-    {label: 'Apis', link: '/api-browser', iconName: 'search'},
-    {label: 'Cube', link: '/cube', iconName: 'cube'},
-    {label: 'Bells', link: '/bells', iconName: 'notification'},
-    {label: 'Printers', link: '/printers', iconName: 'print'},
-    {label: 'Paper', link: '/paper', iconName: 'document'},
-    {label: 'Garbage Cans', link: '/wastebaskets', iconName: 'delete'},
-    {label: 'Pencils', link: '/pencils', iconName: 'edit'}
+    {label: 'GraphQL API', link: '/graphql-api', iconName: 'star'},
+    {label: 'Redoc', link: '/open-api', iconName: 'cogs'},
+    {label: 'Cube', link: '/cube', iconName: 'cube'}
 ])
 
 export default (
@@ -54,7 +52,8 @@ export default (
                         <Route exact path="/confirm-registration" component={RegistrationConfirmationContainer} />
                         <Route exact path="/register-application" component={RegisterApplicationContainer} />
                         <Route exact path="/cube" component={withLayout(DemoSimpleCube)} />
-                        <Route exact path="/api-browser" component={withAuthentication(withLayout(DemoQueryEditor))} />
+                        <Route exact path="/open-api" component={withAuthentication(DemoRedoc)} />
+                        <Route exact path="/graphql-api" component={withAuthentication(withLayout(DemoQueryEditor))} />
                         <Route render={props => <DemoNotFound imgSrc={attainiaHome} {...props} />} />
                     </Switch>
                 </BrowserRouter>

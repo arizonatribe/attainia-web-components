@@ -6,4 +6,3 @@ const DemoQueryEditor = props =>
     <QueryEditor {...props} fetcher={apolloFetch} editorTheme="zenburn" />
 
 export default DemoQueryEditor
-
