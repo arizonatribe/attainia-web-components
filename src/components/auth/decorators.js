@@ -1,6 +1,7 @@
 import {connectedRouterRedirect} from 'redux-auth-wrapper/history4/redirect'
+import connectedAuthWrapper from 'redux-auth-wrapper/connectedAuthWrapper'
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
-import ducks from './ducks'
+import ducks, {safeString} from './ducks'
 
 export {withJwtDecode} from './JwtDecode.container'
 export {withTokenParsing} from './ParseTokenFromStorage.container'
@@ -18,6 +19,15 @@ export const withAuthentication = connectedRouterRedirect({
     authenticatedSelector: state => selectors.isAuthenticated(state),
     wrapperDisplayName: 'Authenticator'
 })
+
+export const withPermission = (perm) => {
+    const permission = safeString(perm)
+    return connectedAuthWrapper({
+        authenticatedSelector: state =>
+            !selectors.scope(state) || selectors.allScopes(state).includes(permission),
+        wrapperDisplayName: 'WithPermission'
+    })
+}
 
 export const untilAuthenticatedAndThenRedirectBack = connectedRouterRedirect({
     redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/',
