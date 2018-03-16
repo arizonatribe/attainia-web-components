@@ -3,17 +3,15 @@ import {reduxForm} from 'redux-form'
 import {graphql} from 'react-apollo'
 
 import PasswordHelp from './PasswordHelp'
-import validators from './validators'
 import {PASSWORD_RESET} from './mutations'
 import ducks from './ducks'
 
-const {passwordHelp: {validate}} = validators
-const {selectors, creators: {handleError, passwordHelp}} = ducks
+const {selectors, validators, creators: {handleError, passwordHelp}} = ducks
 const mapStateToProps = state => ({email: selectors.email(state)})
 const mapDispatchToProps = {handleError, passwordHelp}
 
 const FormedPasswordHelp = reduxForm({
-    validate,
+    validate: validators.passwordHelp,
     fields: ['email'],
     form: 'PasswordHelpForm'
 })(PasswordHelp)

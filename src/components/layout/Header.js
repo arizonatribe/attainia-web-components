@@ -62,12 +62,16 @@ const Header = props =>
         <Li className="btnSearch">
             <SimpleSvgIcon
               icon="search"
+              width="25"
+              height="25"
               fill={getThemeProp(['colors', 'secondary', 'default'])(props)}
             />
         </Li>
         <Li className="btnNotifications">
             <SimpleSvgIcon
               icon="notification"
+              width="25"
+              height="25"
               fill={getThemeProp(['colors', 'secondary', 'default'])(props)}
             />
         </Li>

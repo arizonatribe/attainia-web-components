@@ -1,6 +1,7 @@
 import AuthProvider from './AuthProvider'
 import AuthErrorContainer from './AuthError.container'
 import AuthError from './AuthError'
+import AuthMiddleware from './middleware'
 import AuthStatus from './AuthStatus'
 import AuthStatusContainer from './AuthStatus.container'
 import JwtDecode from './JwtDecode'
@@ -37,6 +38,7 @@ export {
     AuthProvider,
     AuthErrorContainer,
     AuthError,
+    AuthMiddleware,
     AuthStatus,
     AuthStatusContainer,
     JwtDecode,

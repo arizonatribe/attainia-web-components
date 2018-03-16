@@ -1,5 +1,4 @@
-import {pickBy} from 'ramda'
-import {isNotNil} from 'ramda-adjunct'
+import {pickBy, isNil, complement} from 'ramda'
 
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -9,6 +8,7 @@ import FieldError from './FieldError'
 import InputField from './InputField'
 import CheckboxLabel from './CheckboxLabel'
 
+const isNotNil = complement(isNil)
 const isCheck = type => /checkbox/i.test(type)
 
 const FieldWrapper = styled.div`

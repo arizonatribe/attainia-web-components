@@ -16,7 +16,6 @@ import ContentCentered from '@awc/layout/ContentCentered'
 const fontLabel = 'Font Size'
 const fontDefault = '12px'
 
-
 storiesOf('Button Links', module)
     .addDecorator(withKnobs)
     .addDecorator(StoryComponent => (
@@ -44,7 +43,7 @@ storiesOf('Button Links', module)
             withNotes('A basic link button.  Use the knobs to change the label or the font size to see different variations.')
         )(() => ([
             <div>
-                <LinkButton onClick={action('Link clicked!')} styles={{fontSize: text(fontLabel, fontDefault)}}>
+                <LinkButton onClick={action('Link Button clicked!')} styles={{fontSize: text(fontLabel, fontDefault)}}>
                     {text('Label', 'Link Button Example')}
                 </LinkButton>
             </div>

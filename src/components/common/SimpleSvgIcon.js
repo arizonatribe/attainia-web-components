@@ -1,5 +1,4 @@
-import {path, pickBy} from 'ramda'
-import {isNotEmpty, isNotNil} from 'ramda-adjunct'
+import {path, pickBy, complement, isEmpty, isNil} from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, {withTheme} from 'styled-components'
@@ -7,6 +6,8 @@ import uuid from 'uuid/v4'
 import {Conditional} from './Conditional'
 import {getThemeProp} from './helpers'
 
+const isNotNil = complement(isNil)
+const isNotEmpty = complement(isEmpty)
 const Svg = styled.svg`display: block;`
 
 const SimpleSvgIcon = props => {

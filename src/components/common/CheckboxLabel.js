@@ -1,10 +1,11 @@
 /* eslint "jsx-a11y/label-has-for": "off" */
-import {pickBy} from 'ramda'
-import {isNotNil} from 'ramda-adjunct'
+import {pickBy, complement, isNil} from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import {getThemeProp} from './helpers'
+
+const isNotNil = complement(isNil)
 
 const Span = ({className, children}) =>
     <span className={className}>{children}</span>

@@ -1,4 +1,5 @@
 {
+  "parser": "babel-eslint",
   "globals": {
     "document": true,
     "window": true
@@ -13,6 +14,22 @@
   "plugins": [
     "react"
   ],
+  "settings": {
+    "import/resolver": {
+      "babel-module": {
+        "extensions": [".js", ".jsx"],
+        "paths": [
+          "./src",
+          "./src/components",
+          "./src/components/auth",
+          "./src/components/common",
+          "./src/components/data-table",
+          "./src/components/react-table",
+          "./src/components/layout"
+        ]
+      }
+    }
+  },
   "rules": {
     "arrow-parens": "off",
     "eol-last": "off",
@@ -37,19 +54,6 @@
         "ignore": ["^@awc", "^@globals$", "^@theme$"]
       }
     ],
-    "import/resolver": {
-      "babel-module": {
-        "extensions": [".js", ".jsx"],
-        "paths": [
-          "./src",
-          "./src/components",
-          "./src/components/auth",
-          "./src/components/common",
-          "./src/components/data-table",
-          "./src/components/layout"
-        ]
-      }
-    },
     "indent": [
       "error",
       4,
@@ -109,7 +113,7 @@
       "error",
       2
     ],
-    "react/no-set-state": "error",
+    "react/no-set-state": "off",
     "react/jsx-closing-bracket-location": "error",
     "react/jsx-closing-tag-location": "error",
     "react/jsx-equals-spacing": [
@@ -124,6 +128,12 @@
     "react/jsx-pascal-case": "error",
     "react/jsx-wrap-multilines": "off",
     "react/require-default-props": "off",
+    "react/default-props-match-prop-types": [
+      "error",
+      {
+        "allowRequiredDefaults": true
+      }
+    ],
     "semi-spacing": "error",
     "semi": [
       "error",

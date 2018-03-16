@@ -1,8 +1,8 @@
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import {getAccessTokenFromStorage, isValidToken, removeToken} from './helpers'
 
-class ParseTokenFromStorage extends Component {
+class ParseTokenFromStorage extends PureComponent {
     componentWillMount() {
         const token = this.props.tryParseTokenFromStorage()
         if (this.props.isValidToken(token)) {

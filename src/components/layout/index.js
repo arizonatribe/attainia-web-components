@@ -1,3 +1,5 @@
+import Banner from './Banner'
+import Chevron from './Chevron'
 import ContentCentered from './ContentCentered'
 import ContentCenteredMiddle from './ContentCenteredMiddle'
 import ContentFullSize from './ContentFullSize'
@@ -6,14 +8,19 @@ import ContentWrapper from './ContentWrapper'
 import Footer from './Footer'
 import Header from './Header'
 import HeaderImage from './HeaderImage'
-import Layout, {withLayout} from './Layout'
+import Layout, {withLayout, withTheseNavItems} from './Layout'
 import Main from './Main'
-import NavBarListContainer from './NavBarList.container'
+import Modal from './Modal'
+import ModalButton from './ModalButton'
+import ModalChild from './ModalChild'
 import NavBarList from './NavBarList'
 import NotFound from './NotFound'
+import NotFoundPage, {ScaledLogo} from './NotFoundPage'
 import Page from './Page'
 
 export {
+    Banner,
+    Chevron,
     ContentCentered,
     ContentCenteredMiddle,
     ContentFullSize,
@@ -24,9 +31,14 @@ export {
     HeaderImage,
     Layout,
     Main,
-    NavBarListContainer,
+    Modal,
+    ModalButton,
+    ModalChild,
     NavBarList,
     NotFound,
+    NotFoundPage,
     Page,
-    withLayout
+    ScaledLogo,
+    withLayout,
+    withTheseNavItems
 }

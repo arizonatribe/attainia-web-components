@@ -1,8 +1,8 @@
 **/node_modules
 .env
 .npmrc
-package-lock.json
 *.log
 /build/
 /dist/
 .storybook-build/
+.DS_Store
