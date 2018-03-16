@@ -1,7 +1,7 @@
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 
-class AuthStatus extends Component {
+class AuthStatus extends PureComponent {
     componentWillMount() {
         this.props.startSubscription()
     }

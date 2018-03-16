@@ -2,6 +2,7 @@ import LocalizedStrings from 'react-localization'
 import {createDuck, createSelector, createDuckSelector} from 'attadux'
 import {
     allPass,
+    always,
     complement,
     compose,
     either,
@@ -16,8 +17,10 @@ import {
     prop,
     split,
     test,
+    toLower,
     toString,
-    trim
+    trim,
+    when
 } from 'ramda'
 
 const ONE_HOUR = 3600000
@@ -33,6 +36,18 @@ export const parseError = compose(
     split(/(?:\S*\s*)?error:/i),
     ifElse(is(String), identity, toString),
     ifElse(is(Object), prop('message'), identity)
+)
+
+export const safeString = ifElse(
+    isStringieThingie,
+    compose(toLower, when(is(Number), toString)),
+    always('')
+)
+
+const makeScopesArray = ifElse(
+    isStringieThingie,
+    compose(split(' '), toLower, when(is(Number), toString)),
+    always([])
 )
 
 export default createDuck({
@@ -76,10 +91,10 @@ export default createDuck({
         error: path(['auth', 'error']),
         id: path(['auth', 'user', 'id']),
         name: path(['auth', 'user', 'name']),
-        role: path(['auth', 'user', 'role']),
         email: path(['auth', 'user', 'email']),
         parsedToken: path(['auth', 'parsed_token']),
-        token: path(['auth', 'user', 'token', 'access_token']),
+        token: path(['auth', 'user', 'token']),
+        scope: path(['auth', 'user', 'scope']),
         expires_in: path(['auth', 'user', 'token', 'expires_in']),
         hasAuthError: createDuckSelector(selectors =>
             createSelector(selectors.error, Boolean)
@@ -97,6 +112,7 @@ export default createDuck({
         isNotAuthenticated: createDuckSelector(selectors =>
             createSelector(selectors.id, complement(isStringieThingie))
         ),
+        allScopes: createDuckSelector(selectors => createSelector(selectors.scope, makeScopesArray)),
         refreshInMs: createDuckSelector(selectors =>
             createSelector(
                 selectors.expires_in,
