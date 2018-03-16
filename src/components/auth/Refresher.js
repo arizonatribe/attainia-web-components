@@ -1,7 +1,7 @@
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 
-class Refresher extends Component {
+class Refresher extends PureComponent {
     componentDidMount() {
         if (this.props.token) {
             this.props.queueNextRefresh(this.props)
