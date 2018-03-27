@@ -8,6 +8,7 @@ import {
     isStringieThingie,
     isValidEmail,
     isValidPassword,
+    parseError as getMessage,
     removeErrorLabel
 } from 'attasist'
 import {
@@ -19,7 +20,6 @@ import {
     is,
     omit,
     path,
-    prop,
     split,
     toLower,
     toString,
@@ -29,7 +29,7 @@ import {
 const store = 'auth'
 const ONE_HOUR = 3600000
 const safeString = compose(toLower, ensureString)
-const parseError = compose(removeErrorLabel, when(isPlainObj, prop('message')))
+const parseError = compose(removeErrorLabel, getMessage)
 const makeScopesArray = ifElse(
     isStringieThingie,
     compose(split(' '), toLower, when(is(Number), toString)),
