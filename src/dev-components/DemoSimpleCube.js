@@ -24,7 +24,7 @@ const randomizeDimensions = applySpec({
 
 const CubeWrapper = () =>
     <DimensionsContext.Consumer>
-        {dimensions => <SimpleCube maxSideLength={300} dimensions={dimensions} />}
+        {dimensions => <SimpleCube maxSideLength={300} {...dimensions} />}
     </DimensionsContext.Consumer>
 
 class DemoCube extends Component {
