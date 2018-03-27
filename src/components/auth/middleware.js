@@ -80,7 +80,7 @@ export const serviceAuthMiddleware = service => () => next => action => {
  * @sig a -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> undefined
  */
 export const apolloAuthMiddleWare = apolloFetch => () => next => action => {
-    if ([PARSED_TOKEN, LOGIN].includes(action.type)) {
+    if ([PARSED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
         apolloFetch.use(({options}, fetchNext) => {
             // eslint-disable-next-line no-param-reassign
             options.headers = {
