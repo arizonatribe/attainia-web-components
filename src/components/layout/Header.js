@@ -4,7 +4,7 @@ import styled, {withTheme} from 'styled-components'
 import {SimpleSvgIcon} from '../common'
 import {getThemeProp} from '../common/helpers'
 import {LogoutContainer} from '../auth'
-import {ContinuousProgress} from '../common/Progress'
+import Progress from '../common/Progress'
 
 const ListHeader = styled.header`
     margin: 0;
@@ -38,7 +38,7 @@ const ListHeader = styled.header`
             "pbar pbar pbar pbar pbar";
     }
 `
-const Header = ({className, progress, logoutCaption, ...restOfProps}) =>
+const Header = ({className, continuous, progress, logoutCaption, ...restOfProps}) =>
     <ListHeader className={className}>
         <SimpleSvgIcon
           icon="primary"
@@ -54,19 +54,19 @@ const Header = ({className, progress, logoutCaption, ...restOfProps}) =>
           fill={getThemeProp(['colors', 'secondary', 'default'])(restOfProps)}
         />
         <LogoutContainer className="logoutLink" asLink>{logoutCaption}</LogoutContainer>
-        <ContinuousProgress inProgress styles={{backgroundColor: 'white', height: '2px'}} />
+        <Progress continuous={continuous} progress={progress} styles={{backgroundColor: 'white', height: '2px'}} />
     </ListHeader>
 
 Header.propTypes = {
-    logoutCaption: PropTypes.string.isRequired,
     className: PropTypes.string.isRequired,
+    continuous: PropTypes.bool,
+    logoutCaption: PropTypes.string.isRequired,
     progress: PropTypes.number
 }
 
 Header.defaultProps = {
-    progress: 50,
-    logoutCaption: 'Logout',
-    className: 'list-header'
+    className: 'list-header',
+    logoutCaption: 'Logout'
 }
 
 export default withTheme(Header)

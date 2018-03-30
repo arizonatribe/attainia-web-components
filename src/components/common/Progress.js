@@ -1,6 +1,5 @@
-import React, {PureComponent} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import ReactInterval from 'react-interval'
 import styled, {withTheme} from 'styled-components'
 import {__, always, compose, either, is, lte, multiply, pathOr, prop, unless, when} from 'ramda'
 
@@ -12,6 +11,7 @@ const makeProgress = compose(
 )
 
 const ProgressWrapper = styled.div`
+    position: relative;
     width: 100%;
     height: ${pathOr('2px', ['height'])};
     overflow: hidden;
@@ -24,46 +24,29 @@ const ProgressWrapper = styled.div`
 `
 const ProgressBar = styled.div`
     height: 100%;
-    transition: width .2s ease;
+    transition: width .1s linear;
     background-color: ${either(prop('color'), pathOr('crimson', ['theme', 'colors', 'primary', 'default']))};
     width: ${makeProgress}%;
 `
-
-class CProgress extends PureComponent {
-    state = {
-        progress: 0
+const ContinuousProgress = styled.div`
+    width: 95%;
+    height: 100%;
+    position: absolute;
+    animation: progression 3s infinite;
+    background-color: ${either(prop('color'), pathOr('crimson', ['theme', 'colors', 'primary', 'default']))};
+    @keyframes progression {
+        from {left: -95%;}
+        to {left: 95%;}
     }
-    generateProgress = () => this.setState({progress: this.state.progress >= 100 ? 0 : this.state.progress + 1})
-    render() {
-        return (
-            <ProgressWrapper center={this.props.center} {...this.props.styles}>
-                <ReactInterval timeout={100} enabled={this.props.inProgress} callback={this.generateProgress} />
-                <ProgressBar progress={this.state.progress} {...this.props.styles} />
-            </ProgressWrapper>
-        )
-    }
-}
+`
 
-CProgress.propTypes = {
-    inProgress: PropTypes.bool.isRequired,
-    center: PropTypes.bool,
-    styles: PropTypes.shape({
-        backgroundColor: PropTypes.string,
-        color: PropTypes.string,
-        height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    })
-}
-
-CProgress.defaultProps = {
-    inProgress: false
-}
-
-const Progress = ({progress, center, styles}) =>
+const Progress = ({progress, center, continuous, styles}) =>
     <ProgressWrapper center={center} {...styles}>
-        <ProgressBar progress={progress} {...styles} />
+        {continuous ? <ContinuousProgress /> : <ProgressBar progress={progress} {...styles} />}
     </ProgressWrapper>
 
 Progress.propTypes = {
+    continuous: PropTypes.bool.isRequired,
     progress: PropTypes.number,
     center: PropTypes.bool,
     styles: PropTypes.shape({
@@ -74,8 +57,8 @@ Progress.propTypes = {
 }
 
 Progress.defaultProps = {
-    progress: 0
+    progress: 0,
+    continuous: false
 }
 
-export const ContinuousProgress = withTheme(CProgress)
 export default withTheme(Progress)
