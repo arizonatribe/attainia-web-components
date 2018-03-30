@@ -215,7 +215,7 @@ const ReactTableStyle = styled.div`
         border-right: 0;
     }
     .ReactTable.-striped .rt-tr.-odd {
-        background-color: ${getThemeProp(['colors', 'misc', 'gray', 'isabellineGray'], 'lightgray')};
+        background-color: ${getThemeProp(['colors', 'misc', 'gray', 'whitesmoke'], 'snow')};
     }
     .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
         background: rgba(0, 0, 0, 0.05);
