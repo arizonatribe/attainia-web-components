@@ -6,8 +6,8 @@ const ReactTableStyle = styled.div`
         position: relative;
         display: flex;
         flex-direction: column;
-        border: 1px solid ${getThemeProp(['colors', 'misc', 'gray', 'lavenderGray'])};
-        background-color: ${getThemeProp(['colors', 'misc', 'gray', 'white'])};
+        border: 1px solid ${getThemeProp(['colors', 'misc', 'gray', 'gainsboro'], 'mediumgray')};
+        background-color: ${getThemeProp(['colors', 'misc', 'gray', 'white'], 'white')};
     }
     .ReactTable * {
         box-sizing: border-box;
@@ -32,7 +32,6 @@ const ReactTableStyle = styled.div`
     }
     .ReactTable .rt-thead.-headerGroups {
         background: rgba(0, 0, 0, 0.03);
-        /* border-bottom: 1px solid rgba(0, 0, 0, 0.05); */
     }
     .ReactTable .rt-thead.-filters {
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -51,8 +50,7 @@ const ReactTableStyle = styled.div`
         border-right: 1px solid rgba(0, 0, 0, 0.02);
     }
     .ReactTable .rt-thead.-header {
-        /* box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.15); */
-        background-color: ${getThemeProp(['colors', 'misc', 'gray', 'lavenderGray'])};
+        background-color: ${getThemeProp(['colors', 'misc', 'gray', 'gainsboro'], 'mediumgray')};
     }
     .ReactTable .rt-thead .rt-tr {
         text-align: left;
@@ -132,7 +130,7 @@ const ReactTableStyle = styled.div`
     .ReactTable .rt-tbody .rt-td {
         font-size: 1.2em;
         min-height: 3.2em;
-        border-right: 1px solid ${getThemeProp(['colors', 'misc', 'gray', 'lavenderGray'])};
+        border-right: 1px solid ${getThemeProp(['colors', 'misc', 'gray', 'lavenderGray'], 'mediumgray')};
         padding: 1em;
         align-self: center;
         vertical-align: middle;
@@ -217,7 +215,7 @@ const ReactTableStyle = styled.div`
         border-right: 0;
     }
     .ReactTable.-striped .rt-tr.-odd {
-        background-color: ${getThemeProp(['colors', 'grayscale', 'lt'])};
+        background-color: ${getThemeProp(['colors', 'misc', 'gray', 'isabellineGray'], 'lightgray')};
     }
     .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
         background: rgba(0, 0, 0, 0.05);
