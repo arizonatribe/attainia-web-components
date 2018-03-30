@@ -7,9 +7,9 @@ import Main from './Main'
 import Page from './Page'
 import NavBarList from './NavBarList'
 
-const Layout = ({children, navItems}) =>
+const Layout = ({children, navItems, ...restOfProps}) =>
     <Page>
-        <Header className="header" />
+        <Header className="header" {...restOfProps} />
         <NavBarList items={navItems} className="sidebar" />
         <Main className="main">{children}</Main>
         <Footer className="footer" />
@@ -28,7 +28,7 @@ Layout.propTypes = {
 
 export const withLayout = (WrappedComponent) => {
     const WithLayout = ({navItems, ...passThroughProps}) =>
-        <Layout navItems={navItems}>
+        <Layout navItems={navItems} {...passThroughProps}>
             <WrappedComponent {...passThroughProps} />
         </Layout>
 
@@ -41,7 +41,7 @@ export const withLayout = (WrappedComponent) => {
 
 export const withTheseNavItems = items => (WrappedComponent) => {
     const WithLayout = props =>
-        <Layout navItems={items}>
+        <Layout navItems={items} {...props}>
             <WrappedComponent {...props} />
         </Layout>
 
