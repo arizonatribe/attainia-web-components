@@ -89,6 +89,7 @@ export default createDuck({
         name: path([store, 'user', 'name']),
         email: path([store, 'user', 'email']),
         parsedToken: path([store, 'parsed_token']),
+        accessToken: path([store, 'user', 'token', 'access_token']),
         token: path([store, 'user', 'token']),
         scope: path([store, 'user', 'scope']),
         expires_in: path([store, 'user', 'token', 'expires_in']),
@@ -123,7 +124,7 @@ export default createDuck({
         ),
         storedToken: createDuckSelector(selectors =>
             createSelector(
-                selectors.token,
+                selectors.accessToken,
                 selectors.parsedToken,
                 (t, pt) => t || pt
             )
