@@ -72,6 +72,7 @@
     "react-async-hoc": "0.4.1",
     "react-dom": "16.0.0",
     "react-fastclick": "3.0.2",
+    "react-interval": "2.0.2",
     "react-localization": "0.1.2",
     "react-portal": "4.1.2",
     "react-redux": "5.0.6",

@@ -4,6 +4,7 @@ import CheckboxLabel from './CheckboxLabel'
 import {renderConditional, Conditional} from './Conditional'
 import ErrorMessage from './ErrorMessage'
 import FieldError from './FieldError'
+import Progress from './Progress'
 import Form from './Form'
 import FormField from './FormField'
 import InputField from './InputField'
@@ -30,6 +31,7 @@ export {
     InputField,
     Link,
     LinkButton,
+    Progress,
     ReduxFormField,
     SimpleSvgIcon,
     SimpleCube,
