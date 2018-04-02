@@ -8,6 +8,7 @@ const MainContent = styled.div`
     display: grid;
     grid-area: maincontent;
     align-items: center;
+    align-content: stretch;
 `
 const MainWrapper = styled.main`
     height: 100%;
