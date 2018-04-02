@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import {getThemeProp} from '../common/helpers'
 
 const Footer = styled.footer`
+    grid-area: footer;
     background-color: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
     color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
     padding: 10px 20px;
@@ -31,6 +32,10 @@ const WrappedFooter = ({className}) =>
 
 WrappedFooter.propTypes = {
     className: PropTypes.string.isRequired
+}
+
+WrappedFooter.defaultProps = {
+    className: 'footer'
 }
 
 export default WrappedFooter

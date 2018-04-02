@@ -28,6 +28,7 @@ const ListHeader = styled.header`
 
     @supports (display: grid) {
         display: grid;
+        grid-area: pageheader;
         align-items: center;
         align-content: start;
         grid-row-gap: 0;

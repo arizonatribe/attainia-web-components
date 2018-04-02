@@ -9,10 +9,10 @@ import NavBarList from './NavBarList'
 
 const Layout = ({children, navItems, ...restOfProps}) =>
     <Page>
-        <Header className="header" {...restOfProps} />
-        <NavBarList items={navItems} className="sidebar" />
-        <Main className="main">{children}</Main>
-        <Footer className="footer" />
+        <Header {...restOfProps} />
+        <NavBarList items={navItems} />
+        <Main {...restOfProps}>{children}</Main>
+        <Footer />
     </Page>
 
 const NavItems = PropTypes.shape({
