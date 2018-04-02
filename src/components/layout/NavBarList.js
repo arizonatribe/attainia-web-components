@@ -7,6 +7,7 @@ import {SimpleSvgIcon} from '../common'
 import {getThemeProp} from '../common/helpers'
 
 const Li = styled.li` 
+    display: block;
     transition: background 0.1s ease;
     cursor: pointer;
     color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
@@ -41,15 +42,18 @@ const Li = styled.li`
     }
 `
 const Ul = styled.ul`
-    background-color: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
-    padding: 0;
     margin: 0;
-    width: 200px;
+    padding: 0;
+    display: grid;
+    grid-row-gap: 0;
+    grid-area: sidebar;
+    align-content: start;
     box-sizing: border-box;
+    background-color: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
 `
 
-const NavBarList = ({items, theme}) =>
-    <Ul>
+const NavBarList = ({className, items, theme}) =>
+    <Ul className={className}>
         {items.map(({iconName, link, label, width = 25, height = 25}) =>
             <Li key={uuid()} role="presentation">
                 <NavLink to={link}>
@@ -81,10 +85,12 @@ NavBarList.propTypes = {
         link: PropTypes.string.isRequired,
         height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    }))
+    })),
+    className: PropTypes.string.isRequired
 }
 
 NavBarList.defaultProps = {
+    className: 'sidebar',
     items: []
 }
 
