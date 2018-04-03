@@ -4,5 +4,5 @@ export default styled.main`
     height: 100%;
     display: grid;
     grid-area: main;
-    align-items: center;
+    align-items: start;
 `
