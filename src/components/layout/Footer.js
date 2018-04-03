@@ -5,10 +5,11 @@ import {getThemeProp} from '../common/helpers'
 
 const Footer = styled.footer`
     grid-area: footer;
+    display: grid;
+    align-items: center;
+    justify-items: center;
     background-color: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
     color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
-    padding: 10px 20px;
-    text-align: center;
 
     & a {
         color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};

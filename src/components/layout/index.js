@@ -9,6 +9,7 @@ import Footer from './Footer'
 import Header from './Header'
 import HeaderImage from './HeaderImage'
 import Layout, {withLayout, withTheseNavItems} from './Layout'
+import StickyMessages from './StickyMessages'
 import Main from './Main'
 import Modal from './Modal'
 import ModalButton from './ModalButton'
@@ -39,6 +40,7 @@ export {
     NotFoundPage,
     Page,
     ScaledLogo,
+    StickyMessages,
     withLayout,
     withTheseNavItems
 }

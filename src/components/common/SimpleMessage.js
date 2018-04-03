@@ -12,7 +12,6 @@ const SimpleWrapper = styled.div`
     font-size: ${getThemeProp(['fonts', 'fontSize'], '12px')};
     color: ${getThemeProp(['colors', 'primary', 'default'], 'crimson')};
     background-color: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
-    z-index: 9999;
 `
 
 const SimpleMessage = ({className, message, ...restOfProps}) =>

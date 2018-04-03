@@ -6,6 +6,7 @@ import Header from './Header'
 import Main from './Main'
 import Page from './Page'
 import NavBarList from './NavBarList'
+import StickyMessages from './StickyMessages'
 
 const Layout = ({children, navItems, ...restOfProps}) =>
     <Page>
@@ -13,6 +14,7 @@ const Layout = ({children, navItems, ...restOfProps}) =>
         <NavBarList items={navItems} />
         <Main {...restOfProps}>{children}</Main>
         <Footer />
+        <StickyMessages {...restOfProps} />
     </Page>
 
 const NavItems = PropTypes.shape({
