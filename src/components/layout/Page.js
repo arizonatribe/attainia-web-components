@@ -18,18 +18,18 @@ export default styled.div`
         @media ${getThemeProp(['breakpoints', 'phone'], 'screen and (min-width: 544px)')} {
             display: grid;
             grid-template-columns: 1fr;
-            grid-template-rows: 50px auto 1fr 30px;
+            grid-template-rows: 50px auto 1fr 40px;
             grid-template-areas: 'pageheader' 'sidebar' 'main' 'footer';
         }
 
         @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 768px)')} {
             display: grid;
             grid-template-columns: 200px 1fr;
-            grid-template-rows: 50px 1fr 30px;
+            grid-template-rows: 50px 1fr 40px;
             grid-template-areas:
                 'pageheader pageheader'
                 'sidebar main'
-                'footer footer';
+                'sidebar footer';
         }
     }
 `

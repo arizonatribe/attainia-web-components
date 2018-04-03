@@ -6,24 +6,41 @@ import {getThemeProp} from '../common/helpers'
 const Footer = styled.footer`
     grid-area: footer;
     display: grid;
+    align-content: end;
     align-items: center;
     justify-items: center;
-    background-color: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
-    color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
+    background: transparent;
+    grid-template-rows: 3.6em 2.4em;
+    grid-template-areas: "." "smallofthefooter";
 
-    & a {
-        color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
-    }
+    & small {
+        display: grid;
+        align-content: center;
+        justify-items: center;
+        justify-content: stretch;
+        grid-area: smallofthefooter;
+        grid-template-columns: auto 2em auto 2em auto;
+        color: ${getThemeProp(['colors', 'misc', 'gray', 'quicksilver'], 'mediumgray')};
 
-    & a:hover,
-    & a:focus {
-        border-bottom: 1px solid ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
+        & span {
+            display: block;
+        }
+
+        & a {
+            text-decoration: none;
+            color: ${getThemeProp(['colors', 'misc', 'gray', 'silver'], 'silver')};
+        }
+
+        & a:hover,
+        & a:focus {
+            text-decoration: underline;
+        }
     }
 `
 const WrappedFooter = ({className}) =>
     <Footer className={className}>
         <small>
-            2018 © Attainia, Inc. All Rights Reserved.
+            <span>2018 © Attainia, Inc. All Rights Reserved.</span>
             <span> | </span>
             <a href="http://www.attainia.com/privacy_policy">Privacy Policy</a>
             <span> | </span>

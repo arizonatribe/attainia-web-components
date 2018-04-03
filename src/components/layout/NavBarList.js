@@ -35,6 +35,7 @@ const Li = styled.li`
             grid-template-areas: "icon text";
         }
         justify-content: start;
+        align-items: center;
     }
 
     & a.active {
@@ -49,7 +50,7 @@ const Ul = styled.ul`
     grid-area: sidebar;
     align-content: start;
     box-sizing: border-box;
-    background-color: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
+    background-color: ${getThemeProp(['colors', 'grayscale', 'black'], 'black')};
 `
 
 const NavBarList = ({className, items, theme}) =>

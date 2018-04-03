@@ -10,7 +10,7 @@ const DetachedPosition = styled.div`
 `
 
 const MessageWrapper = styled.section`
-    height: 60px;
+    height: 50px;
     max-width: 30em;
     min-width: 30em;
     left: 50%;
@@ -19,6 +19,7 @@ const MessageWrapper = styled.section`
     position: fixed;
     margin-left: -15em;
 
+    cursor: pointer;
     display: grid;
     text-align: center;
     align-content: center;
@@ -27,11 +28,7 @@ const MessageWrapper = styled.section`
     grid-area: messagewrapper;
 
     transition: transform 0.3s ease;
-    transform: translate(0, ${props => (props.hasMessage ? '0' : '70px')});
-
-    border-top: 1px solid ${pathOr('black', ['theme', 'colors', 'grayscale', 'black'])};
-    border-left: 1px solid ${pathOr('black', ['theme', 'colors', 'grayscale', 'black'])};
-    border-right: 1px solid ${pathOr('black', ['theme', 'colors', 'grayscale', 'black'])};
+    transform: translate(0, ${props => (props.hasMessage ? '0' : '50px')});
 
     font-weight: ${propOr('bold', 'fontWeight')};
     font-size: ${either(prop('fontSize'), pathOr('12px', ['theme', 'fonts', 'fontSize']))};
@@ -48,7 +45,7 @@ const MessageText = styled.p`
 const StickyMessages = ({styles, message, clearMessage}) =>
     <DetachedPosition>
         <Portal node={document.getElementById('message-root')} key="sticky-messages">
-            <MessageWrapper clearMessage={clearMessage} hasMessage={!!message} {...styles}>
+            <MessageWrapper onClick={clearMessage} hasMessage={!!message} {...styles}>
                 <MessageText>{message}</MessageText>
             </MessageWrapper>
         </Portal>
@@ -66,7 +63,8 @@ StickyMessages.propTypes = {
 }
 
 StickyMessages.defaultProps = {
-    styles: {}
+    styles: {},
+    clearMessage: () => null
 }
 
 export default withTheme(StickyMessages)
