@@ -1,6 +1,6 @@
 {
   "name": "attainia-web-components",
-  "version": "0.3.43",
+  "version": "0.3.44",
   "description": "A collection of Attainia branded web components to be used in an Attainia React.js web application.",
   "main": "index.js",
   "engines": {
@@ -49,7 +49,8 @@
     "Glenn <glenn.siegman@attainia.com>",
     "Marcos <marcos.gonzales@attainia.com>",
     "Sean <sean.mchugh@attainia.com>",
-    "Tim <tim.graf@attainia.com>"
+    "Tim <tim.graf@attainia.com>",
+    "Usha <usha.kundapur@attainia.com>"
   ],
   "dependencies": {
     "apollo-fetch": "0.7.0",
