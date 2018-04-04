@@ -169,7 +169,7 @@ export default createDuck({
                 }).password]
             ],
             email: [
-                [isStringieThingie, new LocalizedStrings({
+                [isValidEmail, new LocalizedStrings({
                     en: {email: 'Please enter your email'},
                     fr: {email: 'Entrez votre adresse e-mail'},
                     es: {email: 'Por favor, introduzca su dirección de correo electrónico'}

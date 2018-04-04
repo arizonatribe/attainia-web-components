@@ -2,6 +2,7 @@ import {is, toPairs, without} from 'ramda'
 import {connect} from 'react-redux'
 import {reduxForm} from 'redux-form'
 import {withApollo, compose} from 'react-apollo'
+import {ResponseError} from 'attasist'
 
 import Login from './Login'
 import {LOGIN_USER} from './mutations'
@@ -33,7 +34,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
                 variables: {email, password}
             })
             if (error) {
-                throw new Error(error)
+                throw new ResponseError(error)
             }
             if (loginUser) {
                 if (is(Function, ownProps.onLogin)) {

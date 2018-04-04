@@ -20,7 +20,6 @@ const Li = styled.li`
 
     &:hover {
         border-color: ${getThemeProp(['colors', 'primary', 'default'], 'crimson')};
-        background: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
     }
     & a {
         padding: 10px 15px;
@@ -43,6 +42,7 @@ const Li = styled.li`
     }
 `
 const Ul = styled.ul`
+    position: relative;
     margin: 0;
     padding: 0;
     display: grid;
@@ -52,34 +52,49 @@ const Ul = styled.ul`
     box-sizing: border-box;
     background-color: ${getThemeProp(['colors', 'grayscale', 'black'], 'black')};
 `
+const ToggleArrow = styled.li`
+    cursor: pointer;
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    display: inline-block;
+    list-style: none;
+    font-size: 12px;
+    color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
+    &:before {
+        content: '';
+        display: inline-block;
+        width: 0.6em;
+        height: 0.6em;
+        margin-right: 5px;
+        border-style: solid;
+        border-width: 0.18em 0.18em 0 0;
+        transform: rotate(${props => (props.isCollapsed ? 45 : 225)}deg);
+        transition: transform .05s ease;
+    }
+`
 
-const NavBarList = ({className, items, theme}) =>
-    <Ul className={className}>
+const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps}) =>
+    <Ul className={className} isCollapsed={isCollapsed}>
         {items.map(({iconName, link, label, width = 25, height = 25}) =>
-            <Li key={uuid()} role="presentation">
+            <Li key={uuid()} role="presentation" isCollapsed={isCollapsed}>
                 <NavLink to={link}>
                     {iconName &&
                         <SimpleSvgIcon
                           icon={iconName}
                           width={width}
                           height={height}
-                          fill={getThemeProp(['colors', 'grayscale', 'white'], 'white')({theme})}
+                          fill={getThemeProp(['colors', 'grayscale', 'white'], 'white')(restOfProps)}
                         />
                     }
-                    <span>{label}</span>
+                    {!isCollapsed && <span>{label}</span>}
                 </NavLink>
             </Li>
         )}
+        <ToggleArrow onClick={toggleMenu} isCollapsed={isCollapsed}>{isCollapsed ? '' : 'Hide'}</ToggleArrow>
     </Ul>
 
 NavBarList.propTypes = {
-    theme: PropTypes.shape({
-        colors: PropTypes.shape({
-            grayscale: PropTypes.shape({
-                white: PropTypes.string
-            })
-        })
-    }),
     items: PropTypes.arrayOf(PropTypes.shape({
         iconName: PropTypes.string,
         label: PropTypes.string.isRequired,
@@ -87,11 +102,14 @@ NavBarList.propTypes = {
         height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     })),
+    toggleMenu: PropTypes.func,
+    isCollapsed: PropTypes.bool,
     className: PropTypes.string.isRequired
 }
 
 NavBarList.defaultProps = {
     className: 'sidebar',
+    isCollapsed: false,
     items: []
 }
 
