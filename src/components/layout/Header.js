@@ -24,6 +24,8 @@ const ListHeader = styled.header`
     .logoutLink {
         grid-area: logoutlink;
         display: block;
+        color: ${getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')};
+        text-decoration: none;
     }
 
     @supports (display: grid) {
@@ -50,9 +52,9 @@ const Header = ({className, continuous, progress, logoutCaption, ...restOfProps}
         <SimpleSvgIcon
           className="notificationIcon"
           icon="notification"
-          width="25"
-          height="25"
-          fill={getThemeProp(['colors', 'secondary', 'default'])(restOfProps)}
+          width="17"
+          height="20"
+          fill={getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')(restOfProps)}
         />
         <LogoutContainer className="logoutLink" asLink>{logoutCaption}</LogoutContainer>
         <Progress continuous={continuous} progress={progress} styles={{backgroundColor: 'white', height: '2px'}} />

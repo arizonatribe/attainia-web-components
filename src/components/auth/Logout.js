@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Button, ButtonLink} from '../common'
 
-const Logout = ({className, tryLogout, asLink}) => (
-    asLink ? <ButtonLink className={className} onClick={tryLogout}>Logout</ButtonLink>
-        : <Button className={className} onClick={tryLogout} type="button">Logout</Button>
+const Logout = ({className, tryLogout, asLink, ...restOfProps}) => (
+    asLink ? <ButtonLink className={className} onClick={tryLogout} {...restOfProps}>Logout</ButtonLink>
+        : <Button className={className} onClick={tryLogout} type="button" {...restOfProps}>Logout</Button>
 )
 
 Logout.propTypes = {
