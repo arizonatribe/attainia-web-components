@@ -66,7 +66,7 @@ function cubeMe(ctx, {maxSideLength, styles, ...dimensions}) {
     const {width, height, depth} = parseDimensions(maxSideLength, dimensions)
     const {baseColor, topColor, sideColor, fontColor, fontSizeAndFace} = styles
 
-    const x = 10
+    const x = 10 + ((dimensions.depth.toString().length - 1) * 6)
     const y = 0
     const DEPTH_SCALING = depth * 0.5
     const DEPTH_MIDPOINT = Math.sqrt((DEPTH_SCALING ** 2) * 0.5) * 0.5
