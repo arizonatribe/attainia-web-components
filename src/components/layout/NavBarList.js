@@ -76,7 +76,7 @@ const ToggleArrow = styled.li`
 
 const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps}) =>
     <Ul className={className} isCollapsed={isCollapsed}>
-        {items.map(({iconName, link, label, width = 25, height = 25}) =>
+        {items.map(({iconName, link, label, width = 20, height = 20}) =>
             <Li key={uuid()} role="presentation" isCollapsed={isCollapsed}>
                 <NavLink to={link}>
                     {iconName &&
