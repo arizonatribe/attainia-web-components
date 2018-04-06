@@ -1,3 +1,4 @@
+import {is} from 'ramda'
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 
@@ -15,12 +16,13 @@ class Layout extends PureComponent {
     toggleNavList = () => this.setState({isCollapsed: !this.state.isCollapsed})
     render() {
         const {children, navItems, ...restOfProps} = this.props
+        const propsToggle = is(Function, this.props.toggleMenu)
         return (
-            <Page isCollapsed={this.state.isCollapsed}>
+            <Page isCollapsed={propsToggle ? this.props.isCollapsed : this.state.isCollapsed}>
                 <Header {...restOfProps} />
                 <NavBarList
-                  isCollapsed={this.state.isCollapsed}
-                  toggleMenu={this.toggleNavList}
+                  isCollapsed={propsToggle ? this.props.isCollapsed : this.state.isCollapsed}
+                  toggleMenu={propsToggle ? this.props.toggleMenu : this.toggleNavList}
                   items={navItems}
                   {...restOfProps}
                 />
@@ -39,6 +41,8 @@ const NavItems = PropTypes.shape({
 })
 
 Layout.propTypes = {
+    isCollapsed: PropTypes.bool,
+    toggleMenu: PropTypes.func,
     children: PropTypes.node,
     navItems: PropTypes.arrayOf(NavItems)
 }
