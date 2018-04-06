@@ -19,23 +19,34 @@ const MessageWrapper = styled.section`
     position: fixed;
     margin-left: -15em;
 
-    cursor: pointer;
     display: grid;
     text-align: center;
     align-content: center;
     justify-items: center;
     justify-content: center;
     grid-area: messagewrapper;
+    grid-template-columns: 1fr 6em;
+    grid-template-areas: "messagetext dismissmessage";
 
     transition: transform 0.3s ease;
     transform: translate(0, ${props => (props.hasMessage ? '0' : '50px')});
 
     font-weight: ${propOr('bold', 'fontWeight')};
     font-size: ${either(prop('fontSize'), pathOr('12px', ['theme', 'fonts', 'fontSize']))};
-    color: ${either(prop('color'), pathOr('crimson', ['theme', 'colors', 'primary', 'default']))};
+    color: ${either(prop('color'), pathOr('white', ['theme', 'colors', 'grayscale', 'white']))};
     background-color: ${either(prop('backgroundColor'), pathOr('darkgray', ['theme', 'colors', 'grayscale', 'dk']))};
 `
 
+const DismissButton = styled.p`
+    font-size: 1em;
+    display: block;
+    cursor: pointer;
+    grid-area: dismissmessage;
+    color: ${pathOr('crimson', ['theme', 'colors', 'primary', 'default'])};
+    &:after {
+        content: 'DISMISS';
+    }
+`
 const MessageText = styled.p`
     font-size: 1em;
     display: block;
@@ -45,8 +56,9 @@ const MessageText = styled.p`
 const StickyMessages = ({styles, message, clearMessage}) =>
     <DetachedPosition>
         <Portal node={document.getElementById('message-root')} key="sticky-messages">
-            <MessageWrapper onClick={clearMessage} hasMessage={!!message} {...styles}>
+            <MessageWrapper hasMessage={!!message} {...styles}>
                 <MessageText>{message}</MessageText>
+                <DismissButton onClick={clearMessage} />
             </MessageWrapper>
         </Portal>
     </DetachedPosition>
