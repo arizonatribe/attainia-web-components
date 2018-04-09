@@ -71,7 +71,7 @@ function cubeMe(ctx, {maxSideLength, styles, ...dimensions}) {
     const DEPTH_SCALING = depth * 0.5
     const DEPTH_MIDPOINT = Math.sqrt((DEPTH_SCALING ** 2) * 0.5) * 0.5
 
-    ctx.canvas.width = width + DEPTH_SCALING + 60
+    ctx.canvas.width = width + DEPTH_SCALING + 60 + ((dimensions.depth.toString().length - 1) * 6)
     ctx.canvas.height = height + DEPTH_SCALING + 20
 
     // side

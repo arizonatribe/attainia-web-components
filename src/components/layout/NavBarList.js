@@ -42,7 +42,6 @@ const Li = styled.li`
     }
 `
 const Ul = styled.ul`
-    position: relative;
     margin: 0;
     padding: 0;
     display: grid;
@@ -51,6 +50,9 @@ const Ul = styled.ul`
     align-content: start;
     box-sizing: border-box;
     background-color: ${getThemeProp(['colors', 'grayscale', 'black'], 'black')};
+    top: 0;
+    position: sticky;
+    height: calc(100vh - 0px);
 `
 const ToggleArrow = styled.li`
     cursor: pointer;
