@@ -12,9 +12,9 @@ const BaseStyles = `
 `
 const ExtraStyles = ({type}) => (
     /(password|url|number|text|email)/i.test(type) ? `
-        padding: 8px;
+        height: 32px;
         width: 100%;
-        line-height: 18px;
+
         font-size: 14px;
         background-color: white;
     ` : ''

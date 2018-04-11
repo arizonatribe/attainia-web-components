@@ -21,10 +21,10 @@ export const WithDropdownArrow = styled.section`
 
     .rw-i-caret-down {
         content: '';
-        width: 1em;
-        height: 1em;
+        width: 9px;
+        height: 9px;
         border-style: solid;
-        border-width: 0.18em 0.18em 0 0;
+        border-width: 2px 2px 0 0;
         transform: rotate(135deg);
         transition: transform .05s ease;
     }
