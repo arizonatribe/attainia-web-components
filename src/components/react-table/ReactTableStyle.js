@@ -59,7 +59,12 @@ const ReactTableStyle = styled.div`
     }
     .ReactTable .rt-thead .rt-th,
     .ReactTable .rt-thead .rt-td {
-        padding: 1em 0.8em;
+        display: grid;
+        font-size: 12px;
+        font-weight: 500;
+        align-items: center;
+        padding: 0 1.250em 0 0.625em;
+        height: 2.8em
         line-height: normal;
         position: relative;
         transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -128,13 +133,15 @@ const ReactTableStyle = styled.div`
         border-bottom: 0;
     }
     .ReactTable .rt-tbody .rt-td {
-        font-size: 1.2em;
-        min-height: 3.2em;
+        display: grid;
+        align-items: center;
+        font-size: 12px;
+        height: 2.7em;
         border-right: 1px solid ${getThemeProp(['colors', 'misc', 'gray', 'lavenderGray'], 'mediumgray')};
-        padding: 1em;
+        padding: 0 1.250em 0 0.625em;
         align-self: center;
         vertical-align: middle;
-        font-weight: normal;
+        font-weight: 300;
     }
     .ReactTable .rt-tbody .rt-td:last-child {
         border-right: 0;
