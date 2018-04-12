@@ -1,11 +1,16 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, {withTheme} from 'styled-components'
 import PropTypes from 'prop-types'
+import {either, pathOr, prop} from 'ramda'
 
 const BaseStyles = `
+    border-radius: 0;
     box-sizing: border-box;
     padding: 5px;
     line-height: 16px;
+    height: 2.3em;
+    box-shadow: none;
+    color: ${either(prop('color'), pathOr('darkgray', ['theme', 'colors', 'misc', 'gray', 'lightJet']))};
     &:focus {
         outline: none;
     }
@@ -29,6 +34,12 @@ const CheckboxStyles = ({type}) => (
 )
 
 const TextArea = styled.textarea`
+    width: 100%;
+    resize: none;
+    display: block;
+    box-shadow: none;
+    padding: ${pathOr('0.6em', ['padding'])};
+    border: 1px solid ${either(prop('border'), pathOr('lightgray', ['theme', 'colors', 'misc', 'gray', 'timberwolf']))};
     ${BaseStyles}
 `
 const Input = styled.input`
@@ -66,4 +77,4 @@ InputField.defaultProps = {
     type: 'text'
 }
 
-export default InputField
+export default withTheme(InputField)
