@@ -45,8 +45,8 @@ const Header = ({className, continuous, progress, logoutCaption, ...restOfProps}
     <ListHeader className={className}>
         <SimpleSvgIcon
           icon="primary"
-          width="140"
-          height="45"
+          width="112"
+          height="36"
           className="headerLogo"
         />
         <SimpleSvgIcon
