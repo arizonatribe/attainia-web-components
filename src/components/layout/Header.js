@@ -6,6 +6,19 @@ import {getThemeProp} from '../common/helpers'
 import {LogoutContainer} from '../auth'
 import Progress from '../common/Progress'
 
+const MessageWrapper = styled.div`
+    grid-area: statusmessage;
+    display: grid;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    overflow: hidden;
+    color: ${getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')};
+    font-size: ${getThemeProp(['fonts', 'fontSize'], '12px')};
+    transition: transform 0.4s ease;
+    transform: translate(0, ${props => (props.hasMessage ? '0' : '-50px')});
+`
 const ListHeader = styled.header`
     margin: 0;
     padding: 0;
@@ -37,11 +50,11 @@ const ListHeader = styled.header`
         grid-template-rows: 48px 2px;
         grid-template-columns: 50px 140px 1fr 25px 10em;
         grid-template-areas:
-            ". headerlogo . notificationicon logoutlink"
+            ". headerlogo statusmessage notificationicon logoutlink"
             "pbar pbar pbar pbar pbar";
     }
 `
-const Header = ({className, continuous, progress, logoutCaption, ...restOfProps}) =>
+const Header = ({className, continuous, progress, statusMessage, logoutCaption, ...restOfProps}) =>
     <ListHeader className={className}>
         <SimpleSvgIcon
           icon="primary"
@@ -49,6 +62,7 @@ const Header = ({className, continuous, progress, logoutCaption, ...restOfProps}
           height="36"
           className="headerLogo"
         />
+        <MessageWrapper hasMessage={!!statusMessage}>{statusMessage}</MessageWrapper>
         <SimpleSvgIcon
           className="notificationIcon"
           icon="notification"
@@ -64,6 +78,7 @@ Header.propTypes = {
     className: PropTypes.string.isRequired,
     continuous: PropTypes.bool,
     logoutCaption: PropTypes.string.isRequired,
+    statusMessage: PropTypes.string,
     progress: PropTypes.number
 }
 
