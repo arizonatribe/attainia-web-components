@@ -64,7 +64,7 @@ const ReactTableStyle = styled.div`
         font-weight: 500;
         align-items: center;
         padding: 0 1.250em 0 0.625em;
-        height: 2.8em
+        height: 2.8em;
         line-height: normal;
         position: relative;
         transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
