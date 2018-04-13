@@ -17,7 +17,7 @@ const MessageWrapper = styled.div`
     color: ${getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')};
     font-size: ${getThemeProp(['fonts', 'fontSize'], '12px')};
     transition: transform 0.4s ease;
-    transform: translate(0, ${props => (props.hasMessage ? '0' : '-50px')});
+    transform: translate(0, ${props => ((props.hasMessage && !props.fadingOutMessage) ? '0' : '-50px')});
 `
 const ListHeader = styled.header`
     margin: 0;
@@ -54,7 +54,7 @@ const ListHeader = styled.header`
             "pbar pbar pbar pbar pbar";
     }
 `
-const Header = ({className, continuous, progress, statusMessage, logoutCaption, ...restOfProps}) =>
+const Header = ({className, continuous, progress, fadingOutMessage, statusMessage, logoutCaption, ...restOfProps}) =>
     <ListHeader className={className}>
         <SimpleSvgIcon
           icon="primary"
@@ -62,7 +62,9 @@ const Header = ({className, continuous, progress, statusMessage, logoutCaption, 
           height="36"
           className="headerLogo"
         />
-        <MessageWrapper hasMessage={!!statusMessage}>{statusMessage}</MessageWrapper>
+        <MessageWrapper fadingOutMessage={fadingOutMessage} hasMessage={!!statusMessage}>
+            {statusMessage}
+        </MessageWrapper>
         <SimpleSvgIcon
           className="notificationIcon"
           icon="notification"
@@ -77,6 +79,7 @@ const Header = ({className, continuous, progress, statusMessage, logoutCaption, 
 Header.propTypes = {
     className: PropTypes.string.isRequired,
     continuous: PropTypes.bool,
+    fadingOutMessage: PropTypes.bool,
     logoutCaption: PropTypes.string.isRequired,
     statusMessage: PropTypes.string,
     progress: PropTypes.number
@@ -84,6 +87,7 @@ Header.propTypes = {
 
 Header.defaultProps = {
     className: 'list-header',
+    fadingOutMessage: false,
     logoutCaption: 'Logout'
 }
 
