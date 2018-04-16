@@ -54,7 +54,7 @@ const parseDimensions = (maxSideLength = 0, dimensions) => (
  * @sig ({k: v}, Number, Number, {k: v}, {k: v}) -> undefined
  * @name cubeMe
  * @param {Object} ctx A context object (obtained via a canvas.getContext('2d') method call)
- * @param {Object} dimensions An object containing width, depth, height,
+ * @param {Object} props An object containing width, depth, height,
  * as well as an optional maxSideLength value. That value serves as a threshold limit
  * which the width, depth and height cannot exceed (and if they do, this limit
  * will be used to calculate an aspect ratio to scale the dimensions). Also
@@ -62,16 +62,16 @@ const parseDimensions = (maxSideLength = 0, dimensions) => (
  * (baseColor, topColor, fontColor) and fontSizeAndFace (formatted as 'fontsize fontfamily')
  * @returns {undefined}
  */
-function cubeMe(ctx, {maxSideLength, styles, ...restOfProps}) {
-    const {width, height, depth} = parseDimensions(maxSideLength, restOfProps)
+function cubeMe(ctx, {maxSideLength, styles, ...dimensions}) {
+    const {width, height, depth} = parseDimensions(maxSideLength, dimensions)
     const {baseColor, topColor, sideColor, fontColor, fontSizeAndFace} = styles
 
-    const x = 10
+    const x = 10 + ((dimensions.depth.toString().length - 1) * 6) // this helps position the cube in cases where depth labels are too many characters and draw outside of the canvas
     const y = 0
     const DEPTH_SCALING = depth * 0.5
     const DEPTH_MIDPOINT = Math.sqrt((DEPTH_SCALING ** 2) * 0.5) * 0.5
 
-    ctx.canvas.width = width + DEPTH_SCALING + 60
+    ctx.canvas.width = width + DEPTH_SCALING + 60 + ((dimensions.depth.toString().length - 1) * 6)
     ctx.canvas.height = height + DEPTH_SCALING + 20
 
     // side
@@ -87,7 +87,7 @@ function cubeMe(ctx, {maxSideLength, styles, ...restOfProps}) {
     ctx.fillStyle = fontColor
     ctx.font = fontSizeAndFace
     ctx.fillText(
-        restOfProps.depth.toLocaleString('en-US', numFormatOpts),
+        dimensions.depth.toLocaleString('en-US', numFormatOpts),
         x + (DEPTH_MIDPOINT - min(25, DEPTH_SCALING + 5)),
         y + height + DEPTH_MIDPOINT + min(25, DEPTH_SCALING + 5)
     )
@@ -104,7 +104,7 @@ function cubeMe(ctx, {maxSideLength, styles, ...restOfProps}) {
 
     ctx.fillStyle = fontColor
     ctx.fillText(
-        restOfProps.width.toLocaleString('en-US', numFormatOpts),
+        dimensions.width.toLocaleString('en-US', numFormatOpts),
         x + DEPTH_SCALING + (width * 0.4),
         y + DEPTH_SCALING + height + 15
     )
@@ -121,14 +121,14 @@ function cubeMe(ctx, {maxSideLength, styles, ...restOfProps}) {
 
     ctx.fillStyle = fontColor
     ctx.fillText(
-        restOfProps.height.toLocaleString('en-US', numFormatOpts),
+        dimensions.height.toLocaleString('en-US', numFormatOpts),
         x + width + DEPTH_SCALING + min(8, height + 5),
         y + DEPTH_SCALING + (height * 0.5)
     )
 }
 
 function updateCubeConfiguration(props) {
-    const {maxSideLength, dimensions, styles} = props
+    const {maxSideLength, depth, height, width, styles} = props
     const shadingOffset = validateShadingOffset(props.shadingOffset)
 
     const baseColor = styles.baseColor || getPrimaryColor(props)
@@ -138,11 +138,10 @@ function updateCubeConfiguration(props) {
     const fontSizeAndFace = styles.fontSizeAndFace || getFontSizeAndFace(props)
 
     return {
-        depth: 0,
-        width: 0,
-        height: 0,
+        depth,
+        width,
+        height,
         maxSideLength,
-        ...dimensions,
         styles: {
             topColor,
             sideColor,
@@ -169,11 +168,9 @@ class SimpleCube extends PureComponent {
 
 SimpleCube.propTypes = {
     /* eslint-disable react/no-unused-prop-types */
-    dimensions: PropTypes.shape({
-        depth: PropTypes.number,
-        height: PropTypes.number,
-        width: PropTypes.number
-    }),
+    depth: PropTypes.number,
+    height: PropTypes.number,
+    width: PropTypes.number,
     maxSideLength: PropTypes.number,
     shadingOffset: PropTypes.number,
     styles: PropTypes.shape({
@@ -184,11 +181,9 @@ SimpleCube.propTypes = {
 }
 
 SimpleCube.defaultProps = {
-    dimensions: {
-        depth: 100,
-        height: 100,
-        width: 100
-    },
+    depth: 100,
+    height: 100,
+    width: 100,
     maxSideLength: 100,
     shadingOffset: 0.3,
     styles: {

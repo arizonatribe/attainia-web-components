@@ -7,6 +7,7 @@ import {SimpleSvgIcon} from '../common'
 import {getThemeProp} from '../common/helpers'
 
 const Li = styled.li` 
+    display: block;
     transition: background 0.1s ease;
     cursor: pointer;
     color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
@@ -19,7 +20,6 @@ const Li = styled.li`
 
     &:hover {
         border-color: ${getThemeProp(['colors', 'primary', 'default'], 'crimson')};
-        background: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
     }
     & a {
         padding: 10px 15px;
@@ -34,6 +34,7 @@ const Li = styled.li`
             grid-template-areas: "icon text";
         }
         justify-content: start;
+        align-items: center;
     }
 
     & a.active {
@@ -41,50 +42,76 @@ const Li = styled.li`
     }
 `
 const Ul = styled.ul`
-    background-color: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
-    padding: 0;
     margin: 0;
-    width: 200px;
+    padding: 0;
+    display: grid;
+    grid-row-gap: 0;
+    grid-area: sidebar;
+    align-content: start;
     box-sizing: border-box;
+    background-color: ${getThemeProp(['colors', 'grayscale', 'black'], 'black')};
+    top: 0;
+    position: sticky;
+    height: calc(100vh - 0px);
+`
+const ToggleArrow = styled.li`
+    cursor: pointer;
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    display: inline-block;
+    list-style: none;
+    font-size: 12px;
+    color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
+    &:before {
+        content: '';
+        display: inline-block;
+        width: 0.6em;
+        height: 0.6em;
+        margin-right: 5px;
+        border-style: solid;
+        border-width: 0.18em 0.18em 0 0;
+        transform: rotate(${props => (props.isCollapsed ? 45 : 225)}deg);
+        transition: transform .05s ease;
+    }
 `
 
-const NavBarList = ({items, theme}) =>
-    <Ul>
-        {items.map(({iconName, link, label, width = 25, height = 25}) =>
-            <Li key={uuid()} role="presentation">
+const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps}) =>
+    <Ul className={className} isCollapsed={isCollapsed}>
+        {items.map(({iconName, link, label, width = 20, height = 20}) =>
+            <Li key={uuid()} role="presentation" isCollapsed={isCollapsed}>
                 <NavLink to={link}>
                     {iconName &&
                         <SimpleSvgIcon
                           icon={iconName}
                           width={width}
                           height={height}
-                          fill={getThemeProp(['colors', 'grayscale', 'white'], 'white')({theme})}
+                          fill={getThemeProp(['colors', 'grayscale', 'white'], 'white')(restOfProps)}
                         />
                     }
-                    <span>{label}</span>
+                    {!isCollapsed && <span>{label}</span>}
                 </NavLink>
             </Li>
         )}
+        <ToggleArrow onClick={toggleMenu} isCollapsed={isCollapsed}>{isCollapsed ? '' : 'Hide'}</ToggleArrow>
     </Ul>
 
 NavBarList.propTypes = {
-    theme: PropTypes.shape({
-        colors: PropTypes.shape({
-            grayscale: PropTypes.shape({
-                white: PropTypes.string
-            })
-        })
-    }),
     items: PropTypes.arrayOf(PropTypes.shape({
         iconName: PropTypes.string,
         label: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired,
         height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    }))
+    })),
+    toggleMenu: PropTypes.func,
+    isCollapsed: PropTypes.bool,
+    className: PropTypes.string.isRequired
 }
 
 NavBarList.defaultProps = {
+    className: 'sidebar',
+    isCollapsed: false,
     items: []
 }
 

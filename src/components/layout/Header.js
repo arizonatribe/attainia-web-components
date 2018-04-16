@@ -4,84 +4,91 @@ import styled, {withTheme} from 'styled-components'
 import {SimpleSvgIcon} from '../common'
 import {getThemeProp} from '../common/helpers'
 import {LogoutContainer} from '../auth'
+import Progress from '../common/Progress'
 
-const Li = styled.div`
-    color: ${getThemeProp(['colors', 'secondary', 'default'], 'royalblue')};
-    text-align: center;
-    background: white;
-    height: 100%;
-    padding: 0 15px;
-
-    & img.headerLogo {
-        width: 95px;
-        height: 25px;
-    }
-
-    @supports not (display: grid) {
-        display: block;
-    }
-
-    @supports (display: grid) {
-        display: grid;
-        align-content: center;
-    }
+const MessageWrapper = styled.div`
+    grid-area: statusmessage;
+    display: grid;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    overflow: hidden;
+    color: ${getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')};
+    font-size: ${getThemeProp(['fonts', 'fontSize'], '12px')};
+    transition: transform 0.4s ease;
+    transform: translate(0, ${props => ((props.hasMessage && !props.fadingOutMessage) ? '0' : '-50px')});
 `
-const ListHeader = styled.ul`
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
-    list-style: none;
+const ListHeader = styled.header`
     margin: 0;
     padding: 0;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
     background: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
 
-    .logo {
-        padding-left: 50px;
+    & svg {
+        display: block;
     }
-
-    @supports not (display: grid) {
-        .profileMenu,
-        .btnSearch,
-        .btnNotifications,
-        .logo {
-            max-width: 50em;
-            margin: 0 auto;
-        }
+    .headerLogo {
+        grid-area: headerlogo;
+    }
+    .notificationIcon {
+        grid-area: notificationicon;
+    }
+    .logoutLink {
+        grid-area: logoutlink;
+        display: block;
+        color: ${getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')};
+        text-decoration: none;
     }
 
     @supports (display: grid) {
         display: grid;
-        grid-template-columns: 1fr repeat(2, 50px) 130px;
-        grid-template-rows: 50px;
-        grid-column-gap: 3px;
+        grid-area: pageheader;
+        align-items: center;
+        align-content: start;
+        grid-row-gap: 0;
+        grid-template-rows: 48px 2px;
+        grid-template-columns: 50px 140px 1fr 25px 10em;
+        grid-template-areas:
+            ". headerlogo statusmessage notificationicon logoutlink"
+            "pbar pbar pbar pbar pbar";
     }
 `
-const Header = props =>
-    <ListHeader className={props.className}>
-        <Li className="logo">
-            <SimpleSvgIcon icon="primary" className="headerLogo" />
-        </Li>
-        <Li className="btnSearch">
-            <SimpleSvgIcon
-              icon="search"
-              width="25"
-              height="25"
-              fill={getThemeProp(['colors', 'secondary', 'default'])(props)}
-            />
-        </Li>
-        <Li className="btnNotifications">
-            <SimpleSvgIcon
-              icon="notification"
-              width="25"
-              height="25"
-              fill={getThemeProp(['colors', 'secondary', 'default'])(props)}
-            />
-        </Li>
-        <Li className="profileMenu">
-            <LogoutContainer asLink>Logout</LogoutContainer>
-        </Li>
+const Header = ({className, continuous, progress, fadingOutMessage, statusMessage, logoutCaption, ...restOfProps}) =>
+    <ListHeader className={className}>
+        <SimpleSvgIcon
+          icon="primary"
+          width="112"
+          height="36"
+          className="headerLogo"
+        />
+        <MessageWrapper fadingOutMessage={fadingOutMessage} hasMessage={!!statusMessage}>
+            {statusMessage}
+        </MessageWrapper>
+        <SimpleSvgIcon
+          className="notificationIcon"
+          icon="notification"
+          width="17"
+          height="20"
+          fill={getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')(restOfProps)}
+        />
+        <LogoutContainer className="logoutLink" asLink>{logoutCaption}</LogoutContainer>
+        <Progress continuous={continuous} progress={progress} styles={{backgroundColor: 'white', height: '2px'}} />
     </ListHeader>
 
 Header.propTypes = {
-    className: PropTypes.string.isRequired
+    className: PropTypes.string.isRequired,
+    continuous: PropTypes.bool,
+    fadingOutMessage: PropTypes.bool,
+    logoutCaption: PropTypes.string.isRequired,
+    statusMessage: PropTypes.string,
+    progress: PropTypes.number
+}
+
+Header.defaultProps = {
+    className: 'list-header',
+    fadingOutMessage: false,
+    logoutCaption: 'Logout'
 }
 
 export default withTheme(Header)

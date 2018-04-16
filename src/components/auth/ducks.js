@@ -1,57 +1,56 @@
 import LocalizedStrings from 'react-localization'
 import {createDuck, createSelector, createDuckSelector} from 'attadux'
 import {
-    allPass,
+    ensureString,
+    isPlainObj,
+    isNotNil,
+    isNotBlankString,
+    isStringieThingie,
+    isValidEmail,
+    isValidPassword,
+    parseError as getMessage,
+    removeErrorLabel
+} from 'attasist'
+import {
     always,
     complement,
     compose,
-    either,
-    find,
     identity,
     ifElse,
     is,
-    isNil,
-    not,
     omit,
     path,
-    prop,
     split,
-    test,
     toLower,
     toString,
-    trim,
     when
 } from 'ramda'
 
+const store = 'auth'
 const ONE_HOUR = 3600000
-
-export const isNotNil = complement(isNil)
-export const isNotBlankString = compose(not, test(/^\s*$/))
-export const isStringieThingie = allPass([isNotBlankString, either(is(Number), is(String)), isNotNil])
-export const isValidEmail = test(/^[^.\s@:][^\s@:]*(?!\.)@[^.\s@]+(?:\.[^.\s@]+)*$/)
-export const isValidPassword = test(/^([A-Z]|[a-z])([a-z]|[0-9]|[!@#$%^&*()[\];:,.<>?*^+=_-]){6,50}$/)
-export const parseError = compose(
-    trim,
-    find(isStringieThingie),
-    split(/(?:\S*\s*)?error:/i),
-    ifElse(is(String), identity, toString),
-    ifElse(is(Object), prop('message'), identity)
-)
-
-export const safeString = ifElse(
-    isStringieThingie,
-    compose(toLower, when(is(Number), toString)),
-    always('')
-)
-
+const safeString = compose(toLower, ensureString)
+const parseError = compose(removeErrorLabel, getMessage)
 const makeScopesArray = ifElse(
     isStringieThingie,
     compose(split(' '), toLower, when(is(Number), toString)),
     always([])
 )
 
+/* to avoid breaking changes for now */
+export {
+    isNotBlankString,
+    isNotNil,
+    isPlainObj,
+    isStringieThingie,
+    isValidEmail,
+    isValidPassword,
+    parseError,
+    removeErrorLabel,
+    safeString
+}
+
 export default createDuck({
-    store: 'auth',
+    store,
     namespace: 'awc',
     types: [
         'CLEAR_LOGIN',
@@ -79,23 +78,21 @@ export default createDuck({
         baseUrl: 'localhost',
         error: '',
         loading: false,
-        menu: {
-            profile: []
-        },
         rememberMe: false,
         storageType: 'local',
         user: {}
     },
     selectors: {
         root: identity,
-        error: path(['auth', 'error']),
-        id: path(['auth', 'user', 'id']),
-        name: path(['auth', 'user', 'name']),
-        email: path(['auth', 'user', 'email']),
-        parsedToken: path(['auth', 'parsed_token']),
-        token: path(['auth', 'user', 'token']),
-        scope: path(['auth', 'user', 'scope']),
-        expires_in: path(['auth', 'user', 'token', 'expires_in']),
+        error: path([store, 'error']),
+        id: path([store, 'user', 'id']),
+        name: path([store, 'user', 'name']),
+        email: path([store, 'user', 'email']),
+        parsedToken: path([store, 'parsed_token']),
+        accessToken: path([store, 'user', 'token', 'access_token']),
+        token: path([store, 'user', 'token']),
+        scope: path([store, 'user', 'scope']),
+        expires_in: path([store, 'user', 'token', 'expires_in']),
         hasAuthError: createDuckSelector(selectors =>
             createSelector(selectors.error, Boolean)
         ),
@@ -127,7 +124,7 @@ export default createDuck({
         ),
         storedToken: createDuckSelector(selectors =>
             createSelector(
-                selectors.token,
+                selectors.accessToken,
                 selectors.parsedToken,
                 (t, pt) => t || pt
             )
@@ -172,7 +169,7 @@ export default createDuck({
                 }).password]
             ],
             email: [
-                [isStringieThingie, new LocalizedStrings({
+                [isValidEmail, new LocalizedStrings({
                     en: {email: 'Please enter your email'},
                     fr: {email: 'Entrez votre adresse e-mail'},
                     es: {email: 'Por favor, introduzca su dirección de correo electrónico'}

@@ -4,6 +4,7 @@ import CheckboxLabel from './CheckboxLabel'
 import {renderConditional, Conditional} from './Conditional'
 import ErrorMessage from './ErrorMessage'
 import FieldError from './FieldError'
+import Progress from './Progress'
 import Form from './Form'
 import FormField from './FormField'
 import InputField from './InputField'
@@ -12,6 +13,7 @@ import LinkButton from './LinkButton'
 import ReduxFormField from './ReduxFormField'
 import SimpleSvgIcon from './SimpleSvgIcon'
 import SimpleCube from './SimpleCube'
+import SimpleMessage from './SimpleMessage'
 import SpinningButton from './SpinningButton'
 import TwoColorSvgIcon from './TwoColorSvgIcon'
 import {WithDropdownArrow, WithoutDropdownArrow} from './DropdownArrow'
@@ -30,9 +32,11 @@ export {
     InputField,
     Link,
     LinkButton,
+    Progress,
     ReduxFormField,
     SimpleSvgIcon,
     SimpleCube,
+    SimpleMessage,
     SpinningButton,
     TwoColorSvgIcon,
     renderConditional,

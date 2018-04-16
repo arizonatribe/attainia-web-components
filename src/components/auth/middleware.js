@@ -3,28 +3,12 @@
  * https://redux.js.org/docs/advanced/Middleware.html
  */
 
-import {
-    adjust,
-    assocPath,
-    compose,
-    converge,
-    fromPairs,
-    identity,
-    invoker,
-    last,
-    map,
-    merge,
-    path,
-    prop,
-    propOr,
-    toPairs,
-    toUpper,
-    when
-} from 'ramda'
+import {camelKeys} from 'attasist'
+import {assocPath, compose, converge, identity, merge, path, prop, propOr, when} from 'ramda'
 
 import authDux from './ducks'
 
-const {types: {PARSED_TOKEN, LOGIN}} = authDux
+const {types: {PARSED_TOKEN, LOGIN, UPDATED_TOKEN}} = authDux
 
 export const metaDefaults = {
     page: 1,
@@ -34,16 +18,6 @@ export const metaDefaults = {
 }
 
 /**
- * Transforms underscore-separated strings into camelcased strings.
- *
- * @func
- * @sig String -> String
- * @param {String} str A string value whose multiple words are separated by underscores
- * @returns {String} A reformatted string whose words are now camelcased together
- */
-const camelize = invoker(2, 'replace')(/_([a-z])/g, compose(toUpper, last))
-
-/**
  * Reformats an object's keys from underscore_separated names to camelCasesed names.
  *
  * @func
@@ -51,12 +25,7 @@ const camelize = invoker(2, 'replace')(/_([a-z])/g, compose(toUpper, last))
  * @param {Object} obj An object whose keys are (potentially) separated by underscores
  * @returns {Object} An object whose keys have been changed from underscore_separated to camelcased
  */
-const renameKeys = compose(
-    merge(metaDefaults),
-    fromPairs,
-    map(adjust(camelize, 0)),
-    toPairs
-)
+const renameKeys = compose(merge(metaDefaults), camelKeys)
 
 /**
  * Conditionally formats a "meta" object, which (if available) is nested inside of a response object's "data" prop.
@@ -87,7 +56,7 @@ const formatMeta = when(
  * @sig a -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> undefined
  */
 export const serviceAuthMiddleware = service => () => next => action => {
-    if ([PARSED_TOKEN, LOGIN].includes(action.type)) {
+    if ([PARSED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
         service.setHeader('Authorization', `Bearer ${
             path(['user', 'token', 'access_token'], action) || prop('token', action)
         }`)
@@ -111,7 +80,7 @@ export const serviceAuthMiddleware = service => () => next => action => {
  * @sig a -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> undefined
  */
 export const apolloAuthMiddleWare = apolloFetch => () => next => action => {
-    if ([PARSED_TOKEN, LOGIN].includes(action.type)) {
+    if ([PARSED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
         apolloFetch.use(({options}, fetchNext) => {
             // eslint-disable-next-line no-param-reassign
             options.headers = {
