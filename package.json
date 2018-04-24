@@ -1,6 +1,6 @@
 {
   "name": "attainia-web-components",
-  "version": "0.3.64",
+  "version": "0.3.65",
   "description": "A collection of Attainia branded web components to be used in an Attainia React.js web application.",
   "main": "index.js",
   "engines": {
