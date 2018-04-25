@@ -7,7 +7,7 @@ const Button = styled.button`
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    padding: ${pathOr('15px', ['styles', 'padding'])};
+    padding: ${pathOr('1.25em', ['styles', 'padding'])};
 
     border: none;
     border-radius: 3px;
