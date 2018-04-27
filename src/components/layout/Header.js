@@ -8,16 +8,21 @@ import Progress from '../common/Progress'
 
 const MessageWrapper = styled.div`
     grid-area: statusmessage;
-    display: grid;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
-    overflow: hidden;
-    color: ${getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')};
-    font-size: ${getThemeProp(['fonts', 'fontSize'], '12px')};
-    transition: transform 0.4s ease;
-    transform: translate(0, ${props => ((props.hasMessage && !props.fadingOutMessage) ? '0' : '-50px')});
+    @media ${getThemeProp(['breakpoints', 'phone'], 'screen and (max-width: 599px)')} {
+        display: none;
+    }
+    @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
+        display: grid;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+        overflow: hidden;
+        color: ${getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')};
+        font-size: ${getThemeProp(['fonts', 'fontSize'], '12px')};
+        transition: transform 0.4s ease;
+        transform: translate(0, ${props => ((props.hasMessage && !props.fadingOutMessage) ? '0' : '-50px')});
+    }
 `
 const ListHeader = styled.header`
     margin: 0;
@@ -46,12 +51,21 @@ const ListHeader = styled.header`
         grid-area: pageheader;
         align-items: center;
         align-content: start;
+        justify-items: center;
         grid-row-gap: 0;
         grid-template-rows: 48px 2px;
-        grid-template-columns: 50px 140px 1fr 25px 10em;
-        grid-template-areas:
-            ". headerlogo statusmessage notificationicon logoutlink"
-            "pbar pbar pbar pbar pbar";
+        @media ${getThemeProp(['breakpoints', 'phone'], 'screen and (max-width: 599px)')} {
+            grid-template-columns: 20px 112px 1fr 25px 6em;
+            grid-template-areas:
+                ". headerlogo statusmessage notificationicon logoutlink"
+                "pbar pbar pbar pbar pbar";
+        }
+        @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
+            grid-template-columns: 50px 112px 1fr 25px 8em;
+            grid-template-areas:
+                ". headerlogo statusmessage notificationicon logoutlink"
+                "pbar pbar pbar pbar pbar";
+        }
     }
 `
 const Header = ({className, continuous, progress, fadingOutMessage, statusMessage, logoutCaption, ...restOfProps}) =>

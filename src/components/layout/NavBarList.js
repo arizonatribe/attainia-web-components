@@ -51,28 +51,35 @@ const Ul = styled.ul`
     box-sizing: border-box;
     background-color: ${getThemeProp(['colors', 'grayscale', 'black'], 'black')};
     top: 0;
-    position: sticky;
-    height: calc(100vh - 0px);
+    @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
+        position: sticky;
+        height: calc(100vh - 0px);
+    }
 `
 const ToggleArrow = styled.li`
-    cursor: pointer;
-    position: fixed;
-    bottom: 15px;
-    left: 15px;
-    display: inline-block;
-    list-style: none;
-    font-size: 12px;
-    color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
-    &:before {
-        content: '';
+    @media ${getThemeProp(['breakpoints', 'phone'], 'screen and (max-width: 599px)')} {
+        display: none;
+    }
+    @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
+        cursor: pointer;
+        position: fixed;
+        bottom: 15px;
+        left: 15px;
         display: inline-block;
-        width: 0.6em;
-        height: 0.6em;
-        margin-right: 5px;
-        border-style: solid;
-        border-width: 0.18em 0.18em 0 0;
-        transform: rotate(${props => (props.isCollapsed ? 45 : 225)}deg);
-        transition: transform .05s ease;
+        list-style: none;
+        font-size: 12px;
+        color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
+        &:before {
+            content: '';
+            display: inline-block;
+            width: 0.6em;
+            height: 0.6em;
+            margin-right: 5px;
+            border-style: solid;
+            border-width: 0.18em 0.18em 0 0;
+            transform: rotate(${props => (props.isCollapsed ? 45 : 225)}deg);
+            transition: transform .05s ease;
+        }
     }
 `
 

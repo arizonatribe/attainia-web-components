@@ -33,7 +33,6 @@ const TextWrapper = styled.section`
     padding: 2em;
     justify-items: center;
     justify-content: center;
-    grid-template-rows: 2em auto;
     grid-row-gap: 1.5em;
 `
 
@@ -51,7 +50,7 @@ const DemoHome = ({imgSrc}) =>
             <ModalButton>
                 <ContentFullSize>
                     <ContentHeader hasAddButton resourceTitle="idea" resourceSubtitle="good ones are always welcome!" />
-                    <HeaderImage styles={{zIndex: 0, opacity: 1, height: '220px'}} backgroundImage={imgSrc} />
+                    <HeaderImage styles={{zIndex: 0, opacity: 1}} backgroundImage={imgSrc} />
                     <TextWrapper>
                         <Greeting>You opened a Modal component</Greeting>
                         <Description>
