@@ -32,34 +32,32 @@ const StyledForm = styled(Form)`
     }
 
     @supports (display: grid) {
-        @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 768px)')} {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-areas: 'header header' 'instructions instructions' 'name name' 'email email' 'save cancel';
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 'header header' 'instructions instructions' 'name name' 'email email' 'save cancel';
 
-            & .attainiaLogo {
-                grid-area: header;
-            }
+        & .attainiaLogo {
+            grid-area: header;
+        }
 
-            & .instructions {
-                grid-area: instructions;
-            }
+        & .instructions {
+            grid-area: instructions;
+        }
 
-            & .name {
-                grid-area: name;
-            }
+        & .name {
+            grid-area: name;
+        }
 
-            & .email {
-                grid-area: email;
-            }
+        & .email {
+            grid-area: email;
+        }
 
-            & .registrationButton {
-                grid-area: save;
-            }
+        & .registrationButton {
+            grid-area: save;
+        }
 
-            & .cancelButton {
-                grid-area: cancel;
-            }
+        & .cancelButton {
+            grid-area: cancel;
         }
     }
 `

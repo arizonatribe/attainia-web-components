@@ -21,7 +21,18 @@ const FormField = ({
 }) =>
     <FieldWrapper type={type} className={className}>
         {label && !isCheck(type) && <label htmlFor={id}>{label}</label>}
-        <InputField {...reject(isNil, {id, value, checked, type, placeholder, name, ...input, ...handlers})} />
+        <InputField
+          {...reject(isNil, {
+              id,
+              name,
+              type,
+              value,
+              checked,
+              placeholder,
+              ...(input || {}),
+              ...(handlers || {})
+          })}
+        />
         {label && isCheck(type) && <CheckboxLabel onClick={handlers.onChange}>{label}</CheckboxLabel>}
         {touched && error && <FieldError>{error}</FieldError>}
     </FieldWrapper>
