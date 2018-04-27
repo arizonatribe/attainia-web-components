@@ -3,7 +3,6 @@ import {getThemeProp} from '../common/helpers'
 
 export default styled.div`
     height: 100%;
-    min-height: 20000px;
 
     @supports not (display: grid) {
         .header,
