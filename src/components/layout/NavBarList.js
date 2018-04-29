@@ -22,6 +22,9 @@ const Li = styled.li`
         border-color: ${getThemeProp(['colors', 'primary', 'default'], 'crimson')};
     }
     & a {
+        @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
+            ${props => props.isCollapsed && '& span {display: none;}'}
+        }
         padding: 10px 15px;
         color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
         text-decoration: none;
@@ -96,7 +99,7 @@ const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps})
                           fill={getThemeProp(['colors', 'grayscale', 'white'], 'white')(restOfProps)}
                         />
                     }
-                    {!isCollapsed && <span>{label}</span>}
+                    <span>{label}</span>
                 </NavLink>
             </Li>
         )}
