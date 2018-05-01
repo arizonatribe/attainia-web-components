@@ -57,10 +57,19 @@ const formatMeta = when(
  */
 export const serviceAuthMiddleware = service => () => next => action => {
     if ([PARSED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
-        service.setHeader('Authorization', `Bearer ${
-            path(['user', 'token', 'access_token'], action) || prop('token', action)
-        }`)
-        service.addResponseTransform(formatMeta)
+        const authorization = `Bearer ${path(['user', 'token', 'access_token'], action) || prop('token', action)}`
+        if (service.setHeader) {
+            service.setHeader('Authorization', authorization)
+            service.addResponseTransform(formatMeta)
+        } else if (path(['interceptors', 'request', 'use'])(service)) {
+            service.interceptors.request.use(config => ({
+                ...config,
+                headers: {
+                    ...config.headers,
+                    Authorization: authorization
+                }
+            }))
+        }
     }
     next(action)
 }
