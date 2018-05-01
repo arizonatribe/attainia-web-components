@@ -72,10 +72,22 @@ const ReactTableStyle = styled.div`
     .ReactTable .rt-thead .rt-th.-sort-asc,
     .ReactTable .rt-thead .rt-td.-sort-asc {
         box-shadow: inset 0 3px 0 0 rgba(0, 0, 0, 0.6);
+        & > div:first-child {
+            &::after {
+                font-size: 90%;
+                content: '\00a0▲';
+            }
+        }
     }
     .ReactTable .rt-thead .rt-th.-sort-desc,
     .ReactTable .rt-thead .rt-td.-sort-desc {
         box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, 0.6);
+        & > div:first-child {
+            &::after {
+                font-size: 90%;
+                content: '\00a0▼';
+            }
+        }
     }
     .ReactTable .rt-thead .rt-th.-cursor-pointer,
     .ReactTable .rt-thead .rt-td.-cursor-pointer {
