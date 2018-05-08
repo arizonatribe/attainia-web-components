@@ -1,4 +1,5 @@
 import React from 'react'
+import {etc} from 'attasist'
 import PropTypes from 'prop-types'
 import {Portal} from 'react-portal'
 import {either, pathOr, prop, propOr} from 'ramda'
@@ -57,7 +58,7 @@ const StickyMessages = ({styles, message, clearMessage}) =>
     <DetachedPosition>
         <Portal node={document.getElementById('message-root')} key="sticky-messages">
             <MessageWrapper hasMessage={!!message} {...styles}>
-                <MessageText>{message}</MessageText>
+                <MessageText>{etc(88)(message)}</MessageText>
                 <DismissButton onClick={clearMessage} />
             </MessageWrapper>
         </Portal>
@@ -75,6 +76,7 @@ StickyMessages.propTypes = {
 }
 
 StickyMessages.defaultProps = {
+    message: '',
     styles: {},
     clearMessage: () => null
 }
