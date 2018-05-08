@@ -1,6 +1,6 @@
 {
   "name": "attainia-web-components",
-  "version": "0.3.72",
+  "version": "0.3.73",
   "description": "A collection of Attainia branded web components to be used in an Attainia React.js web application.",
   "main": "index.js",
   "engines": {
@@ -55,8 +55,8 @@
   "dependencies": {
     "apollo-fetch": "0.7.0",
     "articles": "0.2.2",
-    "attadux": "0.1.1",
-    "attasist": "0.0.20",
+    "attadux": "0.1.2",
+    "attasist": "0.0.21",
     "babel-polyfill": "6.26.0",
     "color": "2.0.1",
     "create-react-context": "0.2.1",
