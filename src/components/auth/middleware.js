@@ -4,11 +4,11 @@
  */
 
 import {camelKeys} from 'attasist'
-import {assocPath, compose, converge, identity, merge, path, prop, propOr, when} from 'ramda'
+import {assocPath, compose, converge, identity, merge, omit, path, prop, propOr, when} from 'ramda'
 
 import authDux from './ducks'
 
-const {types: {PARSED_TOKEN, LOGIN, UPDATED_TOKEN}} = authDux
+const {types: {VALIDATED_TOKEN, LOGIN, LOGOUT, UPDATED_TOKEN}} = authDux
 
 export const metaDefaults = {
     page: 1,
@@ -56,7 +56,7 @@ const formatMeta = when(
  * @sig a -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> undefined
  */
 export const serviceAuthMiddleware = service => () => next => action => {
-    if ([PARSED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
+    if ([VALIDATED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
         const authorization = `Bearer ${path(['user', 'token', 'access_token'], action) || prop('token', action)}`
         if (service.setHeader) {
             service.setHeader('Authorization', authorization)
@@ -68,6 +68,16 @@ export const serviceAuthMiddleware = service => () => next => action => {
                     ...config.headers,
                     Authorization: authorization
                 }
+            }))
+        }
+    } else if (LOGOUT === action.type) {
+        if (service.setHeader) {
+            // eslint-disable-next-line no-param-reassign
+            delete service.headers.Authorization
+        } else if (path(['interceptors', 'request', 'use'])(service)) {
+            service.interceptors.request.use(config => ({
+                ...config,
+                headers: omit(['Authorization'])(config.headers)
             }))
         }
     }
@@ -89,16 +99,22 @@ export const serviceAuthMiddleware = service => () => next => action => {
  * @sig a -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> undefined
  */
 export const apolloAuthMiddleWare = apolloFetch => () => next => action => {
-    if ([PARSED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
+    if ([VALIDATED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
         apolloFetch.use(({options}, fetchNext) => {
             // eslint-disable-next-line no-param-reassign
             options.headers = {
-                ...propOr({}, 'headers'),
+                ...propOr({}, 'headers')(options.headers),
                 authorization: `Bearer ${
                     path(['user', 'token', 'access_token'], action) ||
                     prop('token', action)
                 }`
             }
+            fetchNext()
+        })
+    } else if (LOGOUT === action.type) {
+        apolloFetch.use(({options}, fetchNext) => {
+            // eslint-disable-next-line no-param-reassign
+            options.headers = omit(['authorization'])(options.headers)
             fetchNext()
         })
     }
