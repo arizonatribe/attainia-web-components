@@ -13,11 +13,11 @@ import {
 } from 'attasist'
 import {
     always,
-    complement,
     compose,
     identity,
     ifElse,
     is,
+    not,
     omit,
     path,
     split,
@@ -80,7 +80,8 @@ export default createDuck({
         loading: false,
         rememberMe: false,
         storageType: 'local',
-        user: {}
+        user: {},
+        isAuthenticated: false
     },
     selectors: {
         root: identity,
@@ -103,12 +104,8 @@ export default createDuck({
                 (...props) => props.every(isStringieThingie)
             )
         ),
-        isAuthenticated: createDuckSelector(selectors =>
-            createSelector(selectors.id, isStringieThingie)
-        ),
-        isNotAuthenticated: createDuckSelector(selectors =>
-            createSelector(selectors.id, complement(isStringieThingie))
-        ),
+        isAuthenticated: compose(Boolean, path([store, 'isAuthenticated'])),
+        isNotAuthenticated: createDuckSelector(selectors => createSelector(selectors.isAuthenticated, not)),
         allScopes: createDuckSelector(selectors => createSelector(selectors.scope, makeScopesArray)),
         refreshInMs: createDuckSelector(selectors =>
             createSelector(
@@ -275,7 +272,7 @@ export default createDuck({
             case types.LOADING_STARTED:
                 return {...state, loading: true}
             case types.LOGIN:
-                return {...state, user: action.user}
+                return {...state, user: action.user, isAuthenticated: true}
             case types.LOGOUT: {
                 if (state.refreshTimeout) clearTimeout(state.refreshTimeout)
 
@@ -312,6 +309,7 @@ export default createDuck({
             case types.UPDATED_TOKEN: {
                 return {
                     ...omit(['parsed_token'], state),
+                    isAuthenticated: true,
                     user: {
                         ...state.user,
                         token: action.token
