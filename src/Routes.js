@@ -15,6 +15,7 @@ import {
 } from './components/auth'
 import {
     DemoHome,
+    DemoDrawers,
     DemoNotFound,
     DemoSimpleCube,
     DemoQueryEditor
@@ -30,9 +31,11 @@ import attainiaHome from './images/attainia_foyer.jpg'
 
 const DemoRedoc = props => <RedocStandalone {...props} specUrl={OPENAPI_URL} />
 const Home = props => <DemoHome imgSrc={attainiaHome} {...props} />
+const Drawers = props => <DemoDrawers imgSrc={attainiaHome} {...props} />
 
 const withLayout = withTheseNavItems([
     {label: 'Home', link: '/home', iconName: 'home'},
+    {label: 'Music', link: '/music', iconName: 'music', items: [{label: 'Test', link: '/some'}]},
     {label: 'GraphQL API', link: '/graphql-api', iconName: 'star'},
     {label: 'Redoc', link: '/open-api', iconName: 'cogs'},
     {label: 'Cube', link: '/cube', iconName: 'cube'}
@@ -52,6 +55,7 @@ export default (
                         <Route exact path="/confirm-registration" component={RegistrationConfirmationContainer} />
                         <Route exact path="/register-application" component={RegisterApplicationContainer} />
                         <Route exact path="/cube" component={withLayout(DemoSimpleCube)} />
+                        <Route exact path="/music" component={withLayout(Drawers)} />
                         <Route exact path="/open-api" component={withAuthentication(DemoRedoc)} />
                         <Route exact path="/graphql-api" component={withAuthentication(withLayout(DemoQueryEditor))} />
                         <Route render={props => <DemoNotFound imgSrc={attainiaHome} {...props} />} />

@@ -3,67 +3,71 @@ import React from 'react'
 import styled, {withTheme} from 'styled-components'
 import PropTypes from 'prop-types'
 import NavLink from 'react-router-dom/NavLink'
+import {pathOr} from 'ramda'
+import Drawer from './Drawer'
 import {SimpleSvgIcon} from '../common'
-import {getThemeProp} from '../common/helpers'
 
-const Li = styled.li` 
-    display: block;
-    transition: background 0.1s ease;
-    cursor: pointer;
-    color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
-    list-style: none;
-    font-size: 16px;
-    line-height: 19px;
-    border-left-width: 5px;
-    border-color: transparent;
-    border-left-style: solid;
-
+const NavAction = styled.div`
     &:hover {
-        border-color: ${getThemeProp(['colors', 'primary', 'default'], 'crimson')};
-    }
-    & a {
-        @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
-            ${props => props.isCollapsed && '& span {display: none;}'}
-        }
-        padding: 10px 15px;
-        color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
-        text-decoration: none;
-        @supports not (display: grid) {
-            display: block;
-        }
-        @supports (display: grid) {
-            display: grid;
-            grid-column-gap: 8px;
-            grid-template-areas: "icon text";
-        }
-        justify-content: start;
-        align-items: center;
-    }
-
-    & a.active {
-        background: ${getThemeProp(['colors', 'primary', 'default'], 'crimson')};
+        background: ${pathOr('crimson', ['theme', 'colors', 'primary', 'default'])};
     }
 `
 const Ul = styled.ul`
     margin: 0;
-    padding: 0;
     display: grid;
-    grid-row-gap: 0;
-    grid-area: sidebar;
     align-content: start;
     box-sizing: border-box;
-    background-color: ${getThemeProp(['colors', 'grayscale', 'black'], 'black')};
-    top: 0;
-    @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
+`
+const Li = styled.li`
+    display: grid;
+    align-items: center;
+    transition: background 0.1s ease;
+    color: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
+    list-style: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-color: transparent;
+    border-left-style: solid;
+    border-left-width: 5px;
+
+    & a, .nav-action {
+        padding: 10px 0;
+        color: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
+        & span {
+            display: block;
+            user-select: none;
+        }
+        @media ${pathOr('screen and (min-width: 600px)', ['theme', 'breakpoints', 'tablet'])} {
+            ${props => props.isCollapsed && '& span {display: none;}'}
+        }
+        display: grid;
+        grid-column-gap: 8px;
+        text-decoration: none;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+    }
+
+    & a.active {
+        background: ${pathOr('crimson', ['theme', 'colors', 'primary', 'default'])};
+    }
+`
+const SubUl = styled(Ul)`
+    padding-left: 20px;
+`
+const NavUl = styled(Ul)`
+    grid-area: sidebar;
+    padding-left: 15px;
+    background-color: ${pathOr('black', ['theme', 'colors', 'grayscale', 'black'])};
+    @media ${pathOr('screen and (min-width: 600px)', ['theme', 'breakpoints', 'tablet'])} {
         position: sticky;
         height: calc(100vh - 0px);
     }
 `
 const ToggleArrow = styled.li`
-    @media ${getThemeProp(['breakpoints', 'phone'], 'screen and (max-width: 599px)')} {
+    @media ${pathOr('screen and (max-width: 599px)', ['theme', 'breakpoints', 'phone'])} {
         display: none;
     }
-    @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
+    @media ${pathOr('screen and (min-width: 600px)', ['theme', 'breakpoints', 'tablet'])} {
         cursor: pointer;
         position: fixed;
         bottom: 15px;
@@ -71,7 +75,7 @@ const ToggleArrow = styled.li`
         display: inline-block;
         list-style: none;
         font-size: 12px;
-        color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
+        color: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
         &:before {
             content: '';
             display: inline-block;
@@ -86,33 +90,66 @@ const ToggleArrow = styled.li`
     }
 `
 
+const navItems = {
+    iconName: PropTypes.string,
+    label: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+}
+
+const Link = ({link, iconName, onClick, width, height, label, ...restOfProps}) => (
+    onClick ?
+        <NavAction className="nav-action" onClick={onClick}>
+            <SimpleSvgIcon
+              width={width || 15}
+              height={height || 15}
+              icon={iconName || 'plus'}
+              fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+            />
+            <span>{label}</span>
+        </NavAction> :
+        <NavLink to={link}>
+            <SimpleSvgIcon
+              width={width || 15}
+              height={height || 15}
+              icon={iconName || 'plus'}
+              fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+            />
+            <span>{label}</span>
+        </NavLink>
+)
+
+Link.propTypes = {...navItems}
+
 const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps}) =>
-    <Ul className={className} isCollapsed={isCollapsed}>
-        {items.map(({iconName, link, label, width = 20, height = 20}) =>
+    <NavUl className={className} isCollapsed={isCollapsed}>
+        {items.map(({iconName, link, label, width = 20, height = 20, items: subItems}) =>
             <Li key={uuid()} role="presentation" isCollapsed={isCollapsed}>
-                <NavLink to={link}>
-                    {iconName &&
-                        <SimpleSvgIcon
-                          icon={iconName}
-                          width={width}
-                          height={height}
-                          fill={getThemeProp(['colors', 'grayscale', 'white'], 'white')(restOfProps)}
-                        />
-                    }
-                    <span>{label}</span>
-                </NavLink>
+                {Array.isArray(subItems) && !isCollapsed ?
+                    <Drawer
+                      title={label}
+                      iconName={iconName}
+                      styles={{
+                          fontSize: '16px',
+                          padding: '10px 0',
+                          fontWeight: 'normal',
+                          backgroundColor: 'transparent'
+                      }}
+                    >
+                        <SubUl>{subItems.map(sm => <Li key={uuid()} role="presentation"><Link {...sm} /></Li>)}</SubUl>
+                    </Drawer> : <Link {...{...restOfProps, iconName, width, height, label, link}} />
+                }
             </Li>
         )}
         <ToggleArrow onClick={toggleMenu} isCollapsed={isCollapsed}>{isCollapsed ? '' : 'Hide'}</ToggleArrow>
-    </Ul>
+    </NavUl>
 
 NavBarList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
-        iconName: PropTypes.string,
-        label: PropTypes.string.isRequired,
-        link: PropTypes.string.isRequired,
-        height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        ...navItems,
+        items: PropTypes.arrayOf(PropTypes.shape(navItems))
     })),
     toggleMenu: PropTypes.func,
     isCollapsed: PropTypes.bool,

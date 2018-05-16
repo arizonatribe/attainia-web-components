@@ -50,11 +50,11 @@ class NotFoundPage extends Component {
         return (
             <NotFoundLogoContext.Provider value={scale}>
                 <ContentWrapper onMouseMove={this.pulse}>
-                    <HeaderImage backgroundImage={imgSrc} height={imgHeaderHeight} />
+                    {imgSrc && <HeaderImage backgroundImage={imgSrc} height={imgHeaderHeight} />}
                     <ContentCentered>
                         <ScaledLogo {...restOfProps} />
                     </ContentCentered>
-                    <NotFound message={message} fontSize={fontSize} />
+                    {message && <NotFound message={message} fontSize={fontSize} />}
                 </ContentWrapper>
             </NotFoundLogoContext.Provider>
         )
