@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {isStringieThingie} from 'attasist'
 import NavLink from 'react-router-dom/NavLink'
 import styled, {withTheme} from 'styled-components'
-import {always, cond, pathOr, propIs, propSatisfies, T} from 'ramda'
+import {always, cond, curry, is, pathOr, propIs, propSatisfies, T} from 'ramda'
 import Drawer from './Drawer'
 import {SimpleSvgIcon} from '../common'
 
@@ -51,7 +51,7 @@ const Li = styled.li`
         align-items: center;
     }
 
-    & .nav-label {
+    & .nav-label, &.nav-action {
         grid-template-columns: 7px auto 1fr;
     }
 
@@ -60,7 +60,7 @@ const Li = styled.li`
     }
 `
 const SubLi = styled(Li)`
-    & a {
+    & a, .nav-action, .nav-label {
         grid-template-columns: 20px auto 1fr;
     }
 `
@@ -108,8 +108,35 @@ const navItems = {
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
-const Action = ({onClick, width, height, iconName, label, ...restOfProps}) =>
-    <NavAction className="nav-action" onClick={onClick}>
+/**
+ * Wraps a click handler with a simple check to see if it returned an object wth
+ * a "type" value. If that is the case AND if a dispatch function is available
+ * in the props, the dispatch() is invoked with the returned value from the
+ * click handler (which in that case is just a Redux action creator function,
+ * not a click handler per se).
+ *
+ * @func
+ * @sig {k: v} -> {k: v} -> *
+ * @param {Object} props A set of component props that contains an onClick and
+ * (optionally) a dispatch function
+ * @param {Object} event A click event
+ * @returns {*} The result from the onClick function
+ */
+const handleClick = curry(
+    ({onClick, dispatch, ...restOfProps}, event) => {
+        if (is(Function, onClick)) {
+            const result = onClick(event, restOfProps)
+            if (is(Function, dispatch) && propSatisfies(isStringieThingie, 'type', result)) {
+                dispatch(result)
+            }
+            return result
+        }
+        return event
+    }
+)
+
+const Action = ({width, height, iconName, label, ...restOfProps}) =>
+    <NavAction className="nav-action" onClick={handleClick(restOfProps)}>
         <SimpleSvgIcon
           width={width || 10}
           height={height || 10}
@@ -186,7 +213,9 @@ const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps})
                     >
                         <Ul>
                             {subItems.map(sm =>
-                                <SubLi key={uuid()} role="presentation" fontSize="14px"><NavMap {...sm} /></SubLi>
+                                <SubLi key={uuid()} role="presentation" fontSize="14px">
+                                    <NavMap {...{...restOfProps, ...sm}} />
+                                </SubLi>
                             )}
                         </Ul>
                     </Drawer> :
