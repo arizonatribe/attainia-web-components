@@ -17,7 +17,7 @@ const PageWrapper = styled(ContentWrapper)`
 `
 const TableStyle = ReactTableStyle.extend`
     .ReactTable .rt-thead {
-        background-color: silver;
+        background-color: ${pathOr('darkgray', ['theme', 'colors', 'grayscale', 'dk'])};
         & .rt-th {
             color: white;
             font-weight: bold;

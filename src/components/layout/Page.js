@@ -24,7 +24,7 @@ export default styled.div`
 
         @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
             display: grid;
-            grid-template-columns: ${props => (props.isCollapsed ? '70px' : '200px')} 1fr;
+            grid-template-columns: ${props => (props.isCollapsed ? '60px' : '200px')} 1fr;
             grid-template-rows: 50px 1fr 40px;
             grid-template-areas:
                 'pageheader pageheader'

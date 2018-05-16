@@ -8,10 +8,10 @@ import {withTheseNavItems} from './components/layout'
 import {
     AuthProvider,
     LoginContainer,
-    PasswordHelpContainer,
-    RegistrationContainer,
+    PasswordHelpContainer as PasswordHelp,
+    RegistrationContainer as Registration,
     RegistrationConfirmationContainer,
-    RegisterApplicationContainer
+    RegisterApplicationContainer as RegisterApplication
 } from './components/auth'
 import {
     DemoHome,
@@ -35,10 +35,26 @@ const Drawers = props => <DemoDrawers imgSrc={attainiaHome} {...props} />
 
 const withLayout = withTheseNavItems([
     {label: 'Home', link: '/home', iconName: 'home'},
-    {label: 'Music', link: '/music', iconName: 'music', items: [{label: 'Test', link: '/some'}]},
+    {label: 'Drawer', link: '/music', iconName: 'music'},
     {label: 'GraphQL API', link: '/graphql-api', iconName: 'star'},
     {label: 'Redoc', link: '/open-api', iconName: 'cogs'},
-    {label: 'Cube', link: '/cube', iconName: 'cube'}
+    {label: 'Cube', link: '/cube', iconName: 'cube'}, {
+        label: 'Auth',
+        iconName: 'lock',
+        items: [{
+            label: 'User Registration',
+            link: '/register'
+        }, {
+            label: 'Create Application',
+            link: '/register-application'
+        }, {
+            label: 'Password Reset',
+            link: '/password-help'
+        }, {
+            label: 'Login',
+            link: '/demo-login'
+        }]
+    }
 ])
 
 export default (
@@ -50,10 +66,11 @@ export default (
                         <Route exact path="/" component={withAuthentication(withLayout(Home))} />
                         <Route exact path="/home" component={withAuthentication(withLayout(Home))} />
                         <Route exact path="/login" component={withLoginEnhancers(LoginContainer)} />
-                        <Route exact path="/password-help" component={PasswordHelpContainer} />
-                        <Route exact path="/register" component={RegistrationContainer} />
+                        <Route exact path="/demo-login" component={withLayout(LoginContainer)} />
+                        <Route exact path="/password-help" component={withLayout(PasswordHelp)} />
+                        <Route exact path="/register" component={withLayout(Registration)} />
                         <Route exact path="/confirm-registration" component={RegistrationConfirmationContainer} />
-                        <Route exact path="/register-application" component={RegisterApplicationContainer} />
+                        <Route exact path="/register-application" component={withLayout(RegisterApplication)} />
                         <Route exact path="/cube" component={withLayout(DemoSimpleCube)} />
                         <Route exact path="/music" component={withLayout(Drawers)} />
                         <Route exact path="/open-api" component={withAuthentication(DemoRedoc)} />

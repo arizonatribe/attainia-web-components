@@ -1,9 +1,10 @@
 import uuid from 'uuid/v4'
 import React from 'react'
-import styled, {withTheme} from 'styled-components'
 import PropTypes from 'prop-types'
+import {isStringieThingie} from 'attasist'
 import NavLink from 'react-router-dom/NavLink'
-import {pathOr} from 'ramda'
+import styled, {withTheme} from 'styled-components'
+import {always, cond, pathOr, propIs, propSatisfies, T} from 'ramda'
 import Drawer from './Drawer'
 import {SimpleSvgIcon} from '../common'
 
@@ -14,6 +15,7 @@ const NavAction = styled.div`
 `
 const Ul = styled.ul`
     margin: 0;
+    padding: 0;
     display: grid;
     align-content: start;
     box-sizing: border-box;
@@ -24,16 +26,17 @@ const Li = styled.li`
     transition: background 0.1s ease;
     color: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
     list-style: none;
-    font-size: 16px;
+    font-size: ${pathOr('15px', ['fontSize'])};
     cursor: pointer;
-    border-color: transparent;
-    border-left-style: solid;
-    border-left-width: 5px;
 
-    & a, .nav-action {
+    & a, .nav-action, .nav-label {
         padding: 10px 0;
         color: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
+        & svg {
+            grid-area: nav-icon;
+        }
         & span {
+            grid-area: nav-text;
             display: block;
             user-select: none;
         }
@@ -43,20 +46,26 @@ const Li = styled.li`
         display: grid;
         grid-column-gap: 8px;
         text-decoration: none;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: 5px auto${props => !props.isCollapsed && ' 1fr'};
+        grid-template-areas: ". nav-icon${props => !props.isCollapsed && ' nav-text'}";
         align-items: center;
+    }
+
+    & .nav-label {
+        grid-template-columns: 7px auto 1fr;
     }
 
     & a.active {
         background: ${pathOr('crimson', ['theme', 'colors', 'primary', 'default'])};
     }
 `
-const SubUl = styled(Ul)`
-    padding-left: 20px;
+const SubLi = styled(Li)`
+    & a {
+        grid-template-columns: 20px auto 1fr;
+    }
 `
 const NavUl = styled(Ul)`
     grid-area: sidebar;
-    padding-left: 15px;
     background-color: ${pathOr('black', ['theme', 'colors', 'grayscale', 'black'])};
     @media ${pathOr('screen and (min-width: 600px)', ['theme', 'breakpoints', 'tablet'])} {
         position: sticky;
@@ -71,7 +80,7 @@ const ToggleArrow = styled.li`
         cursor: pointer;
         position: fixed;
         bottom: 15px;
-        left: 15px;
+        left: 10px;
         display: inline-block;
         list-style: none;
         font-size: 12px;
@@ -92,36 +101,73 @@ const ToggleArrow = styled.li`
 
 const navItems = {
     iconName: PropTypes.string,
-    label: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    link: PropTypes.string,
     onClick: PropTypes.func,
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
-const Link = ({link, iconName, onClick, width, height, label, ...restOfProps}) => (
-    onClick ?
-        <NavAction className="nav-action" onClick={onClick}>
-            <SimpleSvgIcon
-              width={width || 15}
-              height={height || 15}
-              icon={iconName || 'plus'}
-              fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
-            />
-            <span>{label}</span>
-        </NavAction> :
-        <NavLink to={link}>
-            <SimpleSvgIcon
-              width={width || 15}
-              height={height || 15}
-              icon={iconName || 'plus'}
-              fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
-            />
-            <span>{label}</span>
-        </NavLink>
-)
+const Action = ({onClick, width, height, iconName, label, ...restOfProps}) =>
+    <NavAction className="nav-action" onClick={onClick}>
+        <SimpleSvgIcon
+          width={width || 10}
+          height={height || 10}
+          icon={iconName || 'plus'}
+          fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+        />
+        {label && <span>{label}</span>}
+    </NavAction>
+
+Action.propTypes = {...navItems}
+
+const Link = ({link, width, height, iconName, label, ...restOfProps}) =>
+    <NavLink to={link}>
+        <SimpleSvgIcon
+          width={width || 10}
+          height={height || 10}
+          icon={iconName || 'plus'}
+          fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+        />
+        {label && <span>{label}</span>}
+    </NavLink>
 
 Link.propTypes = {...navItems}
+
+const LabelAndIcon = ({width, height, iconName, label, ...restOfProps}) =>
+    <NavAction className="nav-label">
+        <SimpleSvgIcon
+          width={width || 10}
+          height={height || 10}
+          icon={iconName || 'plus'}
+          fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+        />
+        {label && <span>{label}</span>}
+    </NavAction>
+
+LabelAndIcon.propTypes = {...navItems}
+
+const IconOnly = ({width, height, iconName, label, ...restOfProps}) =>
+    <NavAction className="nav-label">
+        <SimpleSvgIcon
+          width={width || 10}
+          height={height || 10}
+          icon={iconName || 'plus'}
+          fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+        />
+    </NavAction>
+
+IconOnly.propTypes = {...navItems}
+
+const NavMap = cond([
+    [propIs(Function, 'onClick'), Action],
+    [propSatisfies(isStringieThingie, 'link'), Link],
+    [propSatisfies(isStringieThingie, 'label'), LabelAndIcon],
+    [propSatisfies(isStringieThingie, 'iconName'), IconOnly],
+    [T, always(null)]
+])
+
+NavMap.propTypes = {...navItems}
 
 const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps}) =>
     <NavUl className={className} isCollapsed={isCollapsed}>
@@ -132,18 +178,25 @@ const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps})
                       title={label}
                       iconName={iconName}
                       styles={{
-                          fontSize: '16px',
-                          padding: '10px 0',
+                          fontSize: '15px',
                           fontWeight: 'normal',
+                          padding: '10px 0 10px 15px',
                           backgroundColor: 'transparent'
                       }}
                     >
-                        <SubUl>{subItems.map(sm => <Li key={uuid()} role="presentation"><Link {...sm} /></Li>)}</SubUl>
-                    </Drawer> : <Link {...{...restOfProps, iconName, width, height, label, link}} />
+                        <Ul>
+                            {subItems.map(sm =>
+                                <SubLi key={uuid()} role="presentation" fontSize="14px"><NavMap {...sm} /></SubLi>
+                            )}
+                        </Ul>
+                    </Drawer> :
+                    <NavMap {...{...restOfProps, link, width, height, iconName, label: isCollapsed ? '' : label}} />
                 }
             </Li>
         )}
-        <ToggleArrow onClick={toggleMenu} isCollapsed={isCollapsed}>{isCollapsed ? '' : 'Hide'}</ToggleArrow>
+        <ToggleArrow onClick={toggleMenu} isCollapsed={isCollapsed}>
+            {isCollapsed ? '' : 'Hide'}
+        </ToggleArrow>
     </NavUl>
 
 NavBarList.propTypes = {

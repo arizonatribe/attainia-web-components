@@ -36,7 +36,7 @@ const DrawerHeader = styled.header`
     box-sizing: border-box;
     grid-area: drawer-header;
     grid-column-gap: ${pathOr('8px', ['columnGap'])};
-    grid-template-columns: auto 1fr ${props => both(prop('showCaret'), prop('hasIcon'))(props) && 'auto 15px'};
+    grid-template-columns: auto 1fr ${props => both(prop('showCaret'), prop('hasIcon'))(props) && 'auto 16px'};
     ${cond([
         [both(prop('showCaret'), prop('hasIcon')), always('grid-template-areas: "dh-icon dh-title chevron .";')],
         [prop('showCaret'), always('grid-template-areas: "chevron dh-title";')],
@@ -89,7 +89,7 @@ class Drawer extends PureComponent {
                 >
                     {iconName && <SimpleSvgIcon className="left-icon" icon={iconName} width={20} height={20} />}
                     {showCaret && <Chevron isOpen={this.state.isExpanded} />}
-                    <Label>{title}</Label>
+                    {title && <Label>{title}</Label>}
                 </DrawerHeader>
                 <ContentWrapper isExpanded={this.state.isExpanded} {...contentStyles}>{children}</ContentWrapper>
             </DrawerStyle>

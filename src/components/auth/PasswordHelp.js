@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import Link from 'react-router-dom/Link'
 import {Button, LinkButton, Form, SimpleSvgIcon, ReduxFormField} from '../common'
+import {ContentFullSize} from '../layout'
 import {getThemeProp} from '../common/helpers'
 
 const StyledForm = styled(Form)`
@@ -49,19 +50,21 @@ const StyledForm = styled(Form)`
     }
 `
 const PasswordHelp = ({handleSubmit, tryPasswordHelp, email}) =>
-    <StyledForm className="passwordHelpForm" onSubmit={handleSubmit(tryPasswordHelp)}>
-        <SimpleSvgIcon className="attainiaLogo" width="161" height="39" icon="primary" />
-        <ReduxFormField
-          id="PasswordHelpForm-email"
-          className="email"
-          placeholder="email"
-          name="email"
-          type="email"
-          value={email}
-        />
-        <Button className="passwordHelpButton" type="submit">Reset Password</Button>
-        <LinkButton className="cancelButton"><Link to="/">Cancel</Link></LinkButton>
-    </StyledForm>
+    <ContentFullSize>
+        <StyledForm className="passwordHelpForm" onSubmit={handleSubmit(tryPasswordHelp)}>
+            <SimpleSvgIcon className="attainiaLogo" width="161" height="39" icon="primary" />
+            <ReduxFormField
+              id="PasswordHelpForm-email"
+              className="email"
+              placeholder="email"
+              name="email"
+              type="email"
+              value={email}
+            />
+            <Button className="passwordHelpButton" type="submit">Reset Password</Button>
+            <LinkButton className="cancelButton"><Link to="/">Cancel</Link></LinkButton>
+        </StyledForm>
+    </ContentFullSize>
 
 PasswordHelp.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
