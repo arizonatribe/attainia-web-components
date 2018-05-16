@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import Link from 'react-router-dom/Link'
 import {Button, LinkButton, Form, SimpleSvgIcon, ReduxFormField} from '../common'
+import {ContentFullSize} from '../layout'
 import {getThemeProp} from '../common/helpers'
 
 const StyledForm = styled(Form)`
@@ -62,25 +63,27 @@ const StyledForm = styled(Form)`
     }
 `
 const Registration = ({handleSubmit, tryRegister, formCaption, registerLabel}) =>
-    <StyledForm onSubmit={handleSubmit(tryRegister)}>
-        <SimpleSvgIcon className="attainiaLogo" width="161" height="39" icon="primary" />
-        <p className="instructions">{formCaption}</p>
-        <ReduxFormField
-          id="RegistrationForm-name"
-          className="name"
-          placeholder="name"
-          name="name"
-        />
-        <ReduxFormField
-          id="RegistrationForm-email"
-          className="email"
-          placeholder="email"
-          name="email"
-          type="email"
-        />
-        <Button className="registrationButton" type="submit">{registerLabel}</Button>
-        <LinkButton className="cancelButton"><Link to="/">Cancel</Link></LinkButton>
-    </StyledForm>
+    <ContentFullSize>
+        <StyledForm onSubmit={handleSubmit(tryRegister)}>
+            <SimpleSvgIcon className="attainiaLogo" width="161" height="39" icon="primary" />
+            <p className="instructions">{formCaption}</p>
+            <ReduxFormField
+              id="RegistrationForm-name"
+              className="name"
+              placeholder="name"
+              name="name"
+            />
+            <ReduxFormField
+              id="RegistrationForm-email"
+              className="email"
+              placeholder="email"
+              name="email"
+              type="email"
+            />
+            <Button className="registrationButton" type="submit">{registerLabel}</Button>
+            <LinkButton className="cancelButton"><Link to="/">Cancel</Link></LinkButton>
+        </StyledForm>
+    </ContentFullSize>
 
 Registration.propTypes = {
     handleSubmit: PropTypes.func.isRequired,

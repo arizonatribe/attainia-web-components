@@ -5,6 +5,7 @@ import ContentCenteredMiddle from './ContentCenteredMiddle'
 import ContentFullSize from './ContentFullSize'
 import ContentHeader from './ContentHeader'
 import ContentWrapper from './ContentWrapper'
+import Drawer from './Drawer'
 import Footer from './Footer'
 import Header from './Header'
 import HeaderImage from './HeaderImage'
@@ -27,6 +28,7 @@ export {
     ContentFullSize,
     ContentHeader,
     ContentWrapper,
+    Drawer,
     Footer,
     Header,
     HeaderImage,
