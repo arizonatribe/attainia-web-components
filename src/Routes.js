@@ -45,16 +45,20 @@ const withLayout = withTheseNavItems([
         iconName: 'lock',
         items: [{
             label: 'User Registration',
-            link: '/register'
+            link: '/register',
+            isIndented: true
         }, {
             label: 'Create Application',
-            link: '/register-application'
+            link: '/register-application',
+            isIndented: true
         }, {
             label: 'Password Reset',
-            link: '/password-help'
+            link: '/password-help',
+            isIndented: true
         }, {
             label: 'Login',
-            link: '/demo-login'
+            link: '/demo-login',
+            isIndented: true
         }]
     }
 ])

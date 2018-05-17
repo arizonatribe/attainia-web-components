@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {isStringieThingie} from 'attasist'
 import NavLink from 'react-router-dom/NavLink'
 import styled, {withTheme} from 'styled-components'
-import {always, cond, curry, is, pathOr, propIs, propSatisfies, T} from 'ramda'
+import {always, cond, curry, is, pathOr, propEq, propIs, propSatisfies, T} from 'ramda'
 import Drawer from './Drawer'
 import {SimpleSvgIcon} from '../common'
 
@@ -194,7 +194,19 @@ const NavMap = cond([
     [T, always(null)]
 ])
 
+NavMap.displayName = 'NavMap'
 NavMap.propTypes = {...navItems}
+
+const SubItem = cond([
+    [propEq('isIndented', true), props => <SubLi fontSize="14px" {...props} />],
+    [T, props => <Li {...props} />]
+])
+
+SubItem.displayName = 'SubItem'
+SubItem.propTypes = {
+    children: PropTypes.node,
+    isIndented: PropTypes.bool
+}
 
 const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps}) =>
     <NavUl className={className} isCollapsed={isCollapsed}>
@@ -213,9 +225,9 @@ const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps})
                     >
                         <Ul>
                             {subItems.map(sm =>
-                                <SubLi key={uuid()} role="presentation" fontSize="14px">
+                                <SubItem key={uuid()} {...sm}>
                                     <NavMap {...{...restOfProps, ...sm}} />
-                                </SubLi>
+                                </SubItem>
                             )}
                         </Ul>
                     </Drawer> :
