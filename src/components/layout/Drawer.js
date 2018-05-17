@@ -31,17 +31,20 @@ const Label = styled.span`
     display: block;
     grid-area: dh-title;
 `
+/* eslint-disable indent */
 const DrawerHeader = styled.header`
     display: grid;
     box-sizing: border-box;
     grid-area: drawer-header;
     grid-column-gap: ${pathOr('8px', ['columnGap'])};
-    grid-template-columns: auto 1fr ${props => both(prop('showCaret'), prop('hasIcon'))(props) && 'auto 16px'};
+    grid-template-columns: auto 1fr ${
+        props => both(prop('showCaret'), prop('hasIcon'))(props) && 'auto 16px'
+    };
     ${cond([
         [both(prop('showCaret'), prop('hasIcon')), always('grid-template-areas: "dh-icon dh-title chevron .";')],
         [prop('showCaret'), always('grid-template-areas: "chevron dh-title";')],
         [prop('hasIcon'), always('grid-template-areas: "dh-icon dh-title";')],
-        [T, always('grid-template-areas: "chevron dh-title";')]
+        [T, always('grid-template-areas: "dh-title";')]
     ])}
     cursor: pointer;
     align-items: center;
@@ -63,6 +66,7 @@ const DrawerHeader = styled.header`
         }
     }
 `
+/* eslint-enable indent */
 
 class Drawer extends PureComponent {
     constructor(props) {
@@ -73,25 +77,36 @@ class Drawer extends PureComponent {
     }
     toggleDrawer = () => this.setState({isExpanded: !this.state.isExpanded})
     render() {
-        const {className, iconName, showCaret, title, children, contentStyles, styles, ...restOfProps} = this.props
+        const {
+            className,
+            iconName,
+            isCollapsible,
+            showCaret,
+            title,
+            children,
+            contentStyles,
+            styles,
+            ...restOfProps
+        } = this.props
+        const isExpanded = !isCollapsible || this.state.isExpanded
         return (
             <DrawerStyle
               {...restOfProps}
               className={className}
               backgroundColor={contentStyles.backgroundColor}
-              isExpanded={this.state.isExpanded}
+              isExpanded={isExpanded}
             >
                 <DrawerHeader
                   onClick={this.toggleDrawer}
-                  showCaret={showCaret}
-                  hasIcon={!!iconName}
+                  showCaret={isCollapsible && showCaret}
+                  hasIcon={isCollapsible && !!iconName}
                   {...styles}
                 >
                     {iconName && <SimpleSvgIcon className="left-icon" icon={iconName} width={20} height={20} />}
-                    {showCaret && <Chevron isOpen={this.state.isExpanded} />}
+                    {isCollapsible && showCaret && <Chevron isOpen={isExpanded} />}
                     {title && <Label>{title}</Label>}
                 </DrawerHeader>
-                <ContentWrapper isExpanded={this.state.isExpanded} {...contentStyles}>{children}</ContentWrapper>
+                <ContentWrapper isExpanded={isExpanded} {...contentStyles}>{children}</ContentWrapper>
             </DrawerStyle>
         )
     }
@@ -99,6 +114,7 @@ class Drawer extends PureComponent {
 
 Drawer.propTypes = {
     className: PropTypes.string,
+    isCollapsible: PropTypes.bool.isRequired,
     isExpanded: PropTypes.bool.isRequired,
     iconName: PropTypes.string,
     showCaret: PropTypes.bool.isRequired,
@@ -120,6 +136,7 @@ Drawer.propTypes = {
 
 Drawer.defaultProps = {
     className: 'drawer',
+    isCollapsible: true,
     isExpanded: true,
     showCaret: true,
     contentStyles: {},
