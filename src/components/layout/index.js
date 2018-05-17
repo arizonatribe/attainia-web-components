@@ -15,6 +15,7 @@ import Main from './Main'
 import Modal from './Modal'
 import ModalButton from './ModalButton'
 import ModalChild from './ModalChild'
+import ModalScreen from './ModalScreen'
 import NavBarList from './NavBarList'
 import NotFound from './NotFound'
 import NotFoundPage, {ScaledLogo} from './NotFoundPage'
@@ -37,6 +38,7 @@ export {
     Modal,
     ModalButton,
     ModalChild,
+    ModalScreen,
     NavBarList,
     NotFound,
     NotFoundPage,
