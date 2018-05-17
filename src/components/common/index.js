@@ -14,6 +14,7 @@ import ReduxFormField from './ReduxFormField'
 import SimpleSvgIcon from './SimpleSvgIcon'
 import SimpleCube from './SimpleCube'
 import SimpleMessage from './SimpleMessage'
+import SimpleSpinner from './SimpleSpinner'
 import SpinningButton from './SpinningButton'
 import TwoColorSvgIcon from './TwoColorSvgIcon'
 import {WithDropdownArrow, WithoutDropdownArrow} from './DropdownArrow'
@@ -37,6 +38,7 @@ export {
     SimpleSvgIcon,
     SimpleCube,
     SimpleMessage,
+    SimpleSpinner,
     SpinningButton,
     TwoColorSvgIcon,
     renderConditional,
