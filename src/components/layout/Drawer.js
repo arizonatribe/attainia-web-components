@@ -46,7 +46,7 @@ const DrawerHeader = styled.header`
         [prop('hasIcon'), always('grid-template-areas: "dh-icon dh-title";')],
         [T, always('grid-template-areas: "dh-title";')]
     ])}
-    cursor: pointer;
+    ${props => props.isCollapsible && 'cursor: pointer;'}
     align-items: center;
     padding: ${pathOr('.7em 1em', ['padding'])};
     font-size: ${pathOr('1.4em', ['fontSize'])};
@@ -98,6 +98,7 @@ class Drawer extends PureComponent {
             >
                 <DrawerHeader
                   onClick={this.toggleDrawer}
+                  isCollapsible={isCollapsible}
                   showCaret={isCollapsible && showCaret}
                   hasIcon={isCollapsible && !!iconName}
                   {...styles}
