@@ -103,7 +103,7 @@ const ToggleArrow = styled.li`
 
 const navItems = {
     padding: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    iconName: PropTypes.string,
+    icon: PropTypes.string,
     label: PropTypes.string,
     link: PropTypes.string,
     onClick: PropTypes.func,
@@ -138,13 +138,13 @@ const handleClick = curry(
     }
 )
 
-const Action = ({width, height, iconName, label, ...restOfProps}) =>
+const Action = ({width, height, icon, label, ...restOfProps}) =>
     <NavAction className="nav-action" onClick={handleClick(restOfProps)}>
-        {iconName &&
+        {icon &&
             <SimpleSvgIcon
               width={width || 10}
               height={height || 10}
-              icon={iconName}
+              icon={icon}
               fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
             />
         }
@@ -153,13 +153,13 @@ const Action = ({width, height, iconName, label, ...restOfProps}) =>
 
 Action.propTypes = {...navItems}
 
-const Link = ({link, width, height, iconName, label, ...restOfProps}) =>
+const Link = ({link, width, height, icon, label, ...restOfProps}) =>
     <NavLink to={link}>
-        {iconName &&
+        {icon &&
             <SimpleSvgIcon
               width={width || 10}
               height={height || 10}
-              icon={iconName}
+              icon={icon}
               fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
             />
         }
@@ -168,13 +168,13 @@ const Link = ({link, width, height, iconName, label, ...restOfProps}) =>
 
 Link.propTypes = {...navItems}
 
-const LabelAndIcon = ({width, height, iconName, label, ...restOfProps}) =>
+const LabelAndIcon = ({width, height, icon, label, ...restOfProps}) =>
     <NavAction className="nav-label">
-        {iconName &&
+        {icon &&
             <SimpleSvgIcon
               width={width || 10}
               height={height || 10}
-              icon={iconName}
+              icon={icon}
               fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
             />
         }
@@ -183,14 +183,16 @@ const LabelAndIcon = ({width, height, iconName, label, ...restOfProps}) =>
 
 LabelAndIcon.propTypes = {...navItems}
 
-const IconOnly = ({width, height, iconName, label, ...restOfProps}) =>
+const IconOnly = ({width, height, icon, label, ...restOfProps}) =>
     <NavAction className="nav-label">
-        <SimpleSvgIcon
-          width={width || 10}
-          height={height || 10}
-          icon={iconName}
-          fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
-        />
+        {isStringieThingie(icon) ?
+            <SimpleSvgIcon
+              width={width || 10}
+              height={height || 10}
+              icon={icon}
+              fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+            /> : icon
+        }
     </NavAction>
 
 IconOnly.propTypes = {...navItems}
@@ -199,7 +201,7 @@ const NavMap = cond([
     [propIs(Function, 'onClick'), Action],
     [propSatisfies(isStringieThingie, 'link'), Link],
     [propSatisfies(isStringieThingie, 'label'), LabelAndIcon],
-    [propSatisfies(isStringieThingie, 'iconName'), IconOnly],
+    [propSatisfies(isStringieThingie, 'icon'), IconOnly],
     [T, always(null)]
 ])
 
@@ -219,16 +221,16 @@ SubItem.propTypes = {
 
 const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps}) =>
     <NavUl className={className} isCollapsed={isCollapsed}>
-        {items.map(({iconName, link, label, iconWidth = 20, iconHeight = 20, items: subItems}) =>
+        {items.map(({icon, link, label, iconWidth = 20, iconHeight = 20, items: subItems}) =>
             <Li key={uuid()} role="presentation" isCollapsed={isCollapsed}>
                 {Array.isArray(subItems) && !isCollapsed ?
                     <Drawer
                       title={label}
-                      iconName={iconName}
+                      icon={icon}
                       styles={{
                           fontSize: '15px',
                           fontWeight: 'normal',
-                          padding: '10px 0 10px 15px',
+                          padding: '10px 15px',
                           backgroundColor: 'transparent'
                       }}
                     >
@@ -253,7 +255,7 @@ const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps})
                           width: iconWidth,
                           height: iconHeight,
                           label: isCollapsed ? '' : label,
-                          iconName,
+                          icon,
                           link
                       }}
                     />
@@ -268,6 +270,7 @@ const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps})
 NavBarList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
         ...navItems,
+        icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
         items: PropTypes.arrayOf(PropTypes.shape(navItems))
     })),
     toggleMenu: PropTypes.func,

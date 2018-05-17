@@ -36,29 +36,45 @@ const Drawers = props => <DemoDrawers imgSrc={attainiaHome} {...props} />
 
 const withDispatcher = connect()
 const withLayout = withTheseNavItems([
-    {label: 'Home', link: '/home', iconName: 'home'},
-    {label: 'Drawer', link: '/music', iconName: 'music'},
-    {label: 'GraphQL API', link: '/graphql-api', iconName: 'star'},
-    {label: 'Redoc', link: '/open-api', iconName: 'cogs'},
-    {label: 'Cube', link: '/cube', iconName: 'cube'}, {
+    {label: 'Home', link: '/home', icon: 'home'},
+    {label: 'Drawer', link: '/music', icon: 'music'},
+    {label: 'GraphQL API', link: '/graphql-api', icon: 'star'},
+    {label: 'Redoc', link: '/open-api', icon: 'cogs'},
+    {label: 'Cube', link: '/cube', icon: 'cube'}, {
         label: 'Auth',
-        iconName: 'lock',
+        icon: 'lock',
         items: [{
             label: 'User Registration',
             link: '/register',
-            isIndented: true
+            padding: '10px 0 10px 20px',
+            icon: 'plus',
+            iconHeight: 'auto',
+            iconWidth: 10,
+            isIndented: false
         }, {
             label: 'Create Application',
             link: '/register-application',
-            isIndented: true
+            padding: '10px 0 10px 20px',
+            iconHeight: 'auto',
+            icon: 'plus',
+            iconWidth: 10,
+            isIndented: false
         }, {
             label: 'Password Reset',
             link: '/password-help',
-            isIndented: true
+            padding: '10px 0 10px 20px',
+            iconHeight: 'auto',
+            icon: 'plus',
+            iconWidth: 10,
+            isIndented: false
         }, {
             label: 'Login',
             link: '/demo-login',
-            isIndented: true
+            padding: '10px 0 10px 20px',
+            iconHeight: 'auto',
+            icon: 'plus',
+            iconWidth: 10,
+            isIndented: false
         }]
     }
 ])

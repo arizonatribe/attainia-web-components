@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
+import {isStringieThingie} from 'attasist'
 import styled, {withTheme} from 'styled-components'
-import {always, both, cond, prop, pathOr, T} from 'ramda'
+import {allPass, always, both, cond, prop, propEq, pathOr, T, test as regTest} from 'ramda'
 import Chevron from './Chevron'
 import SimpleSvgIcon from '../common/SimpleSvgIcon'
 
@@ -37,15 +38,32 @@ const DrawerHeader = styled.header`
     box-sizing: border-box;
     grid-area: drawer-header;
     grid-column-gap: ${pathOr('8px', ['columnGap'])};
-    grid-template-columns: auto 1fr ${
-        props => both(prop('showCaret'), prop('hasIcon'))(props) && 'auto 16px'
-    };
-    ${cond([
-        [both(prop('showCaret'), prop('hasIcon')), always('grid-template-areas: "dh-icon dh-title chevron .";')],
-        [prop('showCaret'), always('grid-template-areas: "chevron dh-title";')],
-        [prop('hasIcon'), always('grid-template-areas: "dh-icon dh-title";')],
-        [T, always('grid-template-areas: "dh-title";')]
-    ])}
+    grid-template-columns: ${cond([
+        [allPass([
+            prop('showCaret'),
+            propEq('iconPosition', 'right'),
+            prop('hasIcon')
+        ]), always('auto auto 1fr auto')],
+        [both(propEq('iconPosition', 'right'), prop('hasIcon')), always('auto auto 1fr')],
+        [both(prop('showCaret'), prop('hasIcon')), always('auto 1fr auto')],
+        [both(prop('showCaret'), propEq('iconPosition', 'right')), always('auto 1fr auto')],
+        [prop('showCaret'), always('auto 1fr')],
+        [prop('hasIcon'), always('auto 1fr')],
+        [T, always('auto')]
+    ])};
+    grid-template-areas: ${cond([
+        [allPass([
+            prop('showCaret'),
+            propEq('iconPosition', 'right'),
+            prop('hasIcon')
+        ]), always('"dh-title dh-icon . chevron"')],
+        [both(propEq('iconPosition', 'right'), prop('hasIcon')), always('"dh-title dh-icon ."')],
+        [both(prop('showCaret'), prop('hasIcon')), always('"dh-icon dh-title chevron"')],
+        [both(prop('showCaret'), propEq('iconPosition', 'right')), always('"dh-title . chevron"')],
+        [prop('showCaret'), always('"chevron dh-title"')],
+        [prop('hasIcon'), always('"dh-icon dh-title"')],
+        [T, always('"dh-title"')]
+    ])};
     ${props => props.isCollapsible && 'cursor: pointer;'}
     align-items: center;
     padding: ${pathOr('.7em 1em', ['padding'])};
@@ -59,11 +77,11 @@ const DrawerHeader = styled.header`
         prop('backgroundColor')(props) ||
         pathOr('silver', ['theme', 'colors', 'misc', 'gray', 'ashGray'])(props)
     )};
-    & .left-icon {
-        grid-area: dh-icon;
-        & g {
-            fill: ${props => prop('color')(props) || pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(props)};
-        }
+`
+const IconWrapper = styled.div`
+    grid-area: dh-icon;
+    & g {
+        fill: ${props => prop('color')(props) || pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(props)};
     }
 `
 /* eslint-enable indent */
@@ -79,7 +97,9 @@ class Drawer extends PureComponent {
     render() {
         const {
             className,
-            iconName,
+            icon,
+            iconClick,
+            iconPosition,
             isCollapsible,
             showCaret,
             title,
@@ -100,10 +120,21 @@ class Drawer extends PureComponent {
                   onClick={this.toggleDrawer}
                   isCollapsible={isCollapsible}
                   showCaret={isCollapsible && showCaret}
-                  hasIcon={isCollapsible && !!iconName}
+                  hasIcon={!!icon}
+                  iconPosition={regTest(/right/i, iconPosition) ? 'right' : 'left'}
                   {...styles}
                 >
-                    {iconName && <SimpleSvgIcon className="left-icon" icon={iconName} width={20} height={20} />}
+                    {icon &&
+                        <IconWrapper onClick={iconClick}>
+                            {isStringieThingie(icon) ?
+                                <SimpleSvgIcon
+                                  icon={icon}
+                                  width={20}
+                                  height={20}
+                                /> : icon
+                            }
+                        </IconWrapper>
+                    }
                     {isCollapsible && showCaret && <Chevron isOpen={isExpanded} />}
                     {title && <Label>{title}</Label>}
                 </DrawerHeader>
@@ -117,7 +148,9 @@ Drawer.propTypes = {
     className: PropTypes.string,
     isCollapsible: PropTypes.bool.isRequired,
     isExpanded: PropTypes.bool.isRequired,
-    iconName: PropTypes.string,
+    iconPosition: PropTypes.oneOf(['left', 'right']),
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    iconClick: PropTypes.func,
     showCaret: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
@@ -139,6 +172,8 @@ Drawer.defaultProps = {
     className: 'drawer',
     isCollapsible: true,
     isExpanded: true,
+    iconPosition: 'left',
+    iconClick: T,
     showCaret: true,
     contentStyles: {},
     styles: {}
