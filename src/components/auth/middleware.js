@@ -4,7 +4,7 @@
  */
 
 import {camelKeys} from 'attasist'
-import {assocPath, compose, converge, identity, merge, omit, path, prop, propOr, when} from 'ramda'
+import {assocPath, compose, converge, curry, identity, merge, omit, path, prop, when} from 'ramda'
 
 import authDux from './ducks'
 
@@ -43,6 +43,60 @@ const formatMeta = when(
     ])
 )
 
+export const setAxiosClientToken = curry(
+    (ax, token) => {
+        if (ax.setHeader) {
+            ax.setHeader('Authorization', `Bearer ${token}`)
+            ax.addResponseTransform(formatMeta)
+        } else if (path(['interceptors', 'request', 'use'])(ax)) {
+            ax.interceptors.request.use(config => ({
+                ...config,
+                headers: {
+                    ...config.headers,
+                    Authorization: `Bearer ${token}`
+                }
+            }))
+        }
+        return ax
+    }
+)
+
+export const removeAxiosClientToken = (ax) => {
+    if (ax.setHeader) {
+        // eslint-disable-next-line no-param-reassign
+        delete ax.headers.Authorization
+    } else if (path(['interceptors', 'request', 'use'])(ax)) {
+        ax.interceptors.request.use(config => ({
+            ...config,
+            headers: omit(['Authorization'])(config.headers)
+        }))
+    }
+    return ax
+}
+
+export const setApolloClientToken = curry(
+    (apolloFetch, token) => {
+        apolloFetch.use(({options = {}}, fetchNext) => {
+            // eslint-disable-next-line no-param-reassign
+            options.headers = {
+                ...(options.headers || {}),
+                authorization: `Bearer ${token}`
+            }
+            fetchNext()
+        })
+        return apolloFetch
+    }
+)
+
+export const removeApolloClientToken = (apolloFetch) => {
+    apolloFetch.use(({options = {}}, fetchNext) => {
+        // eslint-disable-next-line no-param-reassign
+        options.headers = omit(['authorization'])(options.headers || {})
+        fetchNext()
+    })
+    return apolloFetch
+}
+
 /**
  * Sets up the service client with headers and response transforms.
  *
@@ -57,29 +111,9 @@ const formatMeta = when(
  */
 export const serviceAuthMiddleware = service => () => next => action => {
     if ([VALIDATED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
-        const authorization = `Bearer ${path(['user', 'token', 'access_token'], action) || prop('token', action)}`
-        if (service.setHeader) {
-            service.setHeader('Authorization', authorization)
-            service.addResponseTransform(formatMeta)
-        } else if (path(['interceptors', 'request', 'use'])(service)) {
-            service.interceptors.request.use(config => ({
-                ...config,
-                headers: {
-                    ...config.headers,
-                    Authorization: authorization
-                }
-            }))
-        }
+        setAxiosClientToken(service, path(['user', 'token', 'access_token'], action) || prop('token', action))
     } else if (LOGOUT === action.type) {
-        if (service.setHeader) {
-            // eslint-disable-next-line no-param-reassign
-            delete service.headers.Authorization
-        } else if (path(['interceptors', 'request', 'use'])(service)) {
-            service.interceptors.request.use(config => ({
-                ...config,
-                headers: omit(['Authorization'])(config.headers)
-            }))
-        }
+        removeAxiosClientToken(service)
     }
     next(action)
 }
@@ -100,23 +134,11 @@ export const serviceAuthMiddleware = service => () => next => action => {
  */
 export const apolloAuthMiddleWare = apolloFetch => () => next => action => {
     if ([VALIDATED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
-        apolloFetch.use(({options}, fetchNext) => {
-            // eslint-disable-next-line no-param-reassign
-            options.headers = {
-                ...propOr({}, 'headers')(options.headers),
-                authorization: `Bearer ${
-                    path(['user', 'token', 'access_token'], action) ||
-                    prop('token', action)
-                }`
-            }
-            fetchNext()
-        })
+        setApolloClientToken(apolloFetch, (
+            path(['user', 'token', 'access_token'], action) || prop('token', action)
+        ))
     } else if (LOGOUT === action.type) {
-        apolloFetch.use(({options}, fetchNext) => {
-            // eslint-disable-next-line no-param-reassign
-            options.headers = omit(['authorization'])(options.headers)
-            fetchNext()
-        })
+        removeApolloClientToken(apolloFetch)
     }
     next(action)
 }
