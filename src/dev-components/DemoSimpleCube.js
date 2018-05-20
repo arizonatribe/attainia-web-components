@@ -1,7 +1,6 @@
-import React, {Component} from 'react'
+import React, {createContext, Component} from 'react'
 import styled from 'styled-components'
 import {applySpec, compose, multiply} from 'ramda'
-import createReactContext from 'create-react-context'
 
 import SimpleCube from '../components/common/SimpleCube'
 
@@ -13,7 +12,7 @@ const Wrapper = styled.section`
     align-content: center;
 `
 
-const DimensionsContext = createReactContext('dimensions')
+const DimensionsContext = createContext('dimensions')
 
 const randomBetweenOneAnd100 = compose(multiply(300), Math.random)
 const randomizeDimensions = applySpec({

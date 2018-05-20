@@ -3,6 +3,7 @@ import DemoNotFound from './DemoNotFound'
 import DemoQueryEditor from './DemoQueryEditor'
 import DemoSimpleCube from './DemoSimpleCube'
 import DemoDrawers from './DemoDrawers'
+import DemoList from './DemoList'
 import DemoHome from './DemoHome'
 
 export {
@@ -11,5 +12,6 @@ export {
     DemoQueryEditor,
     DemoSimpleCube,
     DemoDrawers,
+    DemoList,
     DemoHome
 }
