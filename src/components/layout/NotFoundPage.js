@@ -1,7 +1,6 @@
-import React, {Component} from 'react'
+import React, {createContext, Component} from 'react'
 import PropTypes from 'prop-types'
 import {withTheme} from 'styled-components'
-import createReactContext from 'create-react-context'
 import {__, always, cond, gte, lte, path, pathOr} from 'ramda'
 
 import NotFound from './NotFound'
@@ -10,7 +9,7 @@ import ContentWrapper from './ContentWrapper'
 import ContentCentered from './ContentCentered'
 import TwoColorSvgIcon from '../common/TwoColorSvgIcon'
 
-const NotFoundLogoContext = createReactContext('scale')
+const NotFoundLogoContext = createContext('scale')
 
 const calculateDirection =
     cond([
