@@ -13,6 +13,7 @@ import PagingButtons from './PagingButtons'
 import IconHoverStyle from './IconHoverStyle'
 import ReactTableStyle from './ReactTableStyle'
 import {SimpleSvgIcon, Button} from '../common'
+import AddButtonStyle from './AddButtonStyle'
 import {fuzzyCurry, createIdForDetailColumn, createTotalsCaption} from './helpers'
 
 const ListContext = createContext('list')
@@ -91,22 +92,6 @@ const TableStyle = ReactTableStyle.extend`
         overflow-x: scroll;
     }
 `
-const AddButtonStyle = styled.div`
-    grid-area: add;
-    padding-top: 0.8em;
-    a {
-        text-decoration: none;
-    }
-    button {
-        font-weight: normal;
-        font-size: 1.6em;
-        border-radius: 2px;
-        padding: 0.25em 0.5em 0.25em 0.5em;
-        height: 30px;
-        width: 30px;
-    }
-`
-
 class List extends PureComponent {
     constructor(props) {
         super(props)
@@ -123,6 +108,14 @@ class List extends PureComponent {
         state => ({...state, search}),
         () => this.props.findList(this.state, 'search')
     )
+    componentWillUpate(nextProps) {
+        if (
+            this.props.queryType !== nextProps.queryType ||
+            (nextProps.shouldFetch && nextProps.shouldFetch !== this.props.shouldFetch)
+        ) {
+            this.props.findList(this.state, nextProps.queryType)
+        }
+    }
     applyFilters = (filterProps) => this.setState(
         state => ({...state, ...filterProps}),
         () => this.props.findList(this.state, 'search')
@@ -303,7 +296,7 @@ List.defaultProps = {
     renderAddButton: ({entityName}) =>
         <AddButtonStyle>
             <Link to={`/${makeUrlSegment(entityName)}/new`}>
-                <Button secondary>+</Button>
+                <Button secondary />
             </Link>
         </AddButtonStyle>
 }

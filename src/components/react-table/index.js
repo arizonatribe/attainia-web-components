@@ -1,3 +1,4 @@
+import AddButtonStyle from './AddButtonStyle'
 import BasicSearch from './BasicSearch'
 import IconHoverStyle from './IconHoverStyle'
 import List from './List'
@@ -13,6 +14,7 @@ import TableFieldWrapperHoC from './TableFieldWrapperHoC'
 export * from './helpers'
 
 export {
+    AddButtonStyle,
     BasicSearch,
     IconHoverStyle,
     List,
