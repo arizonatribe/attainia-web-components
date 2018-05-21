@@ -6,7 +6,22 @@ import ReactTable from 'react-table'
 import debounce from 'lodash.debounce'
 import styled, {withTheme} from 'styled-components'
 import {getId, capitalize, isPlainObj} from 'attasist'
-import {compose, defaultTo, is, isEmpty, filter, pathOr, prop, replace, toLower, when} from 'ramda'
+import {
+    always,
+    both,
+    compose,
+    cond,
+    defaultTo,
+    is,
+    isEmpty,
+    filter,
+    pathOr,
+    prop,
+    replace,
+    toLower,
+    when,
+    T
+} from 'ramda'
 
 import BasicSearch from './BasicSearch'
 import PagingButtons from './PagingButtons'
@@ -30,32 +45,43 @@ const HeaderStyle = styled.div`
     justify-self: start;
     grid-area: header;
     display: grid;
+    align-items: center;
+    align-content: center;
     grid-column-gap: 0.8em;
-    grid-template-areas: 'title ${props => (props.hasAddButton ? 'add' : 'title')}';
+    grid-template-areas: '${cond([
+        [both(prop('hasTitle'), prop('hasAddButton')), always('title add')],
+        [prop('hasAddButton'), always('add')],
+        [T, always('title')]
+    ])}';
 `
+/* eslint-disable indent */
 const ListStyle = styled.div`
     padding: 1.6rem;
-    display: grid;
     grid-gap: 1em;
-    grid-template-columns: 1fr auto 0.75fr 0.25fr;
+    display: grid;
+    grid-template-columns: auto auto 0.75fr 0.25fr;
     grid-template-areas: 
-        'header   header          header header' 
+        '${props => !props.noHeader && 'header   header          header header'}'
         'search   search          search ${props => (props.hasFilters ? 'filter' : 'search')}'
         'table    table           table  table'
         '  .      paging-buttons    .      .  ';
     @media ${pathOr('screen and (min-width: 900px)', ['theme', 'breakpoints', 'tabletLandscape'])} {
         grid-template-columns: auto repeat(4, 1fr) 2em;
         grid-template-areas:
-            'header search search search search ${props => (props.hasFilters ? 'filter' : 'search')}'
+            '${p => (p.noHeader ? 'search' : 'header')} search search search search ${
+                p => (p.hasFilters ? 'filter' : 'search')
+            }'
             'table  table  table  table  table table'
             'paging-buttons paging-buttons paging-buttons paging-buttons paging-buttons paging-buttons';
     }
 `
+/* eslint-enable indent */
 const FilterStyle = styled.div`
     align-self: center;
     grid-area: filter;
 `
 const Title = styled.h1`
+    padding: 0;
     font-size: 2em;
     grid-area: title;
 `
@@ -150,6 +176,7 @@ class List extends PureComponent {
         const {
             rows,
             columns,
+            noTitle,
             pageSize,
             currentPage,
             searchResults,
@@ -165,9 +192,9 @@ class List extends PureComponent {
         const entityDisplayName = capitalize(pluralize(entityName))
         return (
             <ListContext.Provider value={this.state}>
-                <ListStyle hasFilters={!!renderAdditionalFilters}>
-                    <HeaderStyle hasAddButton={hasAddButton}>
-                        <Title>{entityDisplayName}</Title>
+                <ListStyle hasFilters={!!renderAdditionalFilters} noHeader={!hasAddButton && noTitle}>
+                    <HeaderStyle hasAddButton={hasAddButton} hasTitle={!noTitle}>
+                        {!noTitle && <Title>{entityDisplayName}</Title>}
                         {hasAddButton && renderAddButton && renderAddButton(this.props)}
                     </HeaderStyle>
                     <SearchStyle>
@@ -235,6 +262,7 @@ class List extends PureComponent {
 }
 
 List.propTypes = {
+    noTitle: PropTypes.bool,
     exportList: PropTypes.func,
     findList: PropTypes.func.isRequired,
     getTdProps: PropTypes.func,
@@ -273,6 +301,7 @@ List.propTypes = {
 }
 
 List.defaultProps = {
+    noTitle: false,
     queryType: '',
     entityName: 'item',
     matchProp: 'name',
