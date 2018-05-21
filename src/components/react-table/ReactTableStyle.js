@@ -28,7 +28,6 @@ const ReactTableStyle = styled.div`
         display: flex;
         flex-direction: column;
         user-select: none;
-        overflow-y: scroll;
     }
     .ReactTable .rt-thead.-headerGroups {
         background: rgba(0, 0, 0, 0.03);
@@ -178,6 +177,7 @@ const ReactTableStyle = styled.div`
         text-overflow: ellipsis;
         transition: 0.3s ease;
         transition-property: width, min-width, padding, opacity;
+        overflow: hidden;
     }
     .ReactTable .rt-th.-hidden,
     .ReactTable .rt-td.-hidden {

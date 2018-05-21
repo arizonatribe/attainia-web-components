@@ -81,7 +81,8 @@ export default createDuck({
         rememberMe: false,
         storageType: 'local',
         user: {},
-        isAuthenticated: false
+        isAuthenticated: false,
+        isAuthenticating: false
     },
     selectors: {
         root: identity,
@@ -105,6 +106,7 @@ export default createDuck({
             )
         ),
         isAuthenticated: compose(Boolean, path([store, 'isAuthenticated'])),
+        isAuthenticating: compose(Boolean, path([store, 'isAuthenticating'])),
         isNotAuthenticated: createDuckSelector(selectors => createSelector(selectors.isAuthenticated, not)),
         allScopes: createDuckSelector(selectors => createSelector(selectors.scope, makeScopesArray)),
         refreshInMs: createDuckSelector(selectors =>
@@ -272,13 +274,15 @@ export default createDuck({
             case types.LOADING_STARTED:
                 return {...state, loading: true}
             case types.LOGIN:
-                return {...state, user: action.user, isAuthenticated: true}
+                return {...state, user: action.user, isAuthenticated: true, isAuthenticating: false}
             case types.LOGOUT: {
                 if (state.refreshTimeout) clearTimeout(state.refreshTimeout)
 
                 return {
                     ...omit(['refreshTimeout', 'parsed_token'], state),
-                    ...omit(['baseUrl'], initialState)
+                    ...omit(['baseUrl'], initialState),
+                    isAuthenticating: false,
+                    isAuthenticated: false
                 }
             }
             case types.PASSWORD_HELP:
@@ -304,12 +308,13 @@ export default createDuck({
             case types.REMEMBER_ME:
                 return {...state, rememberMe: !state.rememberMe}
             case types.PARSED_TOKEN:
-                return {...state, parsed_token: action.token}
+                return {...state, parsed_token: action.token, isAuthenticating: true}
             case types.VALIDATED_TOKEN:
             case types.UPDATED_TOKEN: {
                 return {
                     ...omit(['parsed_token'], state),
                     isAuthenticated: true,
+                    isAuthenticating: false,
                     user: {
                         ...state.user,
                         token: action.token
