@@ -85,12 +85,6 @@ const TableStyle = ReactTableStyle.extend`
     .rt-tr {
         text-decoration: none;
     }
-    .ReactTable {
-        overflow: visible;
-    }
-    .ReactTable .rt-td {
-        overflow-x: scroll;
-    }
 `
 class List extends PureComponent {
     constructor(props) {
