@@ -97,11 +97,11 @@ const TableWrapper = styled.div`
     grid-template-rows: 3em auto;
     grid-template-columns: 1fr repeat(2, 3em);
     grid-template-areas: 'totals icon-export icon-print' 'ltable ltable ltable';
-    & div:nth-child(2) {
+    & .icon-export {
         grid-area: icon-export;
         justify-self: end;
     }
-    & div:nth-child(3) {
+    & .icon-print {
         grid-area: icon-print;
         justify-self: end;
     }
@@ -218,7 +218,7 @@ class List extends PureComponent {
                         <Totals>
                             {createTotalsCaption('displaying', entityName)(searchResults.length || rows.length)}
                         </Totals>
-                        <IconHoverStyle>
+                        <IconHoverStyle className="icon-export">
                             <SimpleSvgIcon
                               icon="export"
                               width="24"
@@ -227,7 +227,7 @@ class List extends PureComponent {
                               onClick={this.exportList}
                             />
                         </IconHoverStyle>
-                        <IconHoverStyle>
+                        <IconHoverStyle className="icon-print">
                             <SimpleSvgIcon
                               icon="print"
                               width="20"
