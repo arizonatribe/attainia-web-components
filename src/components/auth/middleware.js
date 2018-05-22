@@ -3,8 +3,24 @@
  * https://redux.js.org/docs/advanced/Middleware.html
  */
 
-import {camelKeys} from 'attasist'
-import {assocPath, compose, converge, curry, identity, merge, omit, path, prop, when} from 'ramda'
+import {camelKeys, isPlainObj} from 'attasist'
+import {
+    anyPass,
+    assocPath,
+    compose,
+    contains,
+    converge,
+    curry,
+    identity,
+    keys,
+    merge,
+    omit,
+    path,
+    pathSatisfies,
+    pipe,
+    prop,
+    when
+} from 'ramda'
 
 import authDux from './ducks'
 
@@ -141,4 +157,32 @@ export const apolloAuthMiddleWare = apolloFetch => () => next => action => {
         removeApolloClientToken(apolloFetch)
     }
     next(action)
+}
+
+/**
+ * Adds the token from localStorage to the action's meta.
+ *
+ * @func
+ * @sig {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> {k: v}
+ * @param {Object} store The instance of the root Redux store
+ * @param {Function} next The Redux next() middleware function that moves the
+ * flow forward when you're finished
+ * @param {Object} action The originally dispatched Redux action
+ * @returns {Object} The dispatched action, potentially with a meta.token value set
+ */
+export const addTokenToMeta = () => next => action => {
+    if (pathSatisfies(isPlainObj, ['meta'])) {
+        if (anyPass([
+            pipe(prop('meta'), keys, contains('token')),
+            path(['meta', 'worker']),
+            path(['meta', 'effect'])
+        ])(action)) {
+            const token = localStorage.getItem('token')
+            if (pathSatisfies(isPlainObj, ['meta', 'effect'])(action)) {
+                return next(assocPath(['meta', 'effect', 'headers', 'authorization'], `Bearer ${token}`, action))
+            }
+            return next(assocPath(['meta', 'token'], token, action))
+        }
+    }
+    return next(action)
 }
