@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ApiList from './ApiList'
-import QueryEditor from './QueryEditor'
 
 const Wrapper = styled.section`
     display: grid;
@@ -12,14 +11,18 @@ const Wrapper = styled.section`
     justify-items: center;
 `
 
-const ApiBrowser = ({graphQlFetcher}) =>
+const ApiBrowser = ({apis}) =>
     <Wrapper>
-        <QueryEditor fetcher={graphQlFetcher} />
-        <ApiList />
+        <ApiList apis={apis} />
     </Wrapper>
 
 ApiBrowser.propTypes = {
-    graphQlFetcher: PropTypes.func.isRequired
+    apis: PropTypes.arrayOf(PropTypes.shape({
+        url: PropTypes.string,
+        name: PropTypes.string,
+        description: PropTypes.string,
+        avatarSrc: PropTypes.string
+    }))
 }
 
 export default ApiBrowser
