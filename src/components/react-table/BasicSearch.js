@@ -3,9 +3,28 @@ import PropTypes from 'prop-types'
 import {mergeSpec} from 'attasist'
 import AutoComplete from 'react-autocomplete'
 import styled, {withTheme} from 'styled-components'
-import {always, defaultTo, identity, ifElse, isNil, omit, pathOr, pipe, prop, T, when} from 'ramda'
+import {
+    always,
+    defaultTo,
+    identity,
+    ifElse,
+    is,
+    isNil,
+    of,
+    omit,
+    path,
+    pathOr,
+    pipe,
+    prop,
+    T,
+    unless,
+    when
+} from 'ramda'
 import SimpleSvgIcon from '../common/SimpleSvgIcon'
 import {Input} from '../common/InputField'
+
+
+const getByMatchProp = pipe(unless(is(Array), of), path)
 
 // eslint-disable-next-line react/prop-types
 const SearchField = props => <Input type="text" innerRef={props.inputRef} {...props} />
@@ -87,7 +106,7 @@ const BasicSearch = ({
             <AutoComplete
               autoHighlight={false}
               className="autocomp"
-              getItemValue={matchProp ? prop(matchProp) : identity}
+              getItemValue={matchProp ? getByMatchProp(matchProp) : identity}
               inputProps={{placeholder: searchFor}}
               items={searchItems}
               menuStyle={{
@@ -114,7 +133,7 @@ const BasicSearch = ({
     </Grid>
 
 BasicSearch.propTypes = {
-    matchProp: PropTypes.string,
+    matchProp: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     menuStyles: PropTypes.shape({
         background: PropTypes.string,
         border: PropTypes.string,
@@ -139,7 +158,7 @@ BasicSearch.defaultProps = {
     renderInput: mapProps => props => <SearchField {...mapProps(props)} />,
     renderItem: matchProp => (item, isHighlighted) => (
         <MenuItem key={item.id} isHighlighted={isHighlighted}>
-            {matchProp ? item[matchProp] : item}
+            {matchProp ? getByMatchProp(matchProp)(item) : item}
         </MenuItem>
     ),
     searchItems: [],
