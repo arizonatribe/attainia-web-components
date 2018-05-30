@@ -181,6 +181,7 @@ class List extends PureComponent {
             currentPage,
             searchResults,
             getTdProps,
+            getTrProps,
             matchProp,
             renderAddButton,
             renderAdditionalFilters,
@@ -245,6 +246,7 @@ class List extends PureComponent {
                               showPagination={false}
                               className="-striped"
                               getTdProps={getTdProps || createIdForDetailColumn(matchProp)}
+                              getTrProps={getTrProps || always({})}
                             />
                         </TableStyle>
                     </TableWrapper>
@@ -266,6 +268,7 @@ List.propTypes = {
     exportList: PropTypes.func,
     findList: PropTypes.func.isRequired,
     getTdProps: PropTypes.func,
+    getTrProps: PropTypes.func,
     shouldFetch: PropTypes.bool,
     history: PropTypes.shape({push: PropTypes.func}),
     currentPage: PropTypes.number.isRequired,
