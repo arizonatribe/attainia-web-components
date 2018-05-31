@@ -12,6 +12,7 @@ import {
     converge,
     curry,
     identity,
+    is,
     keys,
     merge,
     omit,
@@ -160,28 +161,37 @@ export const apolloAuthMiddleWare = apolloFetch => () => next => action => {
 }
 
 /**
- * Adds the token from localStorage to the action's meta.
+ * Adds the token from localStorage OR from the Redux store to the action's meta.
  *
  * @func
- * @sig {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> {k: v}
+ * @sig {k: v} -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> {k: v}
+ * @param {Object} tokenSource An object that contains either a Redux selector
+ * OR a key name for localStorage to use when it invokes getItem()
  * @param {Object} store The instance of the root Redux store
  * @param {Function} next The Redux next() middleware function that moves the
  * flow forward when you're finished
  * @param {Object} action The originally dispatched Redux action
  * @returns {Object} The dispatched action, potentially with a meta.token value set
  */
-export const addTokenToMeta = () => next => action => {
+export const addTokenToMeta = ({selector, localStorageKey = 'token'}) => ({getState}) => next => action => {
     if (pathSatisfies(isPlainObj, ['meta'])) {
         if (anyPass([
             pipe(prop('meta'), keys, contains('token')),
             path(['meta', 'worker']),
             path(['meta', 'effect'])
         ])(action)) {
-            const token = localStorage.getItem('token')
-            if (pathSatisfies(isPlainObj, ['meta', 'effect'])(action)) {
-                return next(assocPath(['meta', 'effect', 'headers', 'authorization'], `Bearer ${token}`, action))
+            let token
+            if (is(Function, selector)) {
+                token = selector(getState())
+            } else if (localStorageKey) {
+                token = localStorage.getItem(localStorageKey)
             }
-            return next(assocPath(['meta', 'token'], token, action))
+            if (token) {
+                if (pathSatisfies(isPlainObj, ['meta', 'effect'])(action)) {
+                    return next(assocPath(['meta', 'effect', 'headers', 'authorization'], `Bearer ${token}`, action))
+                }
+                return next(assocPath(['meta', 'token'], token, action))
+            }
         }
     }
     return next(action)
