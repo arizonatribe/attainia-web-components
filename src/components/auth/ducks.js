@@ -318,10 +318,10 @@ export default createDuck({
                     user: {
                         ...state.user,
                         token: {
-                            ...pathOr({}, ['user', 'token']),
+                            ...pathOr({}, ['user', 'token'], state),
                             access_token: isStringieThingie(action.token) ?
                                 action.token :
-                                path(['token', 'access_token'])(action)
+                                path(['token', 'access_token'], action)
                         }
                     }
                 }
