@@ -11,7 +11,7 @@ import ducks from './ducks'
 
 const {selectors, creators: {handleError, updatedToken, refresh}} = ducks
 const mapStateToProps = state => ({
-    token: selectors.accessToken(state),
+    token: selectors.token(state),
     refreshInMs: selectors.refreshInMs(state)
 })
 const mapDispatchToProps = {handleError, updatedToken, refresh}

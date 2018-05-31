@@ -20,6 +20,7 @@ import {
     not,
     omit,
     path,
+    pathOr,
     split,
     toLower,
     toString,
@@ -91,8 +92,7 @@ export default createDuck({
         name: path([store, 'user', 'name']),
         email: path([store, 'user', 'email']),
         parsedToken: path([store, 'parsed_token']),
-        accessToken: path([store, 'user', 'token', 'access_token']),
-        token: path([store, 'user', 'token']),
+        token: path([store, 'user', 'token', 'access_token']),
         scope: path([store, 'user', 'scope']),
         expires_in: path([store, 'user', 'token', 'expires_in']),
         hasAuthError: createDuckSelector(selectors =>
@@ -123,7 +123,7 @@ export default createDuck({
         ),
         storedToken: createDuckSelector(selectors =>
             createSelector(
-                selectors.accessToken,
+                selectors.token,
                 selectors.parsedToken,
                 (t, pt) => t || pt
             )
@@ -317,7 +317,12 @@ export default createDuck({
                     isAuthenticating: false,
                     user: {
                         ...state.user,
-                        token: action.token
+                        token: {
+                            ...pathOr({}, ['user', 'token']),
+                            access_token: isStringieThingie(action.token) ?
+                                action.token :
+                                path(['token', 'access_token'])(action)
+                        }
                     }
                 }
             }

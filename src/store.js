@@ -23,7 +23,7 @@ const store = createStore(
     mergeDeepLeft({auth: {baseUrl: process.env.REACT_APP_AUTH_BASE_URL}}, initialState),
     composeEnhancers(
         applyMiddleware(
-            addTokenToMeta({selector: authDucks.selectors.accessToken}),
+            addTokenToMeta({selector: authDucks.selectors.token}),
             apolloAuthMiddleWare(apolloFetch),
             routerMiddleware(browserHistory),
             logger

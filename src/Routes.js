@@ -48,14 +48,14 @@ const withLayout = withTheseNavItems([
             link: '/register',
             padding: '10px 0 10px 20px',
             icon: 'plus',
-            iconHeight: 'auto',
+            iconHeight: 10,
             iconWidth: 10,
             isIndented: false
         }, {
             label: 'Create Application',
             link: '/register-application',
             padding: '10px 0 10px 20px',
-            iconHeight: 'auto',
+            iconHeight: 10,
             icon: 'plus',
             iconWidth: 10,
             isIndented: false
@@ -63,7 +63,7 @@ const withLayout = withTheseNavItems([
             label: 'Password Reset',
             link: '/password-help',
             padding: '10px 0 10px 20px',
-            iconHeight: 'auto',
+            iconHeight: 10,
             icon: 'plus',
             iconWidth: 10,
             isIndented: false
@@ -71,7 +71,7 @@ const withLayout = withTheseNavItems([
             label: 'Login',
             link: '/demo-login',
             padding: '10px 0 10px 20px',
-            iconHeight: 'auto',
+            iconHeight: 10,
             icon: 'plus',
             iconWidth: 10,
             isIndented: false
