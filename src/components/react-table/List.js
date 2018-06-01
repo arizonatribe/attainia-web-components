@@ -153,7 +153,7 @@ class List extends PureComponent {
             this.props.exportList({
                 ...this.state,
                 page: this.props.currentPage,
-                page_size: this.props.pageSize
+                page_size: this.props.searchResults.length || this.props.rows.length || 10
             })
         }
     }
@@ -177,7 +177,6 @@ class List extends PureComponent {
             rows,
             columns,
             noTitle,
-            pageSize,
             currentPage,
             searchResults,
             getTdProps,
@@ -242,7 +241,7 @@ class List extends PureComponent {
                               data={isEmpty(searchResults) ? rows : searchResults}
                               columns={columns}
                               noDataText={`No ${entityDisplayName} found.`}
-                              pageSize={searchResults.length || rows.length || pageSize}
+                              pageSize={searchResults.length || rows.length || 10}
                               showPagination={false}
                               className="-striped"
                               getTdProps={getTdProps || createIdForDetailColumn(matchProp)}
@@ -272,7 +271,6 @@ List.propTypes = {
     shouldFetch: PropTypes.bool,
     history: PropTypes.shape({push: PropTypes.func}),
     currentPage: PropTypes.number.isRequired,
-    pageSize: PropTypes.number.isRequired,
     canLoadMore: PropTypes.bool,
     hasAddButton: PropTypes.bool,
     isLoadingMore: PropTypes.bool,
@@ -313,7 +311,6 @@ List.defaultProps = {
     isLoadingMore: false,
     shouldFetch: false,
     currentPage: 1,
-    pageSize: 10,
     rows: [],
     columns: [],
     searchResults: [],
