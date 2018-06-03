@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {mergeSpec} from 'attasist'
+import {mergeSpec} from 'shapey'
 import AutoComplete from 'react-autocomplete'
 import styled, {withTheme} from 'styled-components'
 import {

@@ -1,6 +1,6 @@
 {
   "name": "attainia-web-components",
-  "version": "0.3.99",
+  "version": "0.3.100",
   "description": "A collection of Attainia branded web components to be used in an Attainia React.js web application.",
   "main": "index.js",
   "engines": {
@@ -55,11 +55,12 @@
   "dependencies": {
     "apollo-fetch": "0.7.0",
     "articles": "0.2.2",
-    "attadux": "0.1.6",
-    "attasist": "0.0.21",
+    "attadux": "0.1.14",
+    "attasist": "0.0.24",
     "babel-polyfill": "6.26.0",
     "color": "2.0.1",
     "create-react-context": "0.2.1",
+    "exact": "^0.8.0",
     "fixed-data-table-2": "0.8.1",
     "fuzzysearch": "1.0.3",
     "graphiql": "0.11.11",
@@ -89,6 +90,7 @@
     "redux-form": "7.0.4",
     "redux-logger": "3.0.6",
     "regenerator-runtime": "0.11.0",
+    "shapey": "^1.0.5",
     "spected": "0.6.0",
     "styled-components": "2.1.2",
     "subscriptions-transport-ws": "0.8.3",
