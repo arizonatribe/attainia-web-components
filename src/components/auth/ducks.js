@@ -66,6 +66,7 @@ export default createDuck({
         'LOGOUT',
         'PARSED_TOKEN',
         'PASSWORD_HELP',
+        'POST_LOGIN',
         'REFRESH',
         'REGISTER_APP',
         'REGISTER_USER',
@@ -85,6 +86,11 @@ export default createDuck({
         isAuthenticated: false,
         isAuthenticating: false
     },
+    multipliers: ({types, selectors}) => ({
+        [types.LOGIN]: {shapeyMode: 'strict', type: types.POST_LOGIN, token: selectors.selectToken},
+        [types.UPDATED_TOKEN]: {shapeyMode: 'strict', type: types.POST_LOGIN, token: selectors.selectToken},
+        [types.VALIDATED_TOKEN]: {shapeyMode: 'strict', type: types.POST_LOGIN, token: selectors.selectToken}
+    }),
     selectors: {
         root: identity,
         error: path([store, 'error']),
@@ -121,6 +127,12 @@ export default createDuck({
                 refreshInMs => new Date(Date.now() + refreshInMs)
             )
         ),
+        selectToken: val => [
+            path(['user', 'token', 'access_token']),
+            path(['token', 'access_token']),
+            path(['token']),
+            always(`${val}`)
+        ].map(fn => fn(val)).find(Boolean),
         storedToken: createDuckSelector(selectors =>
             createSelector(
                 selectors.token,
@@ -241,7 +253,7 @@ export default createDuck({
             ]
         }
     },
-    reducer(state, action, {types, initialState}) {
+    reducer(state, action, {types, initialState, selectors}) {
         switch (action.type) {
             case types.CANCEL:
                 return {...state}
@@ -298,13 +310,7 @@ export default createDuck({
             case types.REGISTER_APP:
                 return {...state, app: action.app}
             case types.REGISTER_USER:
-                return {
-                    ...state,
-                    user: {
-                        name: action.user.name,
-                        email: action.user.email
-                    }
-                }
+                return {...state, user: {name: action.user.name, email: action.user.email}}
             case types.REMEMBER_ME:
                 return {...state, rememberMe: !state.rememberMe}
             case types.PARSED_TOKEN:
@@ -319,21 +325,13 @@ export default createDuck({
                         ...state.user,
                         token: {
                             ...pathOr({}, ['user', 'token'], state),
-                            access_token: isStringieThingie(action.token) ?
-                                action.token :
-                                path(['token', 'access_token'], action)
+                            access_token: selectors.selectToken(action)
                         }
                     }
                 }
             }
             case types.USER_INFO_FROM_TOKEN:
-                return {
-                    ...omit(['parsed_token'], state),
-                    user: {
-                        ...state.user,
-                        ...action.user
-                    }
-                }
+                return {...omit(['parsed_token'], state), user: {...state.user, ...action.user}}
             // no default
         }
 

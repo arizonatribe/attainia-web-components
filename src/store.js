@@ -1,5 +1,6 @@
 import {createBrowserHistory} from 'history'
 import {mergeDeepLeft} from 'ramda'
+import {createMultiplierMiddleware} from 'attadux'
 import {syncHistoryWithStore, routerMiddleware} from 'react-router-redux'
 import {compose, createStore, applyMiddleware} from 'redux'
 import logger from 'redux-logger'
@@ -8,6 +9,7 @@ import {createApolloFetch} from 'apollo-fetch'
 import {addTokenToMeta, apolloAuthMiddleWare} from './components/auth/middleware'
 import initialState from './initialState'
 import reducers from './reducers'
+import row from './ducks'
 import authDucks from './components/auth/ducks'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -24,6 +26,7 @@ const store = createStore(
     composeEnhancers(
         applyMiddleware(
             addTokenToMeta({selector: authDucks.selectors.token}),
+            createMultiplierMiddleware(row),
             apolloAuthMiddleWare(apolloFetch),
             routerMiddleware(browserHistory),
             logger
