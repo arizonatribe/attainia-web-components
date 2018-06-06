@@ -14,7 +14,9 @@ import {
     defaultTo,
     is,
     isEmpty,
+    keys,
     filter,
+    omit,
     pathOr,
     prop,
     replace,
@@ -137,7 +139,7 @@ class List extends PureComponent {
         }
     }
     applyFilters = (filterProps) => this.setState(
-        state => ({...state, ...filterProps}),
+        state => ({...omit(keys(filterProps), state), ...filterProps}),
         () => this.props.findList(this.state, 'search')
     )
     loadNextPage = () => this.props.findList(
