@@ -84,6 +84,7 @@ class DemoList extends PureComponent {
                                 <DemoListContext.Consumer>
                                     {albums =>
                                         <List
+                                          noTitle
                                           findList={this.filterList}
                                           entityName="album"
                                           hasAddButton={false}

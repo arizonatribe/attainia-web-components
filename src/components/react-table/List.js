@@ -63,7 +63,7 @@ const ListStyle = styled.div`
     display: grid;
     grid-template-columns: auto auto 0.75fr 0.25fr;
     grid-template-areas: 
-        '${props => !props.noHeader && 'header   header          header header'}'
+        ${props => !props.noHeader && '"header   header          header header"'}
         'search   search          search ${props => (props.hasFilters ? 'filter' : 'search')}'
         'table    table           table  table'
         '  .      paging-buttons    .      .  ';
