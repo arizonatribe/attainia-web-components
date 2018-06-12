@@ -13,7 +13,7 @@ const TwoColorSvgIcon = ({
     width, height, scale, primaryColor, secondaryColor, primaryPaths, secondaryPaths,
     ...restProps
 }) =>
-    <Svg logoScale={scale} width={width} height={height}>
+    <Svg logoScale={scale} width={width} height={height} {...restProps}>
         <g>
             {primaryPaths.map(d =>
                 <path

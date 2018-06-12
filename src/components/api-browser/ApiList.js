@@ -4,37 +4,40 @@ import uuid from 'uuid/v4'
 import {pathOr} from 'ramda'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import Link from 'react-router-dom/Link'
+import Button from '../common/Button'
 
 const ListWrapper = styled.section`
     display: grid;
+    padding: 1em;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 5em;
     grid-column-gap: 1.5em;
     grid-row-gap: 2.5em;
-    justify-items: center;
-    align-content: center;
-    align-items: center;
     color: ${pathOr('darkgray', ['theme', 'fonts', 'fontColor'])};
     font-family: ${pathOr('Roboto, Helvetica, Arial', ['theme', 'fonts', 'fontFamily'])};
 `
 const ApiCard = styled.div`
-    height: 5em;
-    width: 7em;
     display: grid;
     padding: 1.5em;
-    justify-content: center;
-    align-content: center;
+    align-items: center;
     background: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
-    border: 1px solid ${pathOr('darkgray', ['theme', 'colors', 'grayscale', 'dk'])};
-    grid-template-columns: 3em 1fr;
-    grid-template-rows: 2em;
-    grid-auto-rows: 1.5em;
-    grid-column-gap: 0.5em;
-    grid-row-gap: 0.3em;
+    border: 1px solid ${pathOr('gray', ['theme', 'colors', 'grayscale', 'md'])};
+    grid-template-columns: auto 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 0.8em;
     grid-template-areas:
-        "avatar       name"
-        "avatar       url"
-        "description  description";
+        "avatar        name name"
+        "avatar        .    ."
+        "url           url  ui-button"
+        "description   description description";
+    & a.ui-link {
+        display: block;
+        grid-area: ui-button;
+    }
+    & button.ui-button {
+        border-radius: 50%;
+        padding: 0.5em;
+    }
 `
 const ApiName = styled.h2`
     grid-area: name;
@@ -43,15 +46,25 @@ const ApiName = styled.h2`
 `
 const ApiDescription = styled.p`
     display: block;
-    grid-area: desc;
+    grid-area: description;
     font-style: italic;
     font-size: ${pathOr('14px', ['theme', 'fonts', 'fontSize'])};
-    color: ${color(pathOr('darkgray', ['theme', 'fonts', 'fontColor'])).lighten(0.1).hex()};
 `
 const ApiUrl = styled.a`
     display: block;
     grid-area: url;
     font-size: 1.1em;
+    color: ${color(pathOr('gray', ['theme', 'fonts', 'fontColor'])).lighten(0.1).hex()};
+`
+const UiAvatar = styled.img`
+    display: block;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    height: 20px;
+    width: 20px;
+    &:hover {
+        border: 1px solid ${pathOr('lightgray', ['theme', 'colors', 'grayscale', 'lt'])};
+    }
 `
 const Avatar = styled.img`
     display: block;
@@ -59,9 +72,10 @@ const Avatar = styled.img`
     position: relative;
     border-radius: 50%;
     border: 2px solid ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
-    box-shadow: 1px 1px 4px ${pathOr('lightgray', ['theme', 'colors', 'grayscale', 'lt'])};
+    box-shadow: 2px 2px 4px ${pathOr('lightgray', ['theme', 'colors', 'grayscale', 'lt'])};
     font-family: ${pathOr('Roboto, Helvetica, Arial', ['theme', 'fonts', 'fontFamily'])};
-    height: 3em;
+    height: 70px;
+    width: 70px;
 
     &::after {
         content: "";
@@ -78,11 +92,21 @@ const Avatar = styled.img`
 
 const ApiList = ({apis}) =>
     <ListWrapper>
-        {apis.map(({name, avatarSrc, description, url}) =>
+        {apis.map(({name, uiUrl, uiSrc, avatarSrc, description, url}) =>
             <ApiCard key={uuid()}>
+                {uiUrl && uiSrc &&
+                    <Link className="ui-link" to={uiUrl}>
+                        <UiAvatar src={uiSrc} />
+                    </Link>
+                }
+                {uiUrl && !uiSrc &&
+                    <Link className="ui-link" to={uiUrl}>
+                        <Button className="ui-button" type="button">UI</Button>
+                    </Link>
+                }
                 <Avatar src={avatarSrc} />
                 <ApiName>{name}</ApiName>
-                <ApiUrl>{url}</ApiUrl>
+                <ApiUrl href={url}>{url}</ApiUrl>
                 <ApiDescription>{description}</ApiDescription>
             </ApiCard>
         )}
@@ -91,8 +115,10 @@ const ApiList = ({apis}) =>
 ApiList.propTypes = {
     apis: PropTypes.arrayOf(PropTypes.shape({
         url: PropTypes.string,
+        uiUrl: PropTypes.string,
         name: PropTypes.string,
         description: PropTypes.string,
+        uiSrc: PropTypes.string,
         avatarSrc: PropTypes.string
     }))
 }

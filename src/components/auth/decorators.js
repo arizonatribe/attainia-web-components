@@ -12,7 +12,7 @@ export {withTokenInfo} from './TokenInfo.container'
 export {withTokenRefresh} from './Refresher.container'
 export {withAuthStatusSubscription} from './AuthStatus.container'
 
-const {selectors: {isAuthenticated, isNotAuthenticated, allScopes, scope}} = ducks
+const {selectors: {isAuthenticated, isAuthenticating, isNotAuthenticated, allScopes, scope}} = ducks
 const locationHelper = locationHelperBuilder({})
 
 export const withAuthentication = connectedRouterRedirect({
@@ -46,6 +46,7 @@ export const untilAuthenticatedAndThenRedirectBack = connectedRouterRedirect({
     redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/',
     allowRedirectBack: false,
     authenticatedSelector: isNotAuthenticated,
+    authenticatingSelector: isAuthenticating,
     wrapperDisplayName: 'UntilAuthenticatedAndThenRedirectBack'
 })
 

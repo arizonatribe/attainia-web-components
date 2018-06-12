@@ -18,11 +18,11 @@ const LogoutWithData = graphql(LOGOUT_USER, {
                 if (token) {
                     await mutate({variables: {token}})
                 }
-                removeToken()
-                ownProps.logout()
             } catch (err) {
                 ownProps.handleError(err)
             }
+            removeToken()
+            ownProps.logout()
         }
     })
 })(Logout)

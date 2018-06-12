@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export default styled.i`
     content: '';
+    grid-area: chevron;
     width: 0.5em;
     height: 0.5em;
     display: block;

@@ -1,57 +1,57 @@
 import LocalizedStrings from 'react-localization'
 import {createDuck, createSelector, createDuckSelector} from 'attadux'
 import {
-    allPass,
+    ensureString,
+    isPlainObj,
+    isNotNil,
+    isNotBlankString,
+    isStringieThingie,
+    isValidEmail,
+    isValidPassword,
+    parseError as getMessage,
+    removeErrorLabel
+} from 'attasist'
+import {
     always,
-    complement,
     compose,
-    either,
-    find,
     identity,
     ifElse,
     is,
-    isNil,
     not,
     omit,
     path,
-    prop,
+    pathOr,
     split,
-    test,
     toLower,
     toString,
-    trim,
     when
 } from 'ramda'
 
+const store = 'auth'
 const ONE_HOUR = 3600000
-
-export const isNotNil = complement(isNil)
-export const isNotBlankString = compose(not, test(/^\s*$/))
-export const isStringieThingie = allPass([isNotBlankString, either(is(Number), is(String)), isNotNil])
-export const isValidEmail = test(/^[^.\s@:][^\s@:]*(?!\.)@[^.\s@]+(?:\.[^.\s@]+)*$/)
-export const isValidPassword = test(/^([A-Z]|[a-z])([a-z]|[0-9]|[!@#$%^&*()[\];:,.<>?*^+=_-]){6,50}$/)
-export const parseError = compose(
-    trim,
-    find(isStringieThingie),
-    split(/(?:\S*\s*)?error:/i),
-    ifElse(is(String), identity, toString),
-    ifElse(is(Object), prop('message'), identity)
-)
-
-export const safeString = ifElse(
-    isStringieThingie,
-    compose(toLower, when(is(Number), toString)),
-    always('')
-)
-
+const safeString = compose(toLower, ensureString)
+const parseError = compose(removeErrorLabel, getMessage)
 const makeScopesArray = ifElse(
     isStringieThingie,
     compose(split(' '), toLower, when(is(Number), toString)),
     always([])
 )
 
+/* to avoid breaking changes for now */
+export {
+    isNotBlankString,
+    isNotNil,
+    isPlainObj,
+    isStringieThingie,
+    isValidEmail,
+    isValidPassword,
+    parseError,
+    removeErrorLabel,
+    safeString
+}
+
 export default createDuck({
-    store: 'auth',
+    store,
     namespace: 'awc',
     types: [
         'CLEAR_LOGIN',
@@ -66,6 +66,7 @@ export default createDuck({
         'LOGOUT',
         'PARSED_TOKEN',
         'PASSWORD_HELP',
+        'POST_LOGIN',
         'REFRESH',
         'REGISTER_APP',
         'REGISTER_USER',
@@ -79,23 +80,27 @@ export default createDuck({
         baseUrl: 'localhost',
         error: '',
         loading: false,
-        menu: {
-            profile: []
-        },
         rememberMe: false,
         storageType: 'local',
-        user: {}
+        user: {},
+        isAuthenticated: false,
+        isAuthenticating: false
     },
+    multipliers: ({types, selectors}) => ({
+        [types.LOGIN]: {shapeyMode: 'strict', type: types.POST_LOGIN, token: selectors.selectToken},
+        [types.UPDATED_TOKEN]: {shapeyMode: 'strict', type: types.POST_LOGIN, token: selectors.selectToken},
+        [types.VALIDATED_TOKEN]: {shapeyMode: 'strict', type: types.POST_LOGIN, token: selectors.selectToken}
+    }),
     selectors: {
         root: identity,
-        error: path(['auth', 'error']),
-        id: path(['auth', 'user', 'id']),
-        name: path(['auth', 'user', 'name']),
-        email: path(['auth', 'user', 'email']),
-        parsedToken: path(['auth', 'parsed_token']),
-        token: path(['auth', 'user', 'token']),
-        scope: path(['auth', 'user', 'scope']),
-        expires_in: path(['auth', 'user', 'token', 'expires_in']),
+        error: path([store, 'error']),
+        id: path([store, 'user', 'id']),
+        name: path([store, 'user', 'name']),
+        email: path([store, 'user', 'email']),
+        parsedToken: path([store, 'parsed_token']),
+        token: path([store, 'user', 'token', 'access_token']),
+        scope: path([store, 'user', 'scope']),
+        expires_in: path([store, 'user', 'token', 'expires_in']),
         hasAuthError: createDuckSelector(selectors =>
             createSelector(selectors.error, Boolean)
         ),
@@ -106,12 +111,9 @@ export default createDuck({
                 (...props) => props.every(isStringieThingie)
             )
         ),
-        isAuthenticated: createDuckSelector(selectors =>
-            createSelector(selectors.id, isStringieThingie)
-        ),
-        isNotAuthenticated: createDuckSelector(selectors =>
-            createSelector(selectors.id, complement(isStringieThingie))
-        ),
+        isAuthenticated: compose(Boolean, path([store, 'isAuthenticated'])),
+        isAuthenticating: compose(Boolean, path([store, 'isAuthenticating'])),
+        isNotAuthenticated: createDuckSelector(selectors => createSelector(selectors.isAuthenticated, not)),
         allScopes: createDuckSelector(selectors => createSelector(selectors.scope, makeScopesArray)),
         refreshInMs: createDuckSelector(selectors =>
             createSelector(
@@ -125,6 +127,12 @@ export default createDuck({
                 refreshInMs => new Date(Date.now() + refreshInMs)
             )
         ),
+        selectToken: val => [
+            path(['user', 'token', 'access_token']),
+            path(['token', 'access_token']),
+            path(['token']),
+            always(`${val}`)
+        ].map(fn => fn(val)).find(Boolean),
         storedToken: createDuckSelector(selectors =>
             createSelector(
                 selectors.token,
@@ -172,7 +180,7 @@ export default createDuck({
                 }).password]
             ],
             email: [
-                [isStringieThingie, new LocalizedStrings({
+                [isValidEmail, new LocalizedStrings({
                     en: {email: 'Please enter your email'},
                     fr: {email: 'Entrez votre adresse e-mail'},
                     es: {email: 'Por favor, introduzca su dirección de correo electrónico'}
@@ -245,7 +253,7 @@ export default createDuck({
             ]
         }
     },
-    reducer(state, action, {types, initialState}) {
+    reducer(state, action, {types, initialState, selectors}) {
         switch (action.type) {
             case types.CANCEL:
                 return {...state}
@@ -278,13 +286,15 @@ export default createDuck({
             case types.LOADING_STARTED:
                 return {...state, loading: true}
             case types.LOGIN:
-                return {...state, user: action.user}
+                return {...state, user: action.user, isAuthenticated: true, isAuthenticating: false}
             case types.LOGOUT: {
                 if (state.refreshTimeout) clearTimeout(state.refreshTimeout)
 
                 return {
                     ...omit(['refreshTimeout', 'parsed_token'], state),
-                    ...omit(['baseUrl'], initialState)
+                    ...omit(['baseUrl'], initialState),
+                    isAuthenticating: false,
+                    isAuthenticated: false
                 }
             }
             case types.PASSWORD_HELP:
@@ -300,35 +310,28 @@ export default createDuck({
             case types.REGISTER_APP:
                 return {...state, app: action.app}
             case types.REGISTER_USER:
-                return {
-                    ...state,
-                    user: {
-                        name: action.user.name,
-                        email: action.user.email
-                    }
-                }
+                return {...state, user: {name: action.user.name, email: action.user.email}}
             case types.REMEMBER_ME:
                 return {...state, rememberMe: !state.rememberMe}
             case types.PARSED_TOKEN:
-                return {...state, parsed_token: action.token}
+                return {...state, parsed_token: action.token, isAuthenticating: true}
             case types.VALIDATED_TOKEN:
             case types.UPDATED_TOKEN: {
                 return {
                     ...omit(['parsed_token'], state),
+                    isAuthenticated: true,
+                    isAuthenticating: false,
                     user: {
                         ...state.user,
-                        token: action.token
+                        token: {
+                            ...pathOr({}, ['user', 'token'], state),
+                            access_token: selectors.selectToken(action)
+                        }
                     }
                 }
             }
             case types.USER_INFO_FROM_TOKEN:
-                return {
-                    ...omit(['parsed_token'], state),
-                    user: {
-                        ...state.user,
-                        ...action.user
-                    }
-                }
+                return {...omit(['parsed_token'], state), user: {...state.user, ...action.user}}
             // no default
         }
 

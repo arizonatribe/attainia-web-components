@@ -38,10 +38,11 @@ export const forms = {
 }
 
 export const breakpoints = {
-    phone: 'screen and (min-width: 544px)',
-    tablet: 'screen and (min-width: 768px)',
-    desktop: 'screen and (min-width: 992px)',
-    largeDesktop: 'screen and (min-width: 1200px)'
+    phone: 'screen and (max-width: 599px)',
+    tablet: 'screen and (min-width: 600px)',
+    tabletLandscape: 'screen and (min-width: 900px)',
+    desktop: 'screen and (min-width: 1200px)',
+    largeDesktop: 'screen and (min-width: 1800px)'
 }
 
 export default {

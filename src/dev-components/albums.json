@@ -1,0 +1,242 @@
+{
+    "albums": [
+        {
+            "id": "32975dcc-fdac-4b2f-8f3e-e076dc5824a1",
+            "title": "Nevermind",
+            "artist": "Nirvana",
+            "year": 1991,
+            "genre": ["grunge", "alternative", "rock"]
+        },
+        {
+            "id": "d7576e82-b656-4c83-902b-86db9de50c5e",
+            "title": "In Utero",
+            "artist": "Nirvana",
+            "year": 1993,
+            "genre": ["grunge", "alternative", "rock"]
+        },
+        {
+            "id": "563a2244-fac6-49c9-8786-2d210bb8c49e",
+            "title": "Ten",
+            "artist": "Pearl Jam",
+            "year": 1991,
+            "genre": ["alternative", "rock"]
+        },
+        {
+            "id": "255f70f9-1992-471f-b5d3-8e3ea38f150a",
+            "title": "Vs",
+            "artist": "Pearl Jam",
+            "year": 1993,
+            "genre": ["grunge", "alternative", "rock"]
+        },
+        {
+            "id": "60a1f4d5-e4fa-4c1e-a80a-3d1ca989e8ae",
+            "title": "Dirt",
+            "artist": "Alice In Chains",
+            "year": 1992,
+            "genre": ["grunge", "rock", "alternative"]
+        },
+        {
+            "id": "9147c75f-a3bd-47a6-b589-b164d77b431e",
+            "title": "Weezer",
+            "artist": "Weezer",
+            "year": 1994,
+            "genre": ["rock", "alternative"]
+        },
+        {
+            "id": "6120eb5b-1136-42bf-891f-909ad1f91276",
+            "title": "Superunknown",
+            "artist": "Soundgarden",
+            "year": 1994,
+            "genre": ["grunge", "rock", "alternative"]
+        },
+        {
+            "id": "a37a8f83-128b-4a13-b8b2-d144e64ba304",
+            "title": "Rage Against the Machine",
+            "artist": "Rage Against the Machine",
+            "year": 1992,
+            "genre": ["rock", "alternative", "grunge", "metal", "rap"]
+        },
+        {
+            "id": "87a21be1-de7a-43ca-b196-c75b449db7e1",
+            "title": "Evil Empire",
+            "artist": "Rage Against the Machine",
+            "year": 1996,
+            "genre": ["rock", "alternative", "grunge", "metal", "rap"]
+        },
+        {
+            "id": "37c9d436-82fc-4725-a027-ce4dcdc108cf",
+            "title": "Cracked Rear View",
+            "artist": "Hootie & the Blowfish",
+            "year": 1994,
+            "genre": ["shit", "pop"]
+        },
+        {
+            "id": "f010d212-d1aa-4353-84ed-c9c66723fb86",
+            "title": "Sister Hazel",
+            "artist": "Sister Hazel",
+            "year": 1994,
+            "genre": ["shit", "pop"]
+        },
+        {
+            "id": "9a57b725-ba75-4e11-9106-93e6bb8b05c2",
+            "title": "Portrait of an American Family",
+            "artist": "Marilyn Manson",
+            "year": 1994,
+            "genre": ["grunge", "rock", "metal", "alternative"]
+        },
+        {
+            "id": "0508f4bb-172d-4b77-8c00-e58e32caf48e",
+            "title": "Antichrist Superstar",
+            "artist": "Marilyn Manson",
+            "year": 1996,
+            "genre": ["grunge", "rock", "metal", "alternative"]
+        },
+        {
+            "id": "4921c96b-c76b-4221-a1d6-29c85f35bbf6",
+            "title": "Life is Peachy",
+            "artist": "Korn",
+            "year": 1996,
+            "genre": ["grunge", "rock", "alternative", "metal"]
+        },
+        {
+            "id": "fb299c0d-9590-48d6-akk8-8ie9d6204f94",
+            "title": "Gish",
+            "artist": "The Smashing Pumpkins",
+            "year": 1991,
+            "genre": ["grunge", "rock", "alternative"]
+        },
+        {
+            "id": "db7a9cbd-9590-4cd6-a7db-6eebd6904f94",
+            "title": "Siamese Dream",
+            "artist": "The Smashing Pumpkins",
+            "year": 1994,
+            "genre": ["grunge", "rock", "alternative"]
+        },
+        {
+            "id": "4539d1ca-12d1-4fbd-8898-8226dd6aa1ac",
+            "title": "Mellon Collie and the Infinite Sadness",
+            "artist": "The Smashing Pumpkins",
+            "year": 1994,
+            "genre": ["grunge", "rock", "alternative"]
+        },
+        {
+            "id": "d88074e9-5d5b-49b8-ad24-a1ee0650b74f",
+            "title": "Around the Fur",
+            "artist": "Deftones",
+            "year": 1997,
+            "genre": ["rock", "grunge", "alternative", "metal"]
+        },
+        {
+            "id": "cd2bdada-834a-4c37-b620-045504e9ff84",
+            "title": "Undertow",
+            "artist": "Tool",
+            "year": 1993,
+            "genre": ["rock", "grunge", "alternative", "metal"]
+        },
+        {
+            "id": "b0ab0131-3ccc-4af2-a637-e9e33e7f9117",
+            "title": "Ænima",
+            "artist": "Tool",
+            "year": 1993,
+            "genre": ["rock", "grunge", "alternative", "metal"]
+        },
+        {
+            "id": "48a79116-3eaf-4d41-b166-a9a2a7809acf",
+            "title": "Three Dollar Bill, Y'all",
+            "artist": "Limp Bizkit",
+            "year": 1997,
+            "genre": ["rock", "alternative", "grunge", "metal"]
+        },
+        {
+            "id": "4d4d92b8-bf81-42bb-8197-04287135d586",
+            "title": "Third Eye Blind",
+            "artist": "Third Eye Blind",
+            "year": 1997,
+            "genre": ["rock", "alternative"]
+        },
+        {
+            "id": "bb74b48a-aca8-4c3a-af1f-e9ff48b793ff",
+            "title": "S.C.I.E.N.C.E.",
+            "artist": "Incubus",
+            "year": 1997,
+            "genre": ["rock", "rap", "metal", "alternative", "grunge"]
+        },
+        {
+            "id": "4999b1a8-8138-4ac5-8bd8-7ce617e3109b",
+            "title": "Make Yourself",
+            "artist": "Incubus",
+            "year": 1999,
+            "genre": ["rock", "alternative", "grunge"]
+        },
+        {
+            "id": "4c34c0ea-7185-417f-bb32-ef1e03049ac2",
+            "title": "The Bends",
+            "artist": "Radiohead",
+            "year": 1994,
+            "genre": ["rock", "alternative", "grunge"]
+        },
+        {
+            "id": "74e31030-f2d8-46fc-8f60-c1b250fdbbdf",
+            "title": "OK Computer",
+            "artist": "Radiohead",
+            "year": 1997,
+            "genre": ["rock", "alternative", "grunge"]
+        },
+        {
+            "id": "875ff6a9-0d60-4c0c-b3fd-dc9d1621b0d5",
+            "title": "Post",
+            "artist": "Björk",
+            "year": 1995,
+            "genre": ["alternative", "electronica", "trip hop"]
+        },
+        {
+            "id": "0ac95282-4515-4339-abfd-e9dc895eaf0c",
+            "title": "Mezzanine",
+            "artist": "Massive Attack",
+            "year": 1998,
+            "genre": ["alternative", "electronica", "trip hop"]
+        },
+        {
+            "id": "8a936172-ce98-4905-a5ef-d18c0caa9fcf",
+            "title": "The Downward Spiral",
+            "artist": "Nine Inch Nails",
+            "year": 1994,
+            "genre": ["rock", "alternative", "grunge", "metal", "industrial"]
+        },
+        {
+            "id": "e013fb9f-df7a-4dbf-9e4b-c999c11abe28",
+            "title": "Dig Your Own Hole",
+            "artist": "The Chemical Brothers",
+            "year": 1997,
+            "genre": ["alternative", "electronica"]
+        },
+        {
+            "id": "e1d93e76-f703-4010-bd15-b58cd914ffed",
+            "title": "Violator",
+            "artist": "Depeche Mode",
+            "year": 1990,
+            "genre": ["alternative", "electronica"]
+        },
+        {
+            "id": "af8ce0fa-db47-4ae4-a43b-3c433eb2b7b5",
+            "title": "Throwing Copper",
+            "artist": "Live",
+            "year": 1994,
+            "genre": ["rock", "alternative"]
+        },
+        {
+            "id": "1538bf9a-9233-461f-a275-e707adca7ce9",
+            "title": "Fashion Nugget",
+            "artist": "Cake",
+            "year": 1996,
+            "genre": ["rock", "alternative"]
+        },
+        {
+            "id": "2c3cb61f-6d32-46ed-ab58-849bc5d727a8",
+            "title": "Californication",
+            "artist": "Red Hot Chili Peppers",
+            "year": 1999,
+            "genre": ["rock", "alternative"]
+        }
+    ]
+}

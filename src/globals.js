@@ -39,13 +39,13 @@ injectGlobal`
     }
 
     @supports (display: grid) {
-        #app-root, #modal-root {
+        #app-root, #modal-root, #message-root {
             display: grid;
             align-items: center;
         }
     }
 
-    #modal-root {
+    #modal-root, #message-root {
         position: relative;
         z-index: 999;
     }

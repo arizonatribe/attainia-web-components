@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import Link from 'react-router-dom/Link'
 import {Button, LinkButton, Form, SimpleSvgIcon, ReduxFormField} from '../common'
+import {ContentFullSize} from '../layout'
 import {getThemeProp} from '../common/helpers'
 
 const StyledForm = styled(Form)`
@@ -23,47 +24,47 @@ const StyledForm = styled(Form)`
     }
 
     @supports (display: grid) {
-        @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 768px)')} {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-areas:
-              "header header"
-              "instructions instructions"
-              "email email"
-              "submit cancel";
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "header header"
+          "instructions instructions"
+          "email email"
+          "submit cancel";
 
-            & .attainiaLogo {
-                grid-area: header;
-            }
+        & .attainiaLogo {
+            grid-area: header;
+        }
 
-            & .email {
-                grid-area: email;
-            }
+        & .email {
+            grid-area: email;
+        }
 
-            & .passwordHelpButton {
-                grid-area: submit;
-            }
+        & .passwordHelpButton {
+            grid-area: submit;
+        }
 
-            & .cancelButton {
-                grid-area: cancel;
-            }
+        & .cancelButton {
+            grid-area: cancel;
         }
     }
 `
 const PasswordHelp = ({handleSubmit, tryPasswordHelp, email}) =>
-    <StyledForm className="passwordHelpForm" onSubmit={handleSubmit(tryPasswordHelp)}>
-        <SimpleSvgIcon className="attainiaLogo" width="161" height="39" icon="primary" />
-        <ReduxFormField
-          id="PasswordHelpForm-email"
-          className="email"
-          placeholder="email"
-          name="email"
-          type="email"
-          value={email}
-        />
-        <Button className="passwordHelpButton" type="submit">Reset Password</Button>
-        <LinkButton className="cancelButton"><Link to="/">Cancel</Link></LinkButton>
-    </StyledForm>
+    <ContentFullSize>
+        <StyledForm className="passwordHelpForm" onSubmit={handleSubmit(tryPasswordHelp)}>
+            <SimpleSvgIcon className="attainiaLogo" width="161" height="39" icon="primary" />
+            <ReduxFormField
+              id="PasswordHelpForm-email"
+              className="email"
+              placeholder="email"
+              name="email"
+              type="email"
+              value={email}
+            />
+            <Button className="passwordHelpButton" type="submit">Reset Password</Button>
+            <LinkButton className="cancelButton"><Link to="/">Cancel</Link></LinkButton>
+        </StyledForm>
+    </ContentFullSize>
 
 PasswordHelp.propTypes = {
     handleSubmit: PropTypes.func.isRequired,

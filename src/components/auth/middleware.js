@@ -3,28 +3,29 @@
  * https://redux.js.org/docs/advanced/Middleware.html
  */
 
+import {camelKeys, isPlainObj} from 'attasist'
 import {
-    adjust,
+    anyPass,
     assocPath,
     compose,
+    contains,
     converge,
-    fromPairs,
+    curry,
     identity,
-    invoker,
-    last,
-    map,
+    is,
+    keys,
     merge,
+    omit,
     path,
+    pathSatisfies,
+    pipe,
     prop,
-    propOr,
-    toPairs,
-    toUpper,
     when
 } from 'ramda'
 
 import authDux from './ducks'
 
-const {types: {PARSED_TOKEN, LOGIN}} = authDux
+const {types: {VALIDATED_TOKEN, LOGIN, LOGOUT, UPDATED_TOKEN}} = authDux
 
 export const metaDefaults = {
     page: 1,
@@ -34,16 +35,6 @@ export const metaDefaults = {
 }
 
 /**
- * Transforms underscore-separated strings into camelcased strings.
- *
- * @func
- * @sig String -> String
- * @param {String} str A string value whose multiple words are separated by underscores
- * @returns {String} A reformatted string whose words are now camelcased together
- */
-const camelize = invoker(2, 'replace')(/_([a-z])/g, compose(toUpper, last))
-
-/**
  * Reformats an object's keys from underscore_separated names to camelCasesed names.
  *
  * @func
@@ -51,12 +42,7 @@ const camelize = invoker(2, 'replace')(/_([a-z])/g, compose(toUpper, last))
  * @param {Object} obj An object whose keys are (potentially) separated by underscores
  * @returns {Object} An object whose keys have been changed from underscore_separated to camelcased
  */
-const renameKeys = compose(
-    merge(metaDefaults),
-    fromPairs,
-    map(adjust(camelize, 0)),
-    toPairs
-)
+const renameKeys = compose(merge(metaDefaults), camelKeys)
 
 /**
  * Conditionally formats a "meta" object, which (if available) is nested inside of a response object's "data" prop.
@@ -74,6 +60,60 @@ const formatMeta = when(
     ])
 )
 
+export const setAxiosClientToken = curry(
+    (ax, token) => {
+        if (ax.setHeader) {
+            ax.setHeader('Authorization', `Bearer ${token}`)
+            ax.addResponseTransform(formatMeta)
+        } else if (path(['interceptors', 'request', 'use'])(ax)) {
+            ax.interceptors.request.use(config => ({
+                ...config,
+                headers: {
+                    ...config.headers,
+                    Authorization: `Bearer ${token}`
+                }
+            }))
+        }
+        return ax
+    }
+)
+
+export const removeAxiosClientToken = (ax) => {
+    if (ax.setHeader) {
+        // eslint-disable-next-line no-param-reassign
+        delete ax.headers.Authorization
+    } else if (path(['interceptors', 'request', 'use'])(ax)) {
+        ax.interceptors.request.use(config => ({
+            ...config,
+            headers: omit(['Authorization'])(config.headers)
+        }))
+    }
+    return ax
+}
+
+export const setApolloClientToken = curry(
+    (apolloFetch, token) => {
+        apolloFetch.use(({options = {}}, fetchNext) => {
+            // eslint-disable-next-line no-param-reassign
+            options.headers = {
+                ...(options.headers || {}),
+                authorization: `Bearer ${token}`
+            }
+            fetchNext()
+        })
+        return apolloFetch
+    }
+)
+
+export const removeApolloClientToken = (apolloFetch) => {
+    apolloFetch.use(({options = {}}, fetchNext) => {
+        // eslint-disable-next-line no-param-reassign
+        options.headers = omit(['authorization'])(options.headers || {})
+        fetchNext()
+    })
+    return apolloFetch
+}
+
 /**
  * Sets up the service client with headers and response transforms.
  *
@@ -87,11 +127,10 @@ const formatMeta = when(
  * @sig a -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> undefined
  */
 export const serviceAuthMiddleware = service => () => next => action => {
-    if ([PARSED_TOKEN, LOGIN].includes(action.type)) {
-        service.setHeader('Authorization', `Bearer ${
-            path(['user', 'token', 'access_token'], action) || prop('token', action)
-        }`)
-        service.addResponseTransform(formatMeta)
+    if ([VALIDATED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
+        setAxiosClientToken(service, path(['user', 'token', 'access_token'], action) || prop('token', action))
+    } else if (LOGOUT === action.type) {
+        removeAxiosClientToken(service)
     }
     next(action)
 }
@@ -111,18 +150,49 @@ export const serviceAuthMiddleware = service => () => next => action => {
  * @sig a -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> undefined
  */
 export const apolloAuthMiddleWare = apolloFetch => () => next => action => {
-    if ([PARSED_TOKEN, LOGIN].includes(action.type)) {
-        apolloFetch.use(({options}, fetchNext) => {
-            // eslint-disable-next-line no-param-reassign
-            options.headers = {
-                ...propOr({}, 'headers'),
-                authorization: `Bearer ${
-                    path(['user', 'token', 'access_token'], action) ||
-                    prop('token', action)
-                }`
-            }
-            fetchNext()
-        })
+    if ([VALIDATED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
+        setApolloClientToken(apolloFetch, (
+            path(['user', 'token', 'access_token'], action) || prop('token', action)
+        ))
+    } else if (LOGOUT === action.type) {
+        removeApolloClientToken(apolloFetch)
     }
     next(action)
+}
+
+/**
+ * Adds the token from localStorage OR from the Redux store to the action's meta.
+ *
+ * @func
+ * @sig {k: v} -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> {k: v}
+ * @param {Object} tokenSource An object that contains either a Redux selector
+ * OR a key name for localStorage to use when it invokes getItem()
+ * @param {Object} store The instance of the root Redux store
+ * @param {Function} next The Redux next() middleware function that moves the
+ * flow forward when you're finished
+ * @param {Object} action The originally dispatched Redux action
+ * @returns {Object} The dispatched action, potentially with a meta.token value set
+ */
+export const addTokenToMeta = ({selector, localStorageKey = 'token'}) => ({getState}) => next => action => {
+    if (pathSatisfies(isPlainObj, ['meta'])) {
+        if (anyPass([
+            pipe(prop('meta'), keys, contains('token')),
+            path(['meta', 'worker']),
+            path(['meta', 'effect'])
+        ])(action)) {
+            let token
+            if (is(Function, selector)) {
+                token = selector(getState())
+            } else if (localStorageKey) {
+                token = localStorage.getItem(localStorageKey)
+            }
+            if (token) {
+                if (pathSatisfies(isPlainObj, ['meta', 'effect'])(action)) {
+                    return next(assocPath(['meta', 'effect', 'headers', 'authorization'], `Bearer ${token}`, action))
+                }
+                return next(assocPath(['meta', 'token'], token, action))
+            }
+        }
+    }
+    return next(action)
 }

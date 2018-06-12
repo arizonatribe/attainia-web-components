@@ -11,9 +11,6 @@ const StyledModal = styled.div`
     top: 0;
     left: 0;
     display: grid;
-    grid-template-rows: auto;
-    grid-auto-columns: minmax(min-content, 80%);
-    grid-auto-rows: minmax(min-content, 80%);
     align-items: center;
     align-content: center;
     justify-content: center;

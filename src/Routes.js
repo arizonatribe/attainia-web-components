@@ -1,5 +1,6 @@
 import React from 'react'
-import {Provider} from 'react-redux'
+import {compose} from 'ramda'
+import {connect, Provider} from 'react-redux'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import {ThemeProvider} from 'styled-components'
 import {RedocStandalone} from 'redoc'
@@ -8,13 +9,14 @@ import {withTheseNavItems} from './components/layout'
 import {
     AuthProvider,
     LoginContainer,
-    PasswordHelpContainer,
-    RegistrationContainer,
+    PasswordHelpContainer as PasswordHelp,
+    RegistrationContainer as Registration,
     RegistrationConfirmationContainer,
-    RegisterApplicationContainer
+    RegisterApplicationContainer as RegisterApplication
 } from './components/auth'
 import {
     DemoHome,
+    DemoList,
     DemoNotFound,
     DemoSimpleCube,
     DemoQueryEditor
@@ -30,13 +32,57 @@ import attainiaHome from './images/attainia_foyer.jpg'
 
 const DemoRedoc = props => <RedocStandalone {...props} specUrl={OPENAPI_URL} />
 const Home = props => <DemoHome imgSrc={attainiaHome} {...props} />
+const DList = props => <DemoList imgSrc={attainiaHome} {...props} />
 
+const withDispatcher = connect()
 const withLayout = withTheseNavItems([
-    {label: 'Home', link: '/home', iconName: 'home'},
-    {label: 'GraphQL API', link: '/graphql-api', iconName: 'star'},
-    {label: 'Redoc', link: '/open-api', iconName: 'cogs'},
-    {label: 'Cube', link: '/cube', iconName: 'cube'}
+    {label: 'Home', link: '/home', icon: 'home'},
+    {label: 'List Table', link: '/music', icon: 'music'},
+    {label: 'GraphQL API', link: '/graphql-api', icon: 'star'},
+    {label: 'Redoc', link: '/open-api', icon: 'cogs'},
+    {label: 'Cube', link: '/cube', icon: 'cube'}, {
+        label: 'Auth',
+        icon: 'lock',
+        items: [{
+            label: 'User Registration',
+            link: '/register',
+            padding: '10px 0 10px 20px',
+            icon: 'plus',
+            iconHeight: 10,
+            iconWidth: 10,
+            isIndented: false
+        }, {
+            label: 'Create Application',
+            link: '/register-application',
+            padding: '10px 0 10px 20px',
+            iconHeight: 10,
+            icon: 'plus',
+            iconWidth: 10,
+            isIndented: false
+        }, {
+            label: 'Password Reset',
+            link: '/password-help',
+            padding: '10px 0 10px 20px',
+            iconHeight: 10,
+            icon: 'plus',
+            iconWidth: 10,
+            isIndented: false
+        }, {
+            label: 'Login',
+            link: '/demo-login',
+            padding: '10px 0 10px 20px',
+            iconHeight: 10,
+            icon: 'plus',
+            iconWidth: 10,
+            isIndented: false
+        }]
+    }
 ])
+const withEnhancers = compose(
+    withAuthentication,
+    withDispatcher,
+    withLayout
+)
 
 export default (
     <ThemeProvider theme={theme}>
@@ -44,16 +90,18 @@ export default (
             <AuthProvider>
                 <BrowserRouter>
                     <Switch>
-                        <Route exact path="/" component={withAuthentication(withLayout(Home))} />
-                        <Route exact path="/home" component={withAuthentication(withLayout(Home))} />
+                        <Route exact path="/" component={withEnhancers(Home)} />
+                        <Route exact path="/home" component={withEnhancers(Home)} />
                         <Route exact path="/login" component={withLoginEnhancers(LoginContainer)} />
-                        <Route exact path="/password-help" component={PasswordHelpContainer} />
-                        <Route exact path="/register" component={RegistrationContainer} />
+                        <Route exact path="/demo-login" component={withEnhancers(LoginContainer)} />
+                        <Route exact path="/password-help" component={withEnhancers(PasswordHelp)} />
+                        <Route exact path="/register" component={withEnhancers(Registration)} />
                         <Route exact path="/confirm-registration" component={RegistrationConfirmationContainer} />
-                        <Route exact path="/register-application" component={RegisterApplicationContainer} />
-                        <Route exact path="/cube" component={withLayout(DemoSimpleCube)} />
+                        <Route exact path="/register-application" component={withEnhancers(RegisterApplication)} />
+                        <Route exact path="/cube" component={withEnhancers(DemoSimpleCube)} />
+                        <Route exact path="/music" component={withEnhancers(DList)} />
                         <Route exact path="/open-api" component={withAuthentication(DemoRedoc)} />
-                        <Route exact path="/graphql-api" component={withAuthentication(withLayout(DemoQueryEditor))} />
+                        <Route exact path="/graphql-api" component={withEnhancers(DemoQueryEditor)} />
                         <Route render={props => <DemoNotFound imgSrc={attainiaHome} {...props} />} />
                     </Switch>
                 </BrowserRouter>

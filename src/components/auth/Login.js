@@ -45,7 +45,8 @@ const StyledLoginForm = styled(Form)`
     @supports (display: grid) {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-areas: 'header header' 'email email' 'password password'
+        grid-template-areas:
+            'header header' 'email email' 'password password'
             ${props => (props.showPasswordHelp ? '"remember-me password-help"' : '"remember-me remember-me"')}
             'login-button login-button' ${props => props.showRegistration && '"register register"'};
 

@@ -1,4 +1,4 @@
-import {pickBy, isNil, complement} from 'ramda'
+import {reject, isNil, test} from 'ramda'
 
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -8,23 +8,32 @@ import FieldError from './FieldError'
 import InputField from './InputField'
 import CheckboxLabel from './CheckboxLabel'
 
-const isNotNil = complement(isNil)
-const isCheck = type => /checkbox/i.test(type)
+const isCheck = test(/checkbox/i)
 
 const FieldWrapper = styled.div`
+    display: grid;
+    position: relative;
     ${props => isCheck(props.type) && 'width: 16px;'} 
-    ${props => isCheck(props.type) && 'position: relative;'} 
 `
 
 const FormField = ({
     handlers, input, id, meta: {touched, error}, label, name, placeholder, type, checked, value, className
 }) =>
-    <FieldWrapper type={type} className={`${className}`}>
-        {isNotNil(label) && !isCheck(type) && <label htmlFor={id}>{label}</label>}
-        <InputField {...pickBy(isNotNil, {id, value, checked, type, placeholder, name, ...input, ...handlers})} />
-        {isNotNil(label) && isCheck(type) &&
-            <CheckboxLabel onClick={handlers.onChange}>{label}</CheckboxLabel>
-        }
+    <FieldWrapper type={type} className={className}>
+        {label && !isCheck(type) && <label htmlFor={id}>{label}</label>}
+        <InputField
+          {...reject(isNil, {
+              id,
+              name,
+              type,
+              value,
+              checked,
+              placeholder,
+              ...(input || {}),
+              ...(handlers || {})
+          })}
+        />
+        {label && isCheck(type) && <CheckboxLabel onClick={handlers.onChange}>{label}</CheckboxLabel>}
         {touched && error && <FieldError>{error}</FieldError>}
     </FieldWrapper>
 

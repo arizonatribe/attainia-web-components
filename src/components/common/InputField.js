@@ -1,25 +1,23 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, {withTheme} from 'styled-components'
 import PropTypes from 'prop-types'
+import {either, pathOr, prop} from 'ramda'
 
-const BaseStyles = `
+export const BaseInputStyles = `
+    display: block;
+    border-radius: 0;
+    width: 100%;
     box-sizing: border-box;
     padding: 5px;
+    font-size: 14px;
     line-height: 16px;
+    height: 2.3em;
+    box-shadow: none;
     &:focus {
         outline: none;
     }
 `
-const ExtraStyles = ({type}) => (
-    /(password|url|number|text|email)/i.test(type) ? `
-        padding: 8px;
-        width: 100%;
-        line-height: 18px;
-        font-size: 14px;
-        background-color: white;
-    ` : ''
-)
-const CheckboxStyles = ({type}) => (
+export const CheckboxStyles = ({type}) => (
     /(checkbox)/i.test(type) ? `
         visibility: hidden;
         &:checked + label:after {
@@ -27,14 +25,21 @@ const CheckboxStyles = ({type}) => (
         }    
     ` : ''
 )
-
-const TextArea = styled.textarea`
-    ${BaseStyles}
+export const TextArea = styled.textarea`
+    ${BaseInputStyles}
+    resize: none;
+    box-shadow: none;
+    padding: ${pathOr('0.6em', ['padding'])};
+    color: ${either(prop('color'), pathOr('darkgray', ['theme', 'colors', 'misc', 'gray', 'lightJet']))};
+    background-color: ${either(prop('backgroundColor'), pathOr('white', ['theme', 'colors', 'grayscale', 'white']))};
+    border: 1px solid ${either(prop('border'), pathOr('lightgray', ['theme', 'colors', 'misc', 'gray', 'timberwolf']))};
 `
-const Input = styled.input`
-    ${BaseStyles}
-    ${ExtraStyles}
+export const Input = styled.input`
+    ${BaseInputStyles}
     ${CheckboxStyles}
+    color: ${either(prop('color'), pathOr('darkgray', ['theme', 'colors', 'misc', 'gray', 'lightJet']))};
+    background-color: ${either(prop('backgroundColor'), pathOr('white', ['theme', 'colors', 'grayscale', 'white']))};
+    border: 1px solid ${either(prop('border'), pathOr('lightgray', ['theme', 'colors', 'misc', 'gray', 'timberwolf']))};
 `
 const InputField = props => (
     /textarea/i.test(props.type) ?
@@ -66,4 +71,4 @@ InputField.defaultProps = {
     type: 'text'
 }
 
-export default InputField
+export default withTheme(InputField)
