@@ -32,7 +32,7 @@ const Li = styled.li`
     & a, .nav-action, .nav-label {
         padding: ${pathOr('10px 0', ['padding'])};
         color: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
-        & svg {
+        & svg, img {
             grid-area: nav-icon;
             justify-self: center;
         }
