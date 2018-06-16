@@ -53,12 +53,13 @@ const ApiDescription = styled.p`
 const ApiUrl = styled.a`
     display: block;
     grid-area: url;
-    font-size: 1.1em;
+    font-size: 0.9em;
     color: ${color(pathOr('gray', ['theme', 'fonts', 'fontColor'])).lighten(0.1).hex()};
 `
 const ApiHealth = styled.p`
     display: block;
     text-align: center;
+    cursor: pointer;
     grid-area: status;
     padding: 0.2em;
     width: 1.2em;
@@ -74,13 +75,9 @@ const ApiHealth = styled.p`
 `
 const UiAvatar = styled.img`
     display: block;
-    border-radius: 50%;
     border: 1px solid transparent;
-    height: 20px;
-    width: 20px;
-    &:hover {
-        border: 1px solid ${pathOr('lightgray', ['theme', 'colors', 'grayscale', 'lt'])};
-    }
+    height: 18px;
+    width: 18px;
 `
 const Avatar = styled.img`
     display: block;
@@ -115,10 +112,11 @@ class ApiList extends PureComponent {
     componentWillMount() {
         const {apis = []} = this.props
         apis.filter(a => a.url && a.healthcheck)
-            .forEach(async ({url, healthcheck}) => {
-                const up = await apiHealthCheck(is(String, healthcheck) ? healthcheck : url)
-                this.setState({[url]: up})
-            })
+            .forEach(({url, healthcheck}) => this.checkHealth(url, healthcheck))
+    }
+    checkHealth = (url, healthcheck) => {
+        apiHealthCheck(is(String, healthcheck) ? healthcheck : url)
+            .then(up => this.setState({[url]: up}))
     }
     render() {
         const {apis} = this.props
@@ -136,7 +134,9 @@ class ApiList extends PureComponent {
                                 <Button className="ui-button" type="button">UI</Button>
                             </Link>
                         }
-                        {healthcheck && <ApiHealth status={this.state[url]} />}
+                        {healthcheck &&
+                            <ApiHealth onClick={() => this.checkHealth(url, healthcheck)} status={this.state[url]} />
+                        }
                         <Avatar src={avatarSrc} />
                         <ApiName>{name}</ApiName>
                         <ApiUrl href={url}>{url}</ApiUrl>
