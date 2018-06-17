@@ -116,7 +116,7 @@ const TableStyle = ReactTableStyle.extend`
     }
 `
 
-const anyFilters = curry(
+const noFilters = curry(
     (defaults, filters) => equals(
         omit(['page', 'page_size'], defaults),
         omit(['page', 'page_size'], filters)
@@ -127,7 +127,7 @@ class List extends PureComponent {
     constructor(props) {
         super(props)
         this.state = {search: '', ...props.filters}
-        this.anyFilters = anyFilters(props.filterDefaults || {})
+        this.noFilters = noFilters(props.filterDefaults || {})
     }
     componentWillMount() {
         if (this.props.shouldFetch) this.props.findList(this.state, this.props.queryType)
@@ -202,7 +202,7 @@ class List extends PureComponent {
         } = this.props
         const entityName = toLower(this.props.entityName || 'item')
         const entityDisplayName = capitalize(pluralize(entityName))
-        const results = this.anyFilters(this.state) ? searchResults : rows
+        const results = this.noFilters(this.state) ? rows : searchResults
         return (
             <ListContext.Provider value={this.state}>
                 <ListStyle hasFilters={!!renderAdditionalFilters} noHeader={!hasAddButton && noTitle}>
@@ -226,7 +226,7 @@ class List extends PureComponent {
                                 {filters => renderAdditionalFilters({
                                     filters,
                                     applyFilters: this.applyFilters,
-                                    anyFilters: this.anyFilters(filters)
+                                    noFilters: this.noFilters(filters)
                                 })}
                             </ListContext.Consumer>
                         </FilterStyle>
