@@ -161,12 +161,16 @@ class List extends PureComponent {
         this.state.search ? 'search' : this.props.queryType
     )
     exportList = () => {
+        const results = this.noFilters(this.state) ? this.props.rows : this.props.searchResults
         if (is(Function, this.props.exportList)) {
-            this.props.exportList({
+            const exportResult = this.props.exportList({
                 ...this.state,
                 page: this.props.currentPage,
-                page_size: this.props.searchResults.length || this.props.rows.length || 10
+                page_size: results.length || 10
             })
+            if (is(Function, exportResult)) {
+                exportResult(results)
+            }
         }
     }
     filterAutoComplete = filter(
