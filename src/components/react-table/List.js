@@ -11,9 +11,10 @@ import {
     both,
     compose,
     cond,
+    curry,
     defaultTo,
+    equals,
     is,
-    isEmpty,
     keys,
     filter,
     omit,
@@ -114,10 +115,19 @@ const TableStyle = ReactTableStyle.extend`
         text-decoration: none;
     }
 `
+
+const anyFilters = curry(
+    (defaults, filters) => equals(
+        omit(['page', 'page_size'], defaults),
+        omit(['page', 'page_size'], filters)
+    )
+)
+
 class List extends PureComponent {
     constructor(props) {
         super(props)
         this.state = {search: '', ...props.filters}
+        this.anyFilters = anyFilters(props.filterDefaults || {})
     }
     componentWillMount() {
         if (this.props.shouldFetch) this.props.findList(this.state, this.props.queryType)
@@ -192,6 +202,7 @@ class List extends PureComponent {
         } = this.props
         const entityName = toLower(this.props.entityName || 'item')
         const entityDisplayName = capitalize(pluralize(entityName))
+        const results = this.anyFilters(this.state) ? searchResults : rows
         return (
             <ListContext.Provider value={this.state}>
                 <ListStyle hasFilters={!!renderAdditionalFilters} noHeader={!hasAddButton && noTitle}>
@@ -212,13 +223,17 @@ class List extends PureComponent {
                     {renderAdditionalFilters &&
                         <FilterStyle>
                             <ListContext.Consumer>
-                                {filters => renderAdditionalFilters({filters, applyFilters: this.applyFilters})}
+                                {filters => renderAdditionalFilters({
+                                    filters,
+                                    applyFilters: this.applyFilters,
+                                    anyFilters: this.anyFilters(filters)
+                                })}
                             </ListContext.Consumer>
                         </FilterStyle>
                     }
                     <TableWrapper>
                         <Totals>
-                            {createTotalsCaption('displaying', entityName)(searchResults.length || rows.length)}
+                            {createTotalsCaption('displaying', entityName)(results.length)}
                         </Totals>
                         <IconHoverStyle className="icon-export">
                             <SimpleSvgIcon
@@ -240,10 +255,10 @@ class List extends PureComponent {
                         </IconHoverStyle>
                         <TableStyle onClick={this.props.handleTableClick || this.handleTableClick} >
                             <ReactTable
-                              data={isEmpty(searchResults) ? rows : searchResults}
+                              data={results}
                               columns={columns}
                               noDataText={`No ${entityDisplayName} found.`}
-                              pageSize={searchResults.length || rows.length || 10}
+                              pageSize={results.length || 10}
                               showPagination={false}
                               className="-striped"
                               getTdProps={getTdProps || createIdForDetailColumn(matchProp)}
@@ -298,6 +313,9 @@ List.propTypes = {
         page: PropTypes.number,
         page_size: PropTypes.number
     }),
+    filterDefaults: PropTypes.shape({
+        search: PropTypes.string
+    }),
     renderAddButton: PropTypes.func,
     renderAdditionalFilters: PropTypes.func,
     handleTableClick: PropTypes.func
@@ -317,6 +335,7 @@ List.defaultProps = {
     columns: [],
     searchResults: [],
     filters: {search: '', page: 1, page_size: 10},
+    filterDefaults: {search: ''},
     // eslint-disable-next-line react/prop-types
     renderAddButton: ({entityName}) =>
         <AddButtonStyle>
