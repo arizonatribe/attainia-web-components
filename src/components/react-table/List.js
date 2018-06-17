@@ -13,7 +13,6 @@ import {
     cond,
     curry,
     defaultTo,
-    equals,
     is,
     keys,
     filter,
@@ -23,6 +22,7 @@ import {
     replace,
     toLower,
     when,
+    whereEq,
     T
 } from 'ramda'
 
@@ -117,7 +117,7 @@ const TableStyle = ReactTableStyle.extend`
 `
 
 const noFilters = curry(
-    (defaults, filters) => equals(
+    (defaults, filters) => whereEq(
         omit(['page', 'page_size'], defaults),
         omit(['page', 'page_size'], filters)
     )
