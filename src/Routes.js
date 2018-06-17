@@ -3,7 +3,6 @@ import {compose} from 'ramda'
 import {connect, Provider} from 'react-redux'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import {ThemeProvider} from 'styled-components'
-import {RedocStandalone} from 'redoc'
 
 import {withTheseNavItems} from './components/layout'
 import {
@@ -18,19 +17,17 @@ import {
     DemoHome,
     DemoList,
     DemoNotFound,
-    DemoSimpleCube,
-    DemoQueryEditor
+    DemoSimpleCube
 } from './dev-components'
 
 import {withLoginEnhancers} from './components/auth/enhancers'
 import {withAuthentication} from './components/auth/decorators'
 
-import store, {OPENAPI_URL} from './store'
+import store from './store'
 import theme from './theme'
 
 import attainiaHome from './images/attainia_foyer.jpg'
 
-const DemoRedoc = props => <RedocStandalone {...props} specUrl={OPENAPI_URL} />
 const Home = props => <DemoHome imgSrc={attainiaHome} {...props} />
 const DList = props => <DemoList imgSrc={attainiaHome} {...props} />
 
@@ -38,8 +35,6 @@ const withDispatcher = connect()
 const withLayout = withTheseNavItems([
     {label: 'Home', link: '/home', icon: 'home'},
     {label: 'List Table', link: '/music', icon: 'music'},
-    {label: 'GraphQL API', link: '/graphql-api', icon: 'star'},
-    {label: 'Redoc', link: '/open-api', icon: 'cogs'},
     {label: 'Cube', link: '/cube', icon: 'cube'}, {
         label: 'Auth',
         icon: 'lock',
@@ -100,8 +95,6 @@ export default (
                         <Route exact path="/register-application" component={withEnhancers(RegisterApplication)} />
                         <Route exact path="/cube" component={withEnhancers(DemoSimpleCube)} />
                         <Route exact path="/music" component={withEnhancers(DList)} />
-                        <Route exact path="/open-api" component={withAuthentication(DemoRedoc)} />
-                        <Route exact path="/graphql-api" component={withEnhancers(DemoQueryEditor)} />
                         <Route render={props => <DemoNotFound imgSrc={attainiaHome} {...props} />} />
                     </Switch>
                 </BrowserRouter>
