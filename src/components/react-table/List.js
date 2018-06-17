@@ -14,11 +14,13 @@ import {
     curry,
     defaultTo,
     is,
+    isEmpty,
     keys,
     filter,
     omit,
     pathOr,
     prop,
+    map,
     replace,
     toLower,
     when,
@@ -116,10 +118,14 @@ const TableStyle = ReactTableStyle.extend`
     }
 `
 
+const pruneFilters = compose(
+    map(when(both(is(Array), isEmpty), always(['']))),
+    omit(['page', 'page_size'])
+)
 const noFilters = curry(
     (defaults, filters) => whereEq(
-        omit(['page', 'page_size'], defaults),
-        omit(['page', 'page_size'], filters)
+        pruneFilters(defaults),
+        pruneFilters(filters)
     )
 )
 
@@ -218,7 +224,7 @@ class List extends PureComponent {
                         <BasicSearch
                           matchProp={matchProp}
                           searchFor={`Search for ${entityDisplayName}`}
-                          searchItems={this.filterAutoComplete(rows)}
+                          searchItems={this.filterAutoComplete([...searchResults, ...rows])}
                           onChange={this.onTypeAhead}
                           onSelect={this.onSelect}
                           value={this.state.search}
