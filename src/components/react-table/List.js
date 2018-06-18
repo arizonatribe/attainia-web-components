@@ -158,13 +158,17 @@ class List extends PureComponent {
         state => ({...omit(keys(filterProps), state), ...filterProps}),
         () => this.props.findList(this.state, 'search')
     )
+    clearFilters = () => this.setState(
+        () => ({...this.props.filterDefaults}),
+        () => this.props.findList(this.state, this.props.queryType || 'search')
+    )
     loadNextPage = () => this.props.findList(
         {...this.state, page: this.props.currentPage + 1},
-        this.state.search ? 'search' : this.props.queryType
+        this.noFilters(this.state) ? (this.props.queryType || 'search') : 'search'
     )
     loadPreviousPage = () => this.props.findList(
         {...this.state, page: this.props.currentPage - 1},
-        this.state.search ? 'search' : this.props.queryType
+        this.noFilters(this.state) ? (this.props.queryType || 'search') : 'search'
     )
     exportList = () => {
         const results = this.noFilters(this.state) ? this.props.rows : this.props.searchResults
@@ -237,6 +241,7 @@ class List extends PureComponent {
                                 {filters => renderAdditionalFilters({
                                     filters,
                                     applyFilters: this.applyFilters,
+                                    clearFilters: this.clearFilters,
                                     noFilters: this.noFilters(filters)
                                 })}
                             </ListContext.Consumer>
