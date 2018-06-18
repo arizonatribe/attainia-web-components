@@ -156,7 +156,10 @@ class List extends PureComponent {
     }
     applyFilters = (filterProps) => this.setState(
         state => ({...omit(keys(filterProps), state), ...filterProps}),
-        () => this.props.findList(this.state, 'search')
+        () => this.props.findList(
+            this.state,
+            this.noFilters(this.state) ? (this.props.queryType || 'search') : 'search'
+        )
     )
     clearFilters = () => this.setState(
         () => ({...this.props.filterDefaults}),
