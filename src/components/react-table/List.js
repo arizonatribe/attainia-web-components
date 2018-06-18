@@ -5,7 +5,7 @@ import pluralize from 'pluralize'
 import ReactTable from 'react-table'
 import debounce from 'lodash.debounce'
 import styled, {withTheme} from 'styled-components'
-import {getId, capitalize, isPlainObj} from 'attasist'
+import {mergeObjectList, getId, capitalize, isPlainObj} from 'attasist'
 import {
     always,
     both,
@@ -132,7 +132,7 @@ const noFilters = curry(
 class List extends PureComponent {
     constructor(props) {
         super(props)
-        this.state = {search: '', ...props.filters}
+        this.state = {...props.filterDefaults, ...props.filters}
         this.noFilters = noFilters(props.filterDefaults || {})
     }
     componentWillMount() {
@@ -213,6 +213,7 @@ class List extends PureComponent {
         const entityName = toLower(this.props.entityName || 'item')
         const entityDisplayName = capitalize(pluralize(entityName))
         const results = this.noFilters(this.state) ? rows : searchResults
+        const mergeWithSearchResults = mergeObjectList(matchProp, 'id')(rows)
         return (
             <ListContext.Provider value={this.state}>
                 <ListStyle hasFilters={!!renderAdditionalFilters} noHeader={!hasAddButton && noTitle}>
@@ -224,7 +225,7 @@ class List extends PureComponent {
                         <BasicSearch
                           matchProp={matchProp}
                           searchFor={`Search for ${entityDisplayName}`}
-                          searchItems={this.filterAutoComplete([...searchResults, ...rows])}
+                          searchItems={this.filterAutoComplete(mergeWithSearchResults(searchResults))}
                           onChange={this.onTypeAhead}
                           onSelect={this.onSelect}
                           value={this.state.search}
