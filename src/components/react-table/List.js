@@ -140,7 +140,10 @@ class List extends PureComponent {
     }
     onTypeAhead = (event, search) => this.setState(
         state => ({...state, search}),
-        () => this.deSearchItemAdded(this.state, 'search')
+        () => this.deSearchItemAdded(
+            this.state,
+            this.noFilters(this.state) ? (this.props.queryType || 'search') : 'search'
+        )
     )
     onSelect = search => this.setState(
         state => ({...state, search}),
