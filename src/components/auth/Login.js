@@ -2,15 +2,16 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Link from 'react-router-dom/Link'
+import {Form, BasicFormField} from 'formatta'
+import {pathOr} from 'ramda'
 
 import {ContentFullSize} from '../layout'
 import AuthError from './AuthError.container'
-import {SpinningButton, Form, SimpleSvgIcon, ReduxFormField, FormField} from '../common'
-import {getThemeProp} from '../common/helpers'
+import {SpinningButton, SimpleSvgIcon, ReduxFormField} from '../common'
 
 const StyledLoginForm = styled(Form)`
     & > * {
-        margin: ${getThemeProp(['forms', 'formItemMargin'], '5px')};
+        margin: ${pathOr('5px', ['theme', 'forms', 'formItemMargin'])};
         &:focus {
             outline: none;
         }
@@ -108,7 +109,7 @@ class Login extends PureComponent {
                       type="password"
                       name="password"
                     />
-                    <FormField
+                    <BasicFormField
                       id="LoginForm-rememberMe"
                       className="rememberMe"
                       label={rememberMeLabel}

@@ -1,9 +1,9 @@
 /* eslint "max-len": "off" */
 import React from 'react'
+import {pathOr} from 'ramda'
 import PropTypes from 'prop-types'
 import uuid from 'uuid/v4'
 import styled, {withTheme} from 'styled-components'
-import {getThemeProp} from './helpers'
 
 const Svg = styled.svg`
     transition: all 0.3s ease;
@@ -18,14 +18,14 @@ const TwoColorSvgIcon = ({
             {primaryPaths.map(d =>
                 <path
                   key={uuid()}
-                  fill={primaryColor || getThemeProp(['colors', 'primary', 'default'], 'crimson')(restProps)}
+                  fill={primaryColor || pathOr('crimson', ['theme', 'colors', 'primary', 'default'])(restProps)}
                   d={d}
                 />
             )}
             {secondaryPaths.map(d =>
                 <path
                   key={uuid()}
-                  fill={secondaryColor || getThemeProp(['colors', 'secondary', 'default'], 'transparent')(restProps)}
+                  fill={secondaryColor || pathOr('transparent', ['theme', 'colors', 'secondary', 'default'])(restProps)}
                   d={d}
                 />
             )}

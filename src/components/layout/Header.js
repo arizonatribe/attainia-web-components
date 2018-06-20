@@ -1,25 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {pathOr} from 'ramda'
 import styled, {withTheme} from 'styled-components'
 import {SimpleSvgIcon} from '../common'
-import {getThemeProp} from '../common/helpers'
 import {LogoutContainer} from '../auth'
 import Progress from '../common/Progress'
 
 const MessageWrapper = styled.div`
     grid-area: statusmessage;
-    @media ${getThemeProp(['breakpoints', 'phone'], 'screen and (max-width: 599px)')} {
+    @media ${pathOr('screen and (max-width: 599px)', ['theme', 'breakpoints', 'phone'])} {
         display: none;
     }
-    @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
+    @media ${pathOr('screen and (min-width: 600px)', ['theme', 'breakpoints', 'tablet'])} {
         display: grid;
         align-content: center;
         align-items: center;
         justify-content: center;
         justify-items: center;
         overflow: hidden;
-        color: ${getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')};
-        font-size: ${getThemeProp(['fonts', 'fontSize'], '12px')};
+        color: ${pathOr('mediumgray', ['theme', 'colors', 'misc', 'gray', 'spanishGray'])};
+        font-size: ${pathOr('12px', ['theme', 'fonts', 'fontSize'])};
         transition: transform 0.4s ease;
         transform: translate(0, ${props => ((props.hasMessage && !props.fadingOutMessage) ? '0' : '-50px')});
     }
@@ -28,7 +28,7 @@ const ListHeader = styled.header`
     margin: 0;
     padding: 0;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
-    background: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
+    background: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
 
     & svg {
         display: block;
@@ -42,7 +42,7 @@ const ListHeader = styled.header`
     .logoutLink {
         grid-area: logoutlink;
         display: block;
-        color: ${getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')};
+        color: ${pathOr('mediumgray', ['theme', 'colors', 'misc', 'gray', 'spanishGray'])};
         text-decoration: none;
     }
 
@@ -54,13 +54,13 @@ const ListHeader = styled.header`
         justify-items: center;
         grid-row-gap: 0;
         grid-template-rows: 48px 2px;
-        @media ${getThemeProp(['breakpoints', 'phone'], 'screen and (max-width: 599px)')} {
+        @media ${pathOr('screen and (max-width: 599px)', ['theme', 'breakpoints', 'phone'])} {
             grid-template-columns: 20px 112px 1fr 25px 6em;
             grid-template-areas:
                 ". headerlogo statusmessage notificationicon logoutlink"
                 "pbar pbar pbar pbar pbar";
         }
-        @media ${getThemeProp(['breakpoints', 'tablet'], 'screen and (min-width: 600px)')} {
+        @media ${pathOr('screen and (min-width: 600px)', ['theme', 'breakpoints', 'tablet'])} {
             grid-template-columns: 50px 112px 1fr 25px 8em;
             grid-template-areas:
                 ". headerlogo statusmessage notificationicon logoutlink"
@@ -84,7 +84,7 @@ const Header = ({className, continuous, progress, fadingOutMessage, statusMessag
           icon="notification"
           width="17"
           height="20"
-          fill={getThemeProp(['colors', 'misc', 'gray', 'spanishGray'], 'mediumgray')(restOfProps)}
+          fill={pathOr('mediumgray', ['theme', 'colors', 'misc', 'gray', 'spanishGray'])(restOfProps)}
         />
         <LogoutContainer className="logoutLink" asLink>{logoutCaption}</LogoutContainer>
         <Progress continuous={continuous} progress={progress} styles={{backgroundColor: 'white', height: '2px'}} />

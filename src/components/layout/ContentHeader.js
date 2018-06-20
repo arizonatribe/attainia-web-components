@@ -5,8 +5,8 @@ import {articlize} from 'articles'
 import PropTypes from 'prop-types'
 import Link from 'react-router-dom/Link'
 import styled, {withTheme} from 'styled-components'
-import {compose, complement, isNil, pickBy, replace, toUpper, toLower} from 'ramda'
-import {getThemeProp, LinkButton, SimpleSvgIcon} from '../common'
+import {compose, complement, isNil, path, pathOr, pickBy, replace, toUpper, toLower} from 'ramda'
+import {LinkButton, SimpleSvgIcon} from '../common'
 
 const isNotNil = complement(isNil)
 const capitalize = str => str.replace(/(?:^|\s)\S/g, toUpper)
@@ -31,7 +31,7 @@ const ListHeader = styled.ul`
     list-style: none;
     margin: 0;
     padding: 12px;
-    background: ${getThemeProp(['colors', 'grayscale', 'lt'], 'lightgray')};
+    background: ${pathOr('lightgray', ['theme', 'colors', 'grayscale', 'lt'])};
 
     @supports not (display: grid) {
         & > * {
@@ -59,7 +59,7 @@ const ListHeader = styled.ul`
                 padding-right: 10px; 
             }
             .subtitle {
-                color: ${getThemeProp(['colors', 'grayscale', 'md'], 'mediumgray')}
+                color: ${pathOr('mediumgray', ['theme', 'colors', 'grayscale', 'md'])}
             }
         }
     }
@@ -92,7 +92,7 @@ const ContentHeader = ({
             <Li key={uuid()}>
                 <SimpleSvgIcon
                   {...iconButton}
-                  fill={getThemeProp(['colors', 'secondary', 'default'])(additionalProps)}
+                  fill={path(['theme', 'colors', 'secondary', 'default'])(additionalProps)}
                 />
             </Li>
         )}

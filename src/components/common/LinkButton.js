@@ -1,11 +1,11 @@
+import {pathOr} from 'ramda'
 import styled from 'styled-components'
 import Button from './Button'
-import {getThemeProp} from './helpers'
 
 export default styled(Button)`
     & > a {
         text-decoration: none;
-        color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
-        font-size: ${getThemeProp(['fonts', 'fontSize'], '12px')};
+        color: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
+        font-size: ${pathOr('12px', ['theme', 'fonts', 'fontSize'])};
     }
 `

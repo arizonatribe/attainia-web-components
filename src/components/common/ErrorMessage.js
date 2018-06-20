@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import {getThemeProp} from './helpers'
+import {pathOr} from 'ramda'
 
 const ErrorMessage = styled.div`
-    background: ${getThemeProp(['colors', 'grayscale', 'black'], 'black')};
-    color: ${getThemeProp(['colors', 'primary', 'md'], 'red')};
+    background: ${pathOr('black', ['theme', 'colors', 'grayscale', 'black'])};
+    color: ${pathOr('red', ['theme', 'colors', 'primary', 'md'])};
     font-size: ${props => (
         props.styles.fontSize ||
-        getThemeProp(['fonts', 'fontSize'], '12px')(props)
+        pathOr('12px', ['theme', 'fonts', 'fontSize'])(props)
     )};
-    font-family: ${getThemeProp(['fonts', 'fontFamily'], 'Arial')};
+    font-family: ${pathOr('Arial', ['theme', 'fonts', 'fontFamily'])};
     text-align: center;
 `
 ErrorMessage.propTypes = {

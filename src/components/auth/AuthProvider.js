@@ -1,8 +1,8 @@
-import {pick} from 'ramda'
 import React from 'react'
+import {pick} from 'ramda'
 import PropTypes from 'prop-types'
-import {ApolloProvider} from 'react-apollo'
 import {connect} from 'react-redux'
+import {ApolloProvider} from 'react-apollo'
 import {withTheme} from 'styled-components'
 
 import apolloClient from './apollo.client'

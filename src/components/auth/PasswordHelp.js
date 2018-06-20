@@ -1,15 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import {pathOr} from 'ramda'
 
+import Form from 'formatta/Form'
 import Link from 'react-router-dom/Link'
-import {Button, LinkButton, Form, SimpleSvgIcon, ReduxFormField} from '../common'
+import {Button, LinkButton, SimpleSvgIcon, ReduxFormField} from '../common'
 import {ContentFullSize} from '../layout'
-import {getThemeProp} from '../common/helpers'
 
 const StyledForm = styled(Form)`
     & > * {
-        margin: ${getThemeProp(['forms', 'formItemMargin'], '5px')};
+        margin: ${pathOr('5px', ['theme', 'forms', 'formItemMargin'])};
     }
 
     & .attainiaLogo {

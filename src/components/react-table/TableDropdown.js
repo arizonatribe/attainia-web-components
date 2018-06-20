@@ -1,8 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import DropdownList from 'react-widgets/lib/DropdownList'
 import {compose} from 'ramda'
-import {WithDropdownArrow} from '../common/DropdownArrow'
+import PropTypes from 'prop-types'
+import {WithDropdownArrow} from 'formatta'
+import DropdownList from 'react-widgets/lib/DropdownList'
 import TableFieldWrapperHoC from './TableFieldWrapperHoC'
 import TableFieldWithState from './TableFieldWithState'
 
