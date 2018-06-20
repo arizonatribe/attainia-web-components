@@ -142,7 +142,7 @@ class List extends PureComponent {
         state => ({...state, search}),
         () => this.deSearchItemAdded(
             this.state,
-            this.noFilters(this.state) ? (this.props.queryType || 'search') : 'search'
+            this.noFilters(this.state) ? this.props.queryType : 'search'
         )
     )
     onSelect = search => this.setState(
@@ -161,20 +161,20 @@ class List extends PureComponent {
         state => ({...omit(keys(filterProps), state), ...filterProps}),
         () => this.props.findList(
             this.state,
-            this.noFilters(this.state) ? (this.props.queryType || 'search') : 'search'
+            this.noFilters(this.state) ? this.props.queryType : 'search'
         )
     )
     clearFilters = () => this.setState(
         () => ({...this.props.filterDefaults}),
-        () => this.props.findList(this.state, this.props.queryType || 'search')
+        () => this.props.findList(this.state, this.props.queryType)
     )
     loadNextPage = () => this.props.findList(
         {...this.state, page: this.props.currentPage + 1},
-        this.noFilters(this.state) ? (this.props.queryType || 'search') : 'search'
+        this.noFilters(this.state) ? this.props.queryType : 'search'
     )
     loadPreviousPage = () => this.props.findList(
         {...this.state, page: this.props.currentPage - 1},
-        this.noFilters(this.state) ? (this.props.queryType || 'search') : 'search'
+        this.noFilters(this.state) ? this.props.queryType : 'search'
     )
     exportList = () => {
         const results = this.noFilters(this.state) ? this.props.rows : this.props.searchResults

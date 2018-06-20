@@ -1,10 +1,10 @@
+import {pathOr} from 'ramda'
 import styled from 'styled-components'
-import {getThemeProp} from './helpers'
 
 export default styled.a`
-    color: ${getThemeProp(['colors', 'secondary', 'dk'], 'royalblue')};
+    color: ${pathOr('royalblue', ['theme', 'colors', 'secondary', 'dk'])};
     text-decoration: underline;
-    font-size: ${getThemeProp(['fonts', 'fontSize'], '12px')};
+    font-size: ${pathOr('12px', ['theme', 'fonts', 'fontSize'])};
     &:focus {
         outline: none;
     }

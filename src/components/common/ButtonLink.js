@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {getThemeProp, getProp} from './helpers'
+import {path, pathOr} from 'ramda'
 
 export default styled.button`
     padding: 0;
@@ -8,10 +8,10 @@ export default styled.button`
     cursor: pointer;
     background: transparent;
     text-decoration: underline;
-    color: ${getThemeProp(['colors', 'secondary', 'dk'], 'royalblue')};
+    color: ${pathOr('royalblue', ['theme', 'colors', 'secondary', 'dk'])};
     font-size: ${props => (
-        getProp(['styles', 'fontSize'])(props) ||
-        getThemeProp(['fonts', 'fontSize'], '15px')(props)
+        path(['styles', 'fontSize'])(props) ||
+        pathOr('15px', ['theme', 'fonts', 'fontSize'])(props)
     )};
     &:focus {
         outline: none;

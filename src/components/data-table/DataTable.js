@@ -1,6 +1,7 @@
 import uuid from 'uuid/v4'
 
 import React from 'react'
+import {path} from 'ramda'
 import ReactTooltip from 'react-tooltip'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -18,7 +19,6 @@ import NumberCell from './NumberCell'
 import InfoIconToolTipTextCell from './InfoIconToolTipTextCell'
 import ImageCell from './ImageCell'
 import IconLinkCell from './IconLinkCell'
-import {getThemeProp} from '../common/helpers'
 
 
 const StyledTable = styled(Table)`
@@ -26,27 +26,27 @@ const StyledTable = styled(Table)`
         height: 100%;
     }
     .fixedDataTableCellLayout_wrap1 span::selection {
-        background-color: ${getThemeProp(['colors', 'primary', 'lt'])};
+        background-color: ${path(['theme', 'colors', 'primary', 'lt'])};
         color: white;
     }
     .public_fixedDataTable_bodyRow:hover .public_fixedDataTableCell_main {
         background-color: ${props =>
         color(
-            getThemeProp(['colors', 'grayscale', 'lt'])(props)
+            path(['theme', 'colors', 'grayscale', 'lt'])(props)
         ).mix(
-            color(getThemeProp(['colors', 'grayscale', 'md'])(props)), 0.1
+            color(path(['theme', 'colors', 'grayscale', 'md'])(props)), 0.1
         ).hex()
 };
     }
     .public_fixedDataTableRow_highlighted {
-        background-color: ${getThemeProp(['colors', 'grayscale', 'lt'])};
+        background-color: ${path(['theme', 'colors', 'grayscale', 'lt'])};
     }
 `
 
 const TableHeader = styled.div`
     border: 1px solid ${props =>
         color(
-            getThemeProp(['colors', 'grayscale', 'lt'])(props)
+            path(['theme', 'colors', 'grayscale', 'lt'])(props)
         ).darken(0.1).hex()
 };
     border-bottom-style: none;
@@ -60,7 +60,7 @@ const TableHeader = styled.div`
 const TableFooter = styled.div`
     border: 1px solid ${props =>
         color(
-            getThemeProp(['colors', 'grayscale', 'lt'])(props)
+            path(['theme', 'colors', 'grayscale', 'lt'])(props)
         ).darken(0.1).hex()
 };
     border-top-style: none;
@@ -75,7 +75,7 @@ const LoadMoreButton = styled(Button)`
     margin-left: auto;
     margin-right: auto;
     padding: 10px 0;
-    background-color: ${getThemeProp(['colors', 'secondary', 'default'])};
+    background-color: ${path(['theme', 'colors', 'secondary', 'default'])};
 
     &:disabled {
         background: #C1CDD7;

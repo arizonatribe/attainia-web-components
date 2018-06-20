@@ -1,7 +1,7 @@
 import React from 'react'
+import {pathOr} from 'ramda'
 import PropTypes from 'prop-types'
 import styled, {withTheme} from 'styled-components'
-import {getThemeProp} from './helpers'
 
 const SimpleWrapper = styled.div`
     display: grid;
@@ -9,9 +9,9 @@ const SimpleWrapper = styled.div`
     justify-items: center;
     justify-content: center;
     grid-area: simplemessage;
-    font-size: ${getThemeProp(['fonts', 'fontSize'], '12px')};
-    color: ${getThemeProp(['colors', 'primary', 'default'], 'crimson')};
-    background-color: ${getThemeProp(['colors', 'grayscale', 'dk'], 'darkgray')};
+    font-size: ${pathOr('12px', ['theme', 'fonts', 'fontSize'])};
+    color: ${pathOr('crimson', ['theme', 'colors', 'primary', 'default'])};
+    background-color: ${pathOr('darkgray', ['theme', 'colors', 'grayscale', 'dk'])};
 `
 
 const SimpleMessage = ({className, message, ...restOfProps}) =>

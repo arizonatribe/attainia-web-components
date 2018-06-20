@@ -1,13 +1,13 @@
+import {pathOr} from 'ramda'
 import styled from 'styled-components'
-import {getThemeProp} from '../common'
 
 const ReactTableStyle = styled.div`
     .ReactTable {
         position: relative;
         display: flex;
         flex-direction: column;
-        border: 1px solid ${getThemeProp(['colors', 'misc', 'gray', 'gainsboro'], 'mediumgray')};
-        background-color: ${getThemeProp(['colors', 'misc', 'gray', 'white'], 'white')};
+        border: 1px solid ${pathOr('mediumgray', ['theme', 'colors', 'misc', 'gray', 'gainsboro'])};
+        background-color: ${pathOr('white', ['theme', 'colors', 'misc', 'gray', 'white'])};
     }
     .ReactTable * {
         box-sizing: border-box;
@@ -49,7 +49,7 @@ const ReactTableStyle = styled.div`
         border-right: 1px solid rgba(0, 0, 0, 0.02);
     }
     .ReactTable .rt-thead.-header {
-        background-color: ${getThemeProp(['colors', 'misc', 'gray', 'gainsboro'], 'mediumgray')};
+        background-color: ${pathOr('mediumgray', ['theme', 'colors', 'misc', 'gray', 'gainsboro'])};
     }
     .ReactTable .rt-thead .rt-tr {
         text-align: left;
@@ -148,7 +148,7 @@ const ReactTableStyle = styled.div`
         align-items: center;
         font-size: 12px;
         height: 2.7em;
-        border-right: 1px solid ${getThemeProp(['colors', 'misc', 'gray', 'lavenderGray'], 'mediumgray')};
+        border-right: 1px solid ${pathOr('mediumgray', ['theme', 'colors', 'misc', 'gray', 'lavenderGray'])};
         padding: 0 1.250em 0 0.625em;
         align-self: center;
         vertical-align: middle;
@@ -234,7 +234,7 @@ const ReactTableStyle = styled.div`
         border-right: 0;
     }
     .ReactTable.-striped .rt-tr.-odd {
-        background-color: ${getThemeProp(['colors', 'misc', 'gray', 'whitesmoke'], 'snow')};
+        background-color: ${pathOr('snow', ['theme', 'colors', 'misc', 'gray', 'whitesmoke'])};
     }
     .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
         background: rgba(0, 0, 0, 0.05);

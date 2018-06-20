@@ -1,25 +1,25 @@
 import React from 'react'
+import {path} from 'ramda'
 import styled from 'styled-components'
 import color from 'color'
 
 import PropTypes from 'prop-types'
 import {Cell} from 'fixed-data-table-2'
-import {getThemeProp} from '../common/helpers'
 
 const StyledAnchor = styled.a`
-    color: ${getThemeProp(['colors', 'secondary', 'default'])};
+    color: ${path(['theme', 'colors', 'secondary', 'default'])};
     &:active {
-        color: ${getThemeProp(['colors', 'secondary', 'lt'])};
+        color: ${path(['theme', 'colors', 'secondary', 'lt'])};
     }
     &:hover {
         color: ${props =>
         color(
-            getThemeProp(['colors', 'secondary', 'lt'])(props)
+            path(['theme', 'colors', 'secondary', 'lt'])(props)
         ).lighten(0.1).hex()
 };
     }
     &:visited {
-        color: ${getThemeProp(['colors', 'secondary', 'dk'])};
+        color: ${path(['theme', 'colors', 'secondary', 'dk'])};
     }
 `
 
