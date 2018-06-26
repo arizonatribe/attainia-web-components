@@ -24,8 +24,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
             if (error) {
                 throw new Error(error)
             }
-            if (path(['getTokenInfo', 'user'], data)) {
-                dispatchProps.userInfoFromToken(data.getTokenInfo.user)
+            if (path(['getTokenInfo'], data)) {
+                dispatchProps.userInfoFromToken(data.getTokenInfo)
             }
         } catch (e) {
             dispatchProps.handleError(e)

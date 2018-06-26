@@ -5,14 +5,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import {ThemeProvider} from 'styled-components'
 
 import {withTheseNavItems} from './components/layout'
-import {
-    AuthProvider,
-    LoginContainer,
-    PasswordHelpContainer as PasswordHelp,
-    RegistrationContainer as Registration,
-    RegistrationConfirmationContainer,
-    RegisterApplicationContainer as RegisterApplication
-} from './components/auth'
+import {AuthProvider, LoginContainer} from './components/auth'
 import {
     DemoHome,
     DemoList,
@@ -89,10 +82,6 @@ export default (
                         <Route exact path="/home" component={withEnhancers(Home)} />
                         <Route exact path="/login" component={withLoginEnhancers(LoginContainer)} />
                         <Route exact path="/demo-login" component={withEnhancers(LoginContainer)} />
-                        <Route exact path="/password-help" component={withEnhancers(PasswordHelp)} />
-                        <Route exact path="/register" component={withEnhancers(Registration)} />
-                        <Route exact path="/confirm-registration" component={RegistrationConfirmationContainer} />
-                        <Route exact path="/register-application" component={withEnhancers(RegisterApplication)} />
                         <Route exact path="/cube" component={withEnhancers(DemoSimpleCube)} />
                         <Route exact path="/music" component={withEnhancers(DList)} />
                         <Route render={props => <DemoNotFound imgSrc={attainiaHome} {...props} />} />
