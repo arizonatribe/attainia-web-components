@@ -60,9 +60,9 @@ export const withLayout = (WrappedComponent) => {
     return WithLayout
 }
 
-export const withTheseNavItems = items => (WrappedComponent) => {
+export const withTheseNavItems = (items, layoutProps = {}) => (WrappedComponent) => {
     const WithLayout = props =>
-        <Layout navItems={items} {...props}>
+        <Layout navItems={items} {...props} {...layoutProps}>
             <WrappedComponent {...props} />
         </Layout>
 
