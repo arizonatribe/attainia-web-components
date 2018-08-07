@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {pathOr} from 'ramda'
-import styled, {withTheme} from 'styled-components'
-import {SimpleSvgIcon} from '../common'
-import {LogoutContainer} from '../auth'
+import { pathOr } from 'ramda'
+import styled, { withTheme } from 'styled-components'
+import { SimpleSvgIcon } from '../common'
+import { LogoutContainer } from '../auth'
 import Progress from '../common/Progress'
 
 const MessageWrapper = styled.div`
@@ -68,7 +68,16 @@ const ListHeader = styled.header`
         }
     }
 `
-const Header = ({className, continuous, progress, fadingOutMessage, statusMessage, logoutCaption, ...restOfProps}) =>
+const Header = ({
+    className,
+    continuous,
+    progress,
+    fadingOutMessage,
+    statusMessage,
+    logoutCaption,
+    renderLogout,
+    ...restOfProps
+}) =>
     <ListHeader className={className}>
         <SimpleSvgIcon
           icon="primary"
@@ -86,11 +95,15 @@ const Header = ({className, continuous, progress, fadingOutMessage, statusMessag
           height="20"
           fill={pathOr('mediumgray', ['theme', 'colors', 'misc', 'gray', 'spanishGray'])(restOfProps)}
         />
-        <LogoutContainer className="logoutLink" asLink>{logoutCaption}</LogoutContainer>
-        <Progress continuous={continuous} progress={progress} styles={{backgroundColor: 'white', height: '2px'}} />
+        {renderLogout ?
+            renderLogout() :
+            <LogoutContainer className="logoutLink" asLink>{logoutCaption}</LogoutContainer>
+        }
+        <Progress continuous={continuous} progress={progress} styles={{ backgroundColor: 'white', height: '2px' }} />
     </ListHeader>
 
 Header.propTypes = {
+    renderLogout: PropTypes.func,
     className: PropTypes.string.isRequired,
     continuous: PropTypes.bool,
     fadingOutMessage: PropTypes.bool,
@@ -100,6 +113,7 @@ Header.propTypes = {
 }
 
 Header.defaultProps = {
+    renderLogout: null,
     className: 'list-header',
     fadingOutMessage: false,
     logoutCaption: 'Logout'
