@@ -16,6 +16,7 @@ const StyledModal = styled.div`
     justify-content: center;
     background-color: rgba(0,0,0,0.5);
     cursor: pointer;
+    z-index: 9999;
 `
 const StyledModalContent = styled.div`
     width: 100%;
