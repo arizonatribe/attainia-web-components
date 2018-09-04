@@ -5,7 +5,6 @@ import {Portal} from 'react-portal'
 
 const ModalPosition = styled.div`
   position: relative;
-  z-index: 9999;
 `
 
 const KEYCODES = {
