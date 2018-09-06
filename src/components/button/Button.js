@@ -1,1 +1,1 @@
-export * from 'carbon-components-react/lib/components/Button'
+export {default} from 'carbon-components-react/lib/components/Button'

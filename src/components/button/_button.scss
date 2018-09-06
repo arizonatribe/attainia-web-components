@@ -1,12 +1,13 @@
-@import '../../globals/scss/vars';
-@import '../../globals/scss/theme';
-@import '../../globals/scss/colors';
-@import '../../globals/scss/typography';
-@import '../../globals/scss/spacing';
-@import '../../globals/scss/helper-mixins';
-@import '../../globals/scss/import-once';
+// Adapted from https://github.com/IBM/carbon-components/blob/master/src/components/button/_button.scss
+@import '../../scss/vars';
+@import '../../scss/theme';
+@import '../../scss/colors';
+@import '../../scss/typography';
+@import '../../scss/spacing';
+@import '../../scss/helper-mixins';
+@import '../../scss/import-once';
 @import 'mixins';
-@import '../../globals/scss/css--reset';
+@import '../../scss/css--reset';
 
 @include exports('button') {
   // <button> elements cannot be used as flex containers

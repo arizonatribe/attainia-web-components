@@ -1,6 +1,12 @@
-import {configure} from '@storybook/react'
+import React from 'react'
+import {configure, addDecorator} from '@storybook/react'
+import Container from './Container'
 
-configure(() => {
-    /* eslint "global-require": "off" */
-    require('../.stories')
-}, module)
+addDecorator(story => <Container story={story} />)
+
+function loadStories() {
+    const req = require.context('../src/components', true, /\.story\.js$/)
+    req.keys().forEach(filename => req(filename))
+}
+
+configure(loadStories, module)

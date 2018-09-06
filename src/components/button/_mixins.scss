@@ -1,3 +1,4 @@
+// Adapted from https://github.com/IBM/carbon-components/blob/master/src/components/button/_mixins.scss
 @mixin button-base {
     @include reset;
     @include font-family;

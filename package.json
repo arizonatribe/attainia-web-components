@@ -74,6 +74,7 @@
     "@storybook/addon-notes": "3.2.15",
     "@storybook/addon-storyshots": "3.2.16",
     "@storybook/react": "3.2.13",
+    "autoprefixer": "^9.1.5",
     "babel-cli": "6.24.1",
     "babel-eslint": "7.2.3",
     "babel-plugin-add-module-exports": "0.2.1",
@@ -92,6 +93,7 @@
     "carbon-icons": "^7.0.7",
     "classnames": "^2.2.6",
     "copyfiles": "1.2.0",
+    "css-loader": "^1.0.0",
     "eslint": "4.11.0",
     "eslint-config-airbnb": "15.1.0",
     "eslint-config-prettier": "2.6.0",
@@ -105,6 +107,7 @@
     "history": "4.7.2",
     "invariant": "^2.2.4",
     "lodash": "4.x.x",
+    "node-sass": "^4.9.3",
     "pre-commit": "1.2.2",
     "prettier": "1.7.0",
     "prettier-eslint-cli": "4.3.2",
@@ -113,7 +116,9 @@
     "react-dom": "16.x",
     "react-table": "6.x",
     "regenerator-runtime": "0.11.0",
-    "rimraf": "2.6.1"
+    "rimraf": "2.6.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.0"
   },
   "prettier": {
     "bracketSpacing": false,

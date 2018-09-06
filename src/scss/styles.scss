@@ -29,7 +29,7 @@ $css--use-experimental-grid-fallback: false !default;
 @import 'css--helpers';
 @import 'css--body';
 @import 'css--typography';
-@import '../grid/grid';
+// @import '../grid/grd';
 
 //-------------------------
 // ☠️  Manage deprecations
@@ -54,7 +54,7 @@ $deprecations--message: 'Deprecated code was found, this code will be removed be
 // 🍕 Components
 //-------------------------
 
-@import '../../components/button/button';
+@import '../components/button/button';
 
 //-------------------------------------
 // 🔬 Experimental

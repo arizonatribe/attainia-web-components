@@ -80,6 +80,7 @@
         "ignoreComments": true
       }
     ],
+    "global-require": "off",
     "new-cap": "error",
     "newline-before-return": "off",
     "no-console": "error",
