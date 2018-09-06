@@ -11,7 +11,7 @@
     "build-storybook": "NODE_PATH=src build-storybook -c .storybook -o .storybook-build",
     "build-dev": "react-scripts build",
     "prebuild": "npm run clean",
-    "build": "BABEL_ENV=production babel src/components --out-dir dist --ignore node_modules/,**/__mocks__/,**/*.test.js --copy-files",
+    "build": "BABEL_ENV=production babel src/components --out-dir dist --ignore node_modules/,**/__mocks__/,**/*.test.js,**/*.story.js --copy-files",
     "clean": "node_modules/.bin/rimraf build dist",
     "copy-manifest": "node_modules/.bin/copyfiles package.json .npmrc dist/",
     "predist": "npm run build && npm run copy-manifest",
