@@ -90,6 +90,8 @@
         "skipBlankLines": true
       }
     ],
+    "no-prototype-builtins":"off",
+    "react/no-array-index-key": "off",
     "no-mixed-spaces-and-tabs": "error",
     "no-undef": "error",
     "no-underscore-dangle": "off",
