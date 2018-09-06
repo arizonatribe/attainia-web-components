@@ -51,7 +51,7 @@
     "import/no-extraneous-dependencies": "off",
     "import/no-unresolved": [
       "error", {
-        "ignore": ["^@awc", "^@globals$", "^@theme$"]
+        "ignore": ["^@awc"]
       }
     ],
     "indent": [
@@ -111,7 +111,7 @@
     ],
     "react/jsx-indent-props": [
       "error",
-      2
+      4
     ],
     "react/no-set-state": "off",
     "react/jsx-closing-bracket-location": "error",

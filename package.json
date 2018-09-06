@@ -53,22 +53,11 @@
     "Usha <usha.kundapur@attainia.com>"
   ],
   "dependencies": {
-    "apollo-fetch": "0.7.0",
-    "articles": "0.2.2",
-    "attadux": "0.2.0",
-    "attasist": "0.0.29",
     "babel-polyfill": "6.26.0",
-    "color": "2.0.1",
-    "exact": "^0.8.0",
-    "fixed-data-table-2": "0.8.1",
-    "formatta": "0.0.10",
-    "fuzzysearch": "1.0.3",
     "hoist-non-react-statics": "2.3.1",
     "jwt-decode": "2.2.0",
     "pluralize": "7.0.0",
     "prop-types": "15.6.0",
-    "ramda": "0.25.0",
-    "react-apollo": "1.4.15",
     "react-autocomplete": "1.8.1",
     "react-fastclick": "3.0.2",
     "react-localization": "0.1.2",
@@ -76,22 +65,15 @@
     "react-router-dom": "4.1.2",
     "react-router-redux": "4.0.8",
     "react-tooltip": "3.3.1",
-    "redux-auth-wrapper": "2.0.2",
-    "redux-form": "7.0.4",
     "regenerator-runtime": "0.11.0",
     "shapey": "1.0.7",
-    "spected": "0.6.0",
     "subscriptions-transport-ws": "0.8.3",
     "uuid": "3.1.0"
   },
   "peerDependencies": {
     "react": "16.x",
     "react-dom": "16.x",
-    "react-redux": "5.x",
-    "react-table": "6.x",
-    "react-widgets": "4.x",
-    "redux": "3.x",
-    "styled-components": "2.x"
+    "react-table": "6.x"
   },
   "devDependencies": {
     "@storybook/addon-actions": "3.2.15",
@@ -131,14 +113,9 @@
     "prettier-eslint-cli": "4.3.2",
     "react": "16.3.1",
     "react-dom": "16.3.1",
-    "react-redux": "5.0.6",
     "react-scripts": "1.1.4",
     "react-table": "6.7.6",
-    "react-widgets": "4.1.2",
-    "redux": "3.7.2",
-    "redux-logger": "3.0.6",
-    "rimraf": "2.6.1",
-    "styled-components": "3.2.6"
+    "rimraf": "2.6.1"
   },
   "prettier": {
     "bracketSpacing": false,
