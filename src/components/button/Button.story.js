@@ -71,7 +71,7 @@ storiesOf('Buttons', module).add(
                     Button
                 </Button>
                 &nbsp;
-                <Button {...regularProps} href="#" className="some-class">
+                <Button {...regularProps} kind="secondary" href="#" className="some-class">
                     Link
                 </Button>
                 &nbsp;

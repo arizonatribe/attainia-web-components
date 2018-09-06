@@ -3,7 +3,6 @@
 @import 'theme';
 @import 'mixins';
 @import 'typography';
-@import 'css--reset';
 @import 'import-once';
 
 @mixin typography {
@@ -68,7 +67,7 @@
 
   a {
     @include reset;
-    color: $brand-01;
+    color: $blue-01;
   }
 
   h1,

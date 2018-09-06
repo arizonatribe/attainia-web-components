@@ -38,69 +38,42 @@
   }
 
   .#{$prefix}--btn--primary {
-    @include button-theme($brand-01, transparent, $inverse-01, $hover-primary, $ui-01);
+    @include button-theme($blue-01, transparent, $white, $hover-primary, $ui-1);
   }
 
   .#{$prefix}--btn--secondary {
-    @include button-theme(transparent, $brand-01, $brand-01, $hover-secondary, $brand-01);
-
-    &:hover,
-    &:focus {
-      color: $inverse-01;
-    }
-
-    &:active {
-      color: $brand-01;
-    }
+    @include button-theme($ui-5, transparent, $white, $hover-secondary, $white);
 
     &:hover > .#{$prefix}--btn__icon,
     &:focus > .#{$prefix}--btn__icon {
-      fill: $inverse-01;
+      fill: $white;
     }
 
-    &:hover:disabled,
-    &:focus:disabled {
-      color: $brand-01;
-    }
   }
 
   .#{$prefix}--btn--tertiary {
-    @include button-theme(transparent, $ui-05, $ui-05, $ui-05, $ui-05);
-
-    &:hover,
-    &:focus {
-      color: $inverse-01;
-    }
-
-    &:active {
-      color: $ui-05;
-    }
-
-    &:hover:disabled,
-    &:focus:disabled {
-      color: $ui-05;
-    }
+    @include button-theme(transparent, $ui-5, $ui-5, $ui-5, $ui-5);
 
     &:hover > .#{$prefix}--btn__icon,
     &:focus > .#{$prefix}--btn__icon {
-      fill: $inverse-01;
+      fill: $white;
     }
   }
 
   .#{$prefix}--btn--ghost {
-    @include button-theme(transparent, transparent, $brand-01, $brand-01, $brand-01);
+    @include button-theme(transparent, transparent, $blue-01, $blue-01, $blue-01);
 
     &:hover,
     &:focus {
-      color: $inverse-01;
+      color: $white;
 
       .#{$prefix}--btn__icon {
-        fill: $inverse-01;
+        fill: $white;
       }
     }
 
     &:active {
-      color: $ui-05;
+      color: $ui-5;
     }
 
     .#{$prefix}--btn__icon {
@@ -109,49 +82,49 @@
 
     &:hover:disabled,
     &:focus:disabled {
-      color: $brand-01;
+      color: $blue-01;
 
       .#{$prefix}--btn__icon {
-        fill: $brand-01;
+        fill: $blue-01;
       }
     }
   }
 
   .#{$prefix}--btn--danger {
-    @include button-theme(transparent, $support-01, $support-01, $support-01, $support-01);
+    @include button-theme(transparent, $atta-red, $atta-red, $atta-red, $atta-red);
 
     &:hover {
-      color: $inverse-01;
+      color: $white;
       border: $button-border-width solid transparent;
     }
 
     &:focus {
-      color: $inverse-01;
+      color: $white;
     }
 
     &:active {
-      color: $support-01;
+      color: $atta-red;
     }
 
     &:hover:disabled,
     &:focus:disabled {
-      color: $support-01;
-      border: $button-border-width solid $support-01;
+      color: $atta-red;
+      border: $button-border-width solid $atta-red;
     }
 
     &:hover > .#{$prefix}--btn__icon,
     &:focus > .#{$prefix}--btn__icon {
-      fill: $inverse-01;
+      fill: $white;
     }
   }
 
   .#{$prefix}--btn--danger--primary {
-    @include button-theme($support-01, transparent, $inverse-01, darken($support-01, 10%), $ui-01);
+    @include button-theme($atta-red, transparent, $atta-red, darken($atta-red, 10%), $ui-1);
 
     &:hover:disabled,
     &:focus:disabled {
-      color: $ui-01;
-      border: $button-border-width solid $support-01;
+      color: $ui-1;
+      border: $button-border-width solid $atta-red;
     }
   }
 

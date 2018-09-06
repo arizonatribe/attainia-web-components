@@ -21,8 +21,8 @@
   .#{$prefix}--body {
     @include reset;
     @include font-family;
-    color: $text-01;
-    background-color: $ui-02;
+    color: $ui-6;
+    background-color: $ui-2;
     line-height: 1;
   }
 }
