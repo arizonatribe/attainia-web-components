@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import {curry, assoc, path, pathEq} from 'ramda'
-import {getThemeProp} from '../common'
 
 const onBlur = curry((props, event) => {
     props.onBlur(event)
@@ -40,11 +39,11 @@ const tableToReduxForm = props => ({
 })
 
 const ShowFieldLink = styled.a`
-    color: ${getThemeProp(['colors', 'grayscale', 'black'])};
+    color: ${path(['theme', 'colors', 'grayscale', 'black'])};
     text-decoration: none;
     &:hover {
         text-decoration: none;
-        border-bottom: 1px dotted ${getThemeProp(['colors', 'grayscale', 'md'])};
+        border-bottom: 1px dotted ${path(['theme', 'colors', 'grayscale', 'md'])};
     }
 `
 

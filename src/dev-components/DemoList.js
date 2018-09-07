@@ -89,7 +89,8 @@ class DemoList extends PureComponent {
                                           entityName="album"
                                           hasAddButton={false}
                                           matchProp="title"
-                                          rows={albums}
+                                          rows={mockData.albums}
+                                          searchResults={albums}
                                           columns={defaultColumns}
                                           pageSize={albums.length}
                                           showPagination={false}

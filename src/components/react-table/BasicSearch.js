@@ -20,8 +20,8 @@ import {
     unless,
     when
 } from 'ramda'
+import {Input} from 'formatta/InputField'
 import SimpleSvgIcon from '../common/SimpleSvgIcon'
-import {Input} from '../common/InputField'
 
 
 const getByMatchProp = pipe(unless(is(Array), of), path)

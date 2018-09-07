@@ -5,12 +5,13 @@ import pluralize from 'pluralize'
 import ReactTable from 'react-table'
 import debounce from 'lodash.debounce'
 import styled, {withTheme} from 'styled-components'
-import {getId, capitalize, isPlainObj} from 'attasist'
+import {mergeObjectList, getId, capitalize, isPlainObj} from 'attasist'
 import {
     always,
     both,
     compose,
     cond,
+    curry,
     defaultTo,
     is,
     isEmpty,
@@ -19,9 +20,11 @@ import {
     omit,
     pathOr,
     prop,
+    map,
     replace,
     toLower,
     when,
+    whereEq,
     T
 } from 'ramda'
 
@@ -114,17 +117,33 @@ const TableStyle = ReactTableStyle.extend`
         text-decoration: none;
     }
 `
+
+const pruneFilters = compose(
+    map(when(both(is(Array), isEmpty), always(['']))),
+    omit(['page', 'page_size'])
+)
+const noFilters = curry(
+    (defaults, filters) => whereEq(
+        pruneFilters(defaults),
+        pruneFilters(filters)
+    )
+)
+
 class List extends PureComponent {
     constructor(props) {
         super(props)
-        this.state = {search: '', ...props.filters}
+        this.state = {...props.filterDefaults, ...props.filters}
+        this.noFilters = noFilters(props.filterDefaults || {})
     }
     componentWillMount() {
         if (this.props.shouldFetch) this.props.findList(this.state, this.props.queryType)
     }
     onTypeAhead = (event, search) => this.setState(
         state => ({...state, search}),
-        () => this.deSearchItemAdded(this.state, 'search')
+        () => this.deSearchItemAdded(
+            this.state,
+            this.noFilters(this.state) ? this.props.queryType : 'search'
+        )
     )
     onSelect = search => this.setState(
         state => ({...state, search}),
@@ -140,23 +159,34 @@ class List extends PureComponent {
     }
     applyFilters = (filterProps) => this.setState(
         state => ({...omit(keys(filterProps), state), ...filterProps}),
-        () => this.props.findList(this.state, 'search')
+        () => this.props.findList(
+            this.state,
+            this.noFilters(this.state) ? this.props.queryType : 'search'
+        )
+    )
+    clearFilters = () => this.setState(
+        () => ({...this.props.filterDefaults}),
+        () => this.props.findList(this.state, this.props.queryType)
     )
     loadNextPage = () => this.props.findList(
         {...this.state, page: this.props.currentPage + 1},
-        this.state.search ? 'search' : this.props.queryType
+        this.noFilters(this.state) ? this.props.queryType : 'search'
     )
     loadPreviousPage = () => this.props.findList(
         {...this.state, page: this.props.currentPage - 1},
-        this.state.search ? 'search' : this.props.queryType
+        this.noFilters(this.state) ? this.props.queryType : 'search'
     )
     exportList = () => {
+        const results = this.noFilters(this.state) ? this.props.rows : this.props.searchResults
         if (is(Function, this.props.exportList)) {
-            this.props.exportList({
+            const exportResult = this.props.exportList({
                 ...this.state,
                 page: this.props.currentPage,
-                page_size: this.props.searchResults.length || this.props.rows.length || 10
+                page_size: results.length || 10
             })
+            if (is(Function, exportResult)) {
+                exportResult(results)
+            }
         }
     }
     filterAutoComplete = filter(
@@ -192,6 +222,8 @@ class List extends PureComponent {
         } = this.props
         const entityName = toLower(this.props.entityName || 'item')
         const entityDisplayName = capitalize(pluralize(entityName))
+        const results = this.noFilters(this.state) ? rows : searchResults
+        const mergeWithSearchResults = mergeObjectList(matchProp, 'id')(rows)
         return (
             <ListContext.Provider value={this.state}>
                 <ListStyle hasFilters={!!renderAdditionalFilters} noHeader={!hasAddButton && noTitle}>
@@ -203,7 +235,7 @@ class List extends PureComponent {
                         <BasicSearch
                           matchProp={matchProp}
                           searchFor={`Search for ${entityDisplayName}`}
-                          searchItems={this.filterAutoComplete(rows)}
+                          searchItems={this.filterAutoComplete(mergeWithSearchResults(searchResults))}
                           onChange={this.onTypeAhead}
                           onSelect={this.onSelect}
                           value={this.state.search}
@@ -212,13 +244,18 @@ class List extends PureComponent {
                     {renderAdditionalFilters &&
                         <FilterStyle>
                             <ListContext.Consumer>
-                                {filters => renderAdditionalFilters({filters, applyFilters: this.applyFilters})}
+                                {filters => renderAdditionalFilters({
+                                    filters,
+                                    applyFilters: this.applyFilters,
+                                    clearFilters: this.clearFilters,
+                                    noFilters: this.noFilters(filters)
+                                })}
                             </ListContext.Consumer>
                         </FilterStyle>
                     }
                     <TableWrapper>
                         <Totals>
-                            {createTotalsCaption('displaying', entityName)(searchResults.length || rows.length)}
+                            {createTotalsCaption('displaying', entityName)(results.length)}
                         </Totals>
                         <IconHoverStyle className="icon-export">
                             <SimpleSvgIcon
@@ -240,10 +277,10 @@ class List extends PureComponent {
                         </IconHoverStyle>
                         <TableStyle onClick={this.props.handleTableClick || this.handleTableClick} >
                             <ReactTable
-                              data={isEmpty(searchResults) ? rows : searchResults}
+                              data={results}
                               columns={columns}
                               noDataText={`No ${entityDisplayName} found.`}
-                              pageSize={searchResults.length || rows.length || 10}
+                              pageSize={results.length || 10}
                               showPagination={false}
                               className="-striped"
                               getTdProps={getTdProps || createIdForDetailColumn(matchProp)}
@@ -298,6 +335,9 @@ List.propTypes = {
         page: PropTypes.number,
         page_size: PropTypes.number
     }),
+    filterDefaults: PropTypes.shape({
+        search: PropTypes.string
+    }),
     renderAddButton: PropTypes.func,
     renderAdditionalFilters: PropTypes.func,
     handleTableClick: PropTypes.func
@@ -317,6 +357,7 @@ List.defaultProps = {
     columns: [],
     searchResults: [],
     filters: {search: '', page: 1, page_size: 10},
+    filterDefaults: {search: ''},
     // eslint-disable-next-line react/prop-types
     renderAddButton: ({entityName}) =>
         <AddButtonStyle>

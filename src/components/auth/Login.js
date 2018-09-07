@@ -1,16 +1,16 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Link from 'react-router-dom/Link'
+import {Form, BasicFormField} from 'formatta'
+import {pathOr} from 'ramda'
 
 import {ContentFullSize} from '../layout'
 import AuthError from './AuthError.container'
-import {SpinningButton, Form, SimpleSvgIcon, ReduxFormField, FormField} from '../common'
-import {getThemeProp} from '../common/helpers'
+import {SpinningButton, SimpleSvgIcon, ReduxFormField} from '../common'
 
 const StyledLoginForm = styled(Form)`
     & > * {
-        margin: ${getThemeProp(['forms', 'formItemMargin'], '5px')};
+        margin: ${pathOr('5px', ['theme', 'forms', 'formItemMargin'])};
         &:focus {
             outline: none;
         }
@@ -20,11 +20,6 @@ const StyledLoginForm = styled(Form)`
         margin: 30px auto 15px auto;
     }
 
-    & .passwordHelp {
-        text-align: right;
-    }
-
-    & .register,
     & .loginButton {
         text-align: center;
     }
@@ -32,10 +27,8 @@ const StyledLoginForm = styled(Form)`
     @supports not (display: grid) {
         .loginHeader,
         .email,
-        .password,
         .register,
         .rememberMe,
-        .passwordHelp,
         .loginButton {
             max-width: 50em;
             margin: 0 auto;
@@ -46,9 +39,11 @@ const StyledLoginForm = styled(Form)`
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
-            'header header' 'email email' 'password password'
-            ${props => (props.showPasswordHelp ? '"remember-me password-help"' : '"remember-me remember-me"')}
-            'login-button login-button' ${props => props.showRegistration && '"register register"'};
+            'header header'
+            'email email'
+            'password password'
+            'remember-me remember-me'
+            'login-button login-button';
 
         & .loginHeader {
             grid-area: header;
@@ -66,16 +61,8 @@ const StyledLoginForm = styled(Form)`
             grid-area: remember-me;
         }
 
-        & .passwordHelp {
-            grid-area: password-help;
-        }
-
         & .loginButton {
             grid-area: login-button;
-        }
-
-        & .register {
-            grid-area: register;
         }
     }
 `
@@ -83,8 +70,8 @@ class Login extends PureComponent {
     render() {
         const {
             handleSubmit, toggleRememberMe, tryLogin,
-            email, loginLabel, passwordHelpLabel, registrationLabel, rememberMeLabel,
-            hasAuthError, loading, rememberMe, showPasswordHelp, showRegistration
+            email, loginLabel, rememberMeLabel,
+            hasAuthError, loading, rememberMe
         } = this.props
 
         return (
@@ -108,7 +95,7 @@ class Login extends PureComponent {
                       type="password"
                       name="password"
                     />
-                    <FormField
+                    <BasicFormField
                       id="LoginForm-rememberMe"
                       className="rememberMe"
                       label={rememberMeLabel}
@@ -118,11 +105,9 @@ class Login extends PureComponent {
                       value={rememberMe}
                       handlers={{onChange: toggleRememberMe}}
                     />
-                    {showPasswordHelp && <Link className="passwordHelp" to="password-help">{passwordHelpLabel}</Link>}
                     <SpinningButton inProgress={loading} className="loginButton" type="submit">
                         {loginLabel}
                     </SpinningButton>
-                    {showRegistration && <Link className="register" to="register">{registrationLabel}</Link>}
                 </StyledLoginForm>
             </ContentFullSize>
         )
@@ -132,14 +117,10 @@ class Login extends PureComponent {
 Login.propTypes = {
     email: PropTypes.string,
     loginLabel: PropTypes.string.isRequired,
-    passwordHelpLabel: PropTypes.string.isRequired,
-    registrationLabel: PropTypes.string.isRequired,
     rememberMeLabel: PropTypes.string.isRequired,
     hasAuthError: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     rememberMe: PropTypes.bool.isRequired,
-    showPasswordHelp: PropTypes.bool.isRequired,
-    showRegistration: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     toggleRememberMe: PropTypes.func.isRequired,
     tryLogin: PropTypes.func.isRequired
@@ -147,14 +128,10 @@ Login.propTypes = {
 
 Login.defaultProps = {
     loginLabel: 'Login',
-    passwordHelpLabel: 'Password Help',
-    registrationLabel: 'Need an Account?',
     rememberMeLabel: 'Remember Me',
     hasAuthError: false,
     loading: false,
-    rememberMe: false,
-    showPasswordHelp: true,
-    showRegistration: false
+    rememberMe: false
 }
 
 export default Login

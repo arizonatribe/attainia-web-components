@@ -24,7 +24,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
             if (error) {
                 throw new Error(error)
             }
-            if (!data.validateToken) {
+            if (!data.validateToken || !data.validateToken.active) {
                 dispatchProps.logout(token)
                 removeToken(token)
             } else {

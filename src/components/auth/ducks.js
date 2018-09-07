@@ -57,7 +57,6 @@ export default createDuck({
         'CLEAR_LOGIN',
         'CLEAR_ERROR',
         'CLEAR_REFRESH',
-        'CONFIRM_USER_REGISTRATION',
         'DECODED_JWT',
         'ERROR',
         'LOADING_FINISHED',
@@ -65,18 +64,14 @@ export default createDuck({
         'LOGIN',
         'LOGOUT',
         'PARSED_TOKEN',
-        'PASSWORD_HELP',
         'POST_LOGIN',
         'REFRESH',
-        'REGISTER_APP',
-        'REGISTER_USER',
         'REMEMBER_ME',
         'UPDATED_TOKEN',
         'USER_INFO_FROM_TOKEN',
         'VALIDATED_TOKEN'
     ],
     initialState: {
-        app: {},
         baseUrl: 'localhost',
         error: '',
         loading: false,
@@ -144,13 +139,9 @@ export default createDuck({
     creators: ({types}) => ({
         handleError: error => ({error, type: types.ERROR}),
         clearError: () => ({type: types.CLEAR_ERROR}),
-        confirmRegistration: () => ({type: types.CONFIRM_USER_REGISTRATION}),
         decodedJwt: jwt => ({jwt, type: types.DECODED_JWT}),
-        passwordHelp: email => ({email, type: types.PASSWORD_HELP}),
         refresh: refreshTimeout => ({refreshTimeout, type: types.REFRESH}),
         clearRefresh: () => ({type: types.CLEAR_REFRESH}),
-        register: user => ({user, type: types.REGISTER_USER}),
-        registerApp: app => ({app, type: types.REGISTER_APP}),
         toggleRememberMe: rememberMe => ({rememberMe, type: types.REMEMBER_ME}),
         login: user => ({user, type: types.LOGIN}),
         logout: () => ({type: types.LOGOUT}),
@@ -162,15 +153,6 @@ export default createDuck({
         finishedLoading: () => ({type: types.LOADING_FINISHED})
     }),
     validators: {
-        passwordHelp: {
-            email: [
-                [isStringieThingie, new LocalizedStrings({
-                    en: {email: 'Please enter your email'},
-                    fr: {email: 'Entrez votre adresse e-mail'},
-                    es: {email: 'Por favor, introduzca su dirección de correo electrónico'}
-                }).email]
-            ]
-        },
         login: {
             password: [
                 [isStringieThingie, new LocalizedStrings({
@@ -184,71 +166,6 @@ export default createDuck({
                     en: {email: 'Please enter your email'},
                     fr: {email: 'Entrez votre adresse e-mail'},
                     es: {email: 'Por favor, introduzca su dirección de correo electrónico'}
-                }).email]
-            ]
-        },
-        applicationRegistration: {
-            name: [
-                [isStringieThingie, new LocalizedStrings({
-                    en: {name: 'Please enter your name'},
-                    fr: {name: 'S\'il vous plaît entrez votre nom'},
-                    es: {name: 'por favor, escriba su nombre'}
-                }).name]
-            ],
-            redirect: [
-                [isStringieThingie, new LocalizedStrings({
-                    en: {redirect: 'Please enter a URL'},
-                    fr: {redirect: 'Entrez une URL'},
-                    es: {redirect: 'Ingrese una URL'}
-                }).redirect]
-            ]
-        },
-        userRegistrationConfirmation: {
-            password: [
-                [isStringieThingie, new LocalizedStrings({
-                    en: {password: 'Please enter your password'},
-                    fr: {password: 's\'il vous plait entrez votre mot de passe'},
-                    es: {password: 'Por favor, introduzca su contraseña'}
-                }).password],
-                [isValidPassword, new LocalizedStrings({
-                    /* eslint-disable max-len */
-                    en: {password: 'Passwords should be greater than 6 alphanumeric characters. Some special characters are allowed.'},
-                    fr: {password: 'Les mots de passe doivent être supérieurs à 6 caractères. Algunos caracteres especiales están permitidos.'},
-                    es: {password: 'Las contraseñas deben tener más de 6 caracteres. Certains caractères spéciaux sont autorisés.'}
-                    /* eslint-enable max-len */
-                }).password]
-            ],
-            confirm: [
-                [isStringieThingie, new LocalizedStrings({
-                    en: {confirm: 'Please confirm your password'},
-                    fr: {confirm: 's\'il vous plait entrez votre mot de passe'},
-                    es: {confirm: 'Por favor, introduzca su contraseña'}
-                }).confirm],
-                [(conf, fields) => conf === fields.password, new LocalizedStrings({
-                    en: {confirm: 'Passwords do not match'},
-                    fr: {confirm: 'Les mots de passe ne correspondent pas'},
-                    es: {confirm: 'Las contraseñas no coinciden'}
-                }).confirm]
-            ]
-        },
-        userRegistration: {
-            name: [
-                [isStringieThingie, new LocalizedStrings({
-                    en: {name: 'Please enter your name'},
-                    fr: {name: 'S\'il vous plaît entrez votre nom'},
-                    es: {name: 'por favor, escriba su nombre'}
-                }).name]
-            ],
-            email: [
-                [isStringieThingie, new LocalizedStrings({
-                    en: {email: 'Please enter your email address'},
-                    fr: {email: 'Entrez votre adresse e-mail'},
-                    es: {email: 'Por favor, introduzca su dirección de correo electrónico'}
-                }).email],
-                [isValidEmail, new LocalizedStrings({
-                    en: {email: 'Invalid email address'},
-                    fr: {email: 'Adresse e-mail invalide'},
-                    es: {email: 'Dirección de correo electrónico no válida'}
                 }).email]
             ]
         }
@@ -297,8 +214,6 @@ export default createDuck({
                     isAuthenticated: false
                 }
             }
-            case types.PASSWORD_HELP:
-                return {...state, user: {email: action.email}}
             case types.REFRESH: {
                 if (state.refreshTimeout) clearTimeout(state.refreshTimeout)
 
@@ -307,10 +222,6 @@ export default createDuck({
                     refreshTimeout: action.refreshTimeout
                 }
             }
-            case types.REGISTER_APP:
-                return {...state, app: action.app}
-            case types.REGISTER_USER:
-                return {...state, user: {name: action.user.name, email: action.user.email}}
             case types.REMEMBER_ME:
                 return {...state, rememberMe: !state.rememberMe}
             case types.PARSED_TOKEN:

@@ -5,32 +5,31 @@ import {Portal} from 'react-portal'
 
 const ModalPosition = styled.div`
   position: relative;
-  z-index: 999;
 `
 
 const KEYCODES = {
     ESCAPE: 27
 }
-  
+
 class Modal extends React.Component {
     constructor(props) {
         super(props)
         this.portalNode = null
         this.state = { active: !!props.defaultOpen }
     }
-  
+
     componentDidMount() {
         if (this.props.closeOnEsc) {
             document.addEventListener('keydown', this.handleKeydown)
         }
     }
-  
+
     componentWillUnmount() {
         if (this.props.closeOnEsc) {
             document.removeEventListener('keydown', this.handleKeydown)
         }
     }
-  
+
     openPortal = event => {
         if (this.state.active) {
             return
@@ -40,14 +39,14 @@ class Modal extends React.Component {
         }
         this.setState({ active: true }, this.props.onOpen)
     }
-  
+
     closePortal = () => {
         if (!this.state.active) {
             return
         }
         this.setState({ active: false }, this.props.onClose)
     }
-  
+
     wrapWithPortal = (children) => {
         if (!this.state.active) {
             return null
@@ -68,7 +67,7 @@ class Modal extends React.Component {
             this.closePortal()
         }
     }
-  
+
     render() {
         return (
             <ModalPosition>
@@ -82,7 +81,7 @@ class Modal extends React.Component {
         )
     }
 }
-  
+
 Modal.propTypes = {
     children: PropTypes.func.isRequired,
     defaultOpen: PropTypes.bool,
@@ -92,10 +91,10 @@ Modal.propTypes = {
     // node can be a div in index.html instead of a React Node.
     node: PropTypes.any // eslint-disable-line react/forbid-prop-types
 }
-  
+
 Modal.defaultProps = {
     onOpen: () => {},
     onClose: () => {}
 }
-  
+
 export default Modal

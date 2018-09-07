@@ -1,16 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {compose} from 'ramda'
-import FormField from '../common/FormField'
+import BasicFormField from 'formatta/BasicFormField'
+import PropTypes from 'prop-types'
 import TableFieldWrapperHoC from './TableFieldWrapperHoC'
 import TableFieldWithState from './TableFieldWithState'
 
 const FormFieldWrapperWithState = compose(
     TableFieldWithState,
     TableFieldWrapperHoC
-)(FormField)
+)(BasicFormField)
 
-FormField.displayName = 'FormField'
+BasicFormField.displayName = 'BasicFormField'
 
 FormFieldWrapperWithState.displayName = 'FormFieldWrapperWithState'
 

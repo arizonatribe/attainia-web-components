@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4'
 import React from 'react'
 import PropTypes from 'prop-types'
-import {isStringieThingie} from 'attasist'
+import {isStringieThingie, isImageUrl} from 'attasist'
 import NavLink from 'react-router-dom/NavLink'
 import styled, {withTheme} from 'styled-components'
 import {always, cond, curry, is, pathOr, propEq, propIs, propSatisfies, T} from 'ramda'
@@ -32,7 +32,7 @@ const Li = styled.li`
     & a, .nav-action, .nav-label {
         padding: ${pathOr('10px 0', ['padding'])};
         color: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
-        & svg {
+        & svg, img {
             grid-area: nav-icon;
             justify-self: center;
         }
@@ -140,7 +140,8 @@ const handleClick = curry(
 
 const Action = ({width, height, icon, label, ...restOfProps}) =>
     <NavAction className="nav-action" onClick={handleClick(restOfProps)}>
-        {icon &&
+        {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
+        {icon && !isImageUrl(icon) &&
             <SimpleSvgIcon
               width={width || 10}
               height={height || 10}
@@ -155,7 +156,8 @@ Action.propTypes = {...navItems}
 
 const Link = ({link, width, height, icon, label, ...restOfProps}) =>
     <NavLink to={link}>
-        {icon &&
+        {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
+        {icon && !isImageUrl(icon) &&
             <SimpleSvgIcon
               width={width || 10}
               height={height || 10}
@@ -170,7 +172,8 @@ Link.propTypes = {...navItems}
 
 const LabelAndIcon = ({width, height, icon, label, ...restOfProps}) =>
     <NavAction className="nav-label">
-        {icon &&
+        {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
+        {icon && !isImageUrl(icon) &&
             <SimpleSvgIcon
               width={width || 10}
               height={height || 10}
@@ -185,7 +188,8 @@ LabelAndIcon.propTypes = {...navItems}
 
 const IconOnly = ({width, height, icon, label, ...restOfProps}) =>
     <NavAction className="nav-label">
-        {isStringieThingie(icon) ?
+        {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
+        {(isStringieThingie(icon) && !isImageUrl(icon)) ?
             <SimpleSvgIcon
               width={width || 10}
               height={height || 10}

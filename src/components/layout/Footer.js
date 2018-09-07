@@ -1,7 +1,7 @@
 import React from 'react'
+import {pathOr} from 'ramda'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import {getThemeProp} from '../common/helpers'
 
 const Footer = styled.footer`
     grid-area: footer;
@@ -20,7 +20,7 @@ const Footer = styled.footer`
         justify-content: stretch;
         grid-area: smallofthefooter;
         grid-template-columns: auto 2em auto 2em auto;
-        color: ${getThemeProp(['colors', 'misc', 'gray', 'quicksilver'], 'mediumgray')};
+        color: ${pathOr('mediumgray', ['theme', 'colors', 'misc', 'gray', 'quicksilver'])};
 
         & span {
             display: block;
@@ -28,7 +28,7 @@ const Footer = styled.footer`
 
         & a {
             text-decoration: none;
-            color: ${getThemeProp(['colors', 'misc', 'gray', 'silver'], 'silver')};
+            color: ${pathOr('silver', ['theme', 'colors', 'misc', 'gray', 'silver'])};
         }
 
         & a:hover,

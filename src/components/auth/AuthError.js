@@ -1,8 +1,8 @@
 import React from 'react'
+import {pathOr} from 'ramda'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, {withTheme} from 'styled-components'
 import {ErrorMessage} from '../common'
-import {getThemeProp} from '../common/helpers'
 
 const ErroMessageWithCloseIcon = styled(ErrorMessage)`
     position: relative;
@@ -12,7 +12,7 @@ const ErroMessageWithCloseIcon = styled(ErrorMessage)`
 
     &:after {
         content: '${'\u2715'}';
-        color: ${getThemeProp(['colors', 'grayscale', 'white'], 'white')};
+        color: ${pathOr('white', ['theme', 'colors', 'grayscale', 'white'])};
         position: absolute;
         top: 4px;
         right: 4px;
@@ -33,4 +33,4 @@ AuthError.propTypes = {
     clearError: PropTypes.func
 }
 
-export default AuthError
+export default withTheme(AuthError)
