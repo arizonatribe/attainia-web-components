@@ -52,19 +52,23 @@
     "Tim <tim.graf@attainia.com>",
     "Usha <usha.kundapur@attainia.com>"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "typeface-roboto": "^0.0.54",
+    "typeface-roboto-condensed": "^0.0.54",
+    "url-loader": "^1.1.1"
+  },
   "peerDependencies": {
-    "react": "16.x",
-    "react-dom": "16.x",
-    "react-table": "6.x",
-    "prop-types": "15.x",
     "carbon-components": "^9.10.1",
     "carbon-components-react": "^6.28.1",
     "carbon-icons": "^7.0.7",
-    "lodash": "4.x.x",
-    "formik": "1.x",
     "classnames": "^2.2.6",
-    "invariant": "^2.2.4"
+    "formik": "1.x",
+    "invariant": "^2.2.4",
+    "lodash": "4.x.x",
+    "prop-types": "15.x",
+    "react": "16.x",
+    "react-dom": "16.x",
+    "react-table": "6.x"
   },
   "devDependencies": {
     "@storybook/addon-actions": "3.2.15",
