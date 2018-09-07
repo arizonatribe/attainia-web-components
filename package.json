@@ -14,7 +14,7 @@
     "build": "BABEL_ENV=production babel src/ --out-dir dist --ignore node_modules/,**/__mocks__/,**/*.test.js,**/*.story.js --copy-files",
     "clean": "node_modules/.bin/rimraf build dist",
     "copy-manifest": "node_modules/.bin/copyfiles package.json .npmrc dist/",
-    "predist": "npm run build && npm run copy-manifest",
+    "predist": "yarn build && yarn copy-manifest",
     "dist": "cd dist && npm publish",
     "precommit-validate": "hooks/lint_js || (echo 'Please fix any of the above-mentioned linting errors before finalizing this commit.' && exit 1)",
     "eject": "react-scripts eject",
@@ -53,13 +53,12 @@
     "Usha <usha.kundapur@attainia.com>"
   ],
   "dependencies": {
-    "typeface-roboto": "^0.0.54",
-    "typeface-roboto-condensed": "^0.0.54",
-    "url-loader": "^1.1.1"
   },
   "peerDependencies": {
     "carbon-components": "^9.10.1",
     "carbon-components-react": "^6.28.1",
+    "typeface-roboto": "^0.0.54",
+    "typeface-roboto-condensed": "^0.0.54",
     "carbon-icons": "^7.0.7",
     "classnames": "^2.2.6",
     "formik": "1.x",
@@ -122,7 +121,10 @@
     "regenerator-runtime": "0.11.0",
     "rimraf": "2.6.1",
     "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.0"
+    "style-loader": "^0.23.0",
+    "url-loader": "^1.1.1",
+    "typeface-roboto": "^0.0.54",
+    "typeface-roboto-condensed": "^0.0.54"
   },
   "prettier": {
     "bracketSpacing": false,
