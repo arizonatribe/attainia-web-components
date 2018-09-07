@@ -51,7 +51,7 @@
     "import/no-extraneous-dependencies": "off",
     "import/no-unresolved": [
       "error", {
-        "ignore": ["^@awc", "^@globals$", "^@theme$"]
+        "ignore": ["^@awc"]
       }
     ],
     "indent": [
@@ -80,6 +80,7 @@
         "ignoreComments": true
       }
     ],
+    "global-require": "off",
     "new-cap": "error",
     "newline-before-return": "off",
     "no-console": "error",
@@ -90,6 +91,8 @@
         "skipBlankLines": true
       }
     ],
+    "no-prototype-builtins":"off",
+    "react/no-array-index-key": "off",
     "no-mixed-spaces-and-tabs": "error",
     "no-undef": "error",
     "no-underscore-dangle": "off",
@@ -111,7 +114,7 @@
     ],
     "react/jsx-indent-props": [
       "error",
-      2
+      4
     ],
     "react/no-set-state": "off",
     "react/jsx-closing-bracket-location": "error",

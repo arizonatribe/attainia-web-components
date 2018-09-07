@@ -1,0 +1,73 @@
+@import 'helper-mixins';
+@import 'functions';
+
+@mixin theme() {
+  $hover-primary: darken($blue-01, 10%) !default !global;
+  $hover-primary-text: darken($white, 15%) !default !global;
+  $hover-danger: darken($atta-red, 10%) !default !global;
+  $hover-secondary: $ui-4 !default !global;
+  $hover-row: $blue-02 !default !global;
+
+  // Global
+  $input-border: 1px solid transparent !default !global;
+  $input-label-weight: 600 !default !global;
+
+  // Button Theme Variables
+  $button-font-weight: 600 !default !global;
+  $button-font-size: 0.75rem !default !global;
+  $button-border-radius: 5px !default !global;
+  $button-height: 40px !default !global;
+  $button-padding: 0 $spacing-md !default !global;
+  $button-padding-sm: 0 $spacing-xs !default !global;
+  $button-border-width: 2px !default !global;
+
+  // Accordion (Reverse)
+  $accordion-flex-direction: row !default !global;
+  $accordion-justify-content: flex-start !default !global;
+  $accordion-arrow-margin: 0 0 0 $spacing-2xs !default !global;
+  $accordion-title-margin: 0 0 0 $spacing-md !default !global;
+  $accordion-content-padding: 0 $spacing-md 0 $spacing-2xl !default !global;
+
+  // Card
+  $card-text-align: center !default !global;
+  $card-flex-align: center !default !global;
+
+  // Checkbox
+  $checkbox-border-width: 2px !default !global;
+
+  // Code Snippet
+  $snippet-background-color: $ui-1 !default !global;
+  $snippet-border-color: $ui-3 !default !global;
+
+  // Content Switcher
+  $content-switcher-border-radius: 8px !default !global;
+  $content-switcher-option-border: 1px solid $blue-01 !default !global;
+
+  // Data Table
+  $data-table-heading-transform: uppercase !default !global;
+  $data-table-heading-border-bottom: 1px solid $blue-01 !default !global;
+  $data-table-row-height: 2rem !default !global;
+
+  // Modal
+  $modal-border-top: $blue-01 4px solid !default !global;
+  $modal-footer-background-color: $white !default !global;
+
+  // Progress Indicator
+  $progress-indicator-bar-width: 1px inset transparent !default !global;
+  $progress-indicator-stroke-width: 5 !default !global;
+  $progress-indicator-line-offset: 0.625rem !default !global;
+
+  // Radio Button
+  $radio-border-width: 2px !default !global;
+
+  // Structured Theme Variables
+  $structured-list-padding: 2rem !default !global;
+  $structured-list-text-transform: none !default !global;
+
+  // Skeleton Loading
+  $skeleton: rgba($blue-01, 0.1) !default !global; //old $field-01
+}
+
+@include exports('theme') {
+    @include theme;
+}

@@ -1,0 +1,34 @@
+@import 'vars';
+@import 'theme';
+@import 'css--reset';
+@import 'typography';
+@import 'import-once';
+
+@mixin css-helpers {
+  .#{$prefix}--visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    visibility: visible;
+    white-space: nowrap;
+  }
+
+  .#{$prefix}--body {
+    @include reset;
+    @include font-family;
+    color: $ui-6;
+    background-color: $ui-2;
+    line-height: 1;
+  }
+}
+
+@include exports('css--helpers') {
+  @if global-variable-exists('css--helpers') == false or $css--helpers == true {
+    @include css-helpers;
+  }
+}

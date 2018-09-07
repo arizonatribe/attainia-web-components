@@ -4,7 +4,7 @@
     "react"
   ],
   "plugins": [
-    "ramda",
+    "lodash",
     "syntax-async-functions",
     "transform-object-rest-spread",
     "transform-react-remove-prop-types",
@@ -15,10 +15,8 @@
       "alias": {
         "^@awc$": "./src/components/index.js",
         "^@awc/(.+)": "./src/components/\\1",
-        "^@globals$": "./src/globals.js",
         "^@stories": "./.stories/index.js",
-        "^@stories/(.+)$": "./stories/\\1",
-        "^@theme$": "./src/theme.js"
+        "^@stories/(.+)$": "./stories/\\1"
       },
       "extensions": [".js"]
     }]

@@ -1,0 +1,76 @@
+//-------------------------
+// 🌍 Global
+//-------------------------
+
+$css--font-face: true !default;
+$css--helpers: true !default;
+$css--body: true !default;
+$css--use-layer: true !default;
+$css--reset: true !default;
+$css--typography: true !default;
+$css--plex: true !default;
+// TODO: remove in next major release. Synced in `feature-flags` as an adapter
+// in the interim
+$css--use-experimental-grid: false !default;
+$css--use-experimental-grid-fallback: false !default;
+
+@import 'feature-flags';
+@import 'vars';
+@import 'colors';
+@import 'theme';
+@import 'mixins';
+@import 'layout';
+@import 'layer';
+@import 'spacing';
+@import 'typography';
+@import 'import-once';
+@import 'css--reset';
+@import 'css--font-face';
+@import 'css--helpers';
+@import 'css--body';
+@import 'css--typography';
+// @import '../grid/grd';
+
+//-------------------------
+// ☠️  Manage deprecations
+//-------------------------
+
+/**
+ * We flag this variable as true if someone uses the globals/scss/styles.scss
+ * entry-point. This allows us to collect all the messages and display them at
+ * the end of the file instead of bringing it up per-component.
+ *
+ * If a consumer instead gets the components by importing the partial directly,
+ * this variable _will not_ be set to true, so the deprecation message will be
+ * displayed after the @import.
+ */
+$deprecations--entry: true;
+// Collect all deprecation reasons into this list throughout the import cycle.
+$deprecations--reasons: ();
+// This message will be prepended to any deprecation notice
+$deprecations--message: 'Deprecated code was found, this code will be removed before the next release of Carbon.';
+
+//-------------------------
+// 🍕 Components
+//-------------------------
+
+@import '../components/button/button';
+
+//-------------------------------------
+// 🔬 Experimental
+//-------------------------------------
+
+//-------------------------------------
+// 🙈 Hidden (Not exposed on website)
+//-------------------------------------
+
+// Cycle through all the deprecation reasons, if any exist, that have been
+// accumulated through the @import process.
+@if (length($deprecations--reasons) > 0) {
+  $deprecations--message: '';
+  @each $reason in $deprecations--reasons {
+    $deprecations--message: '#{$deprecations--message} REASON: #{$reason}';
+  }
+
+  @warn $deprecations--message;
+}

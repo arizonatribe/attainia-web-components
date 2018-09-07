@@ -1,0 +1,147 @@
+// Adapted from https://github.com/IBM/carbon-components/blob/master/src/components/button/_button.scss
+@import '../../scss/vars';
+@import '../../scss/theme';
+@import '../../scss/colors';
+@import '../../scss/typography';
+@import '../../scss/spacing';
+@import '../../scss/helper-mixins';
+@import '../../scss/import-once';
+@import 'mixins';
+@import '../../scss/css--reset';
+
+@include exports('button') {
+  // <button> elements cannot be used as flex containers
+  button.#{$prefix}--btn {
+    display: inline-block;
+  }
+
+  // Reset intrisic padding in Firefox (see #731)
+  button.#{$prefix}--btn::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+  }
+
+  // Vertically center icon inside <button>
+  button.#{$prefix}--btn .#{$prefix}--btn__icon {
+    position: relative;
+    vertical-align: middle;
+    top: -1px;
+
+    // Targets IE10+ browsers: Reset <svg> position for vertical centering
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      top: 0;
+    }
+  }
+
+  .#{$prefix}--btn {
+    @include button-base;
+  }
+
+  .#{$prefix}--btn--primary {
+    @include button-theme($blue-01, transparent, $white, $hover-primary, $ui-1);
+  }
+
+  .#{$prefix}--btn--secondary {
+    @include button-theme($ui-5, transparent, $white, $hover-secondary, $white);
+
+    &:hover > .#{$prefix}--btn__icon,
+    &:focus > .#{$prefix}--btn__icon {
+      fill: $white;
+    }
+
+  }
+
+  .#{$prefix}--btn--tertiary {
+    @include button-theme(transparent, $ui-5, $ui-5, $ui-5, $ui-5);
+
+    &:hover > .#{$prefix}--btn__icon,
+    &:focus > .#{$prefix}--btn__icon {
+      fill: $white;
+    }
+  }
+
+  .#{$prefix}--btn--ghost {
+    @include button-theme(transparent, transparent, $blue-01, $blue-01, $blue-01);
+
+    &:hover,
+    &:focus {
+      color: $white;
+
+      .#{$prefix}--btn__icon {
+        fill: $white;
+      }
+    }
+
+    &:active {
+      color: $ui-5;
+    }
+
+    .#{$prefix}--btn__icon {
+      margin-left: $spacing-xs;
+    }
+
+    &:hover:disabled,
+    &:focus:disabled {
+      color: $blue-01;
+
+      .#{$prefix}--btn__icon {
+        fill: $blue-01;
+      }
+    }
+  }
+
+  .#{$prefix}--btn--danger {
+    @include button-theme(transparent, $atta-red, $atta-red, $atta-red, $atta-red);
+
+    &:hover {
+      color: $white;
+      border: $button-border-width solid transparent;
+    }
+
+    &:focus {
+      color: $white;
+    }
+
+    &:active {
+      color: $atta-red;
+    }
+
+    &:hover:disabled,
+    &:focus:disabled {
+      color: $atta-red;
+      border: $button-border-width solid $atta-red;
+    }
+
+    &:hover > .#{$prefix}--btn__icon,
+    &:focus > .#{$prefix}--btn__icon {
+      fill: $white;
+    }
+  }
+
+  .#{$prefix}--btn--danger--primary {
+    @include button-theme($atta-red, transparent, $atta-red, darken($atta-red, 10%), $ui-1);
+
+    &:hover:disabled,
+    &:focus:disabled {
+      color: $ui-1;
+      border: $button-border-width solid $atta-red;
+    }
+  }
+
+  .#{$prefix}--btn--sm {
+    @include letter-spacing;
+    height: 2rem;
+    padding: $button-padding-sm;
+  }
+
+  .#{$prefix}--btn--secondary + .#{$prefix}--btn--primary,
+  .#{$prefix}--btn--tertiary + .#{$prefix}--btn--danger--primary {
+    margin-left: $spacing-md;
+  }
+
+  // Skeleton State
+  .#{$prefix}--btn.#{$prefix}--skeleton {
+    @include skeleton;
+    width: rem(150px);
+  }
+}
