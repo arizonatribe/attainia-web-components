@@ -5,22 +5,22 @@
 
 import {camelKeys, isPlainObj} from 'attasist'
 import {
-    anyPass,
-    assocPath,
-    compose,
-    contains,
-    converge,
-    curry,
-    identity,
-    is,
-    keys,
-    merge,
-    omit,
-    path,
-    pathSatisfies,
-    pipe,
-    prop,
-    when
+  anyPass,
+  assocPath,
+  compose,
+  contains,
+  converge,
+  curry,
+  identity,
+  is,
+  keys,
+  merge,
+  omit,
+  path,
+  pathSatisfies,
+  pipe,
+  prop,
+  when
 } from 'ramda'
 
 import authDux from './ducks'
@@ -28,10 +28,10 @@ import authDux from './ducks'
 const {types: {VALIDATED_TOKEN, LOGIN, LOGOUT, UPDATED_TOKEN}} = authDux
 
 export const metaDefaults = {
-    page: 1,
-    totalPages: 1,
-    pageSize: 50,
-    totalResults: 0
+  page: 1,
+  totalPages: 1,
+  pageSize: 50,
+  totalResults: 0
 }
 
 /**
@@ -53,65 +53,65 @@ const renameKeys = compose(merge(metaDefaults), camelKeys)
  * @returns {Object} The original response object, but whose "data.meta" prop has been reformatted
  */
 const formatMeta = when(
-    path(['data', 'meta']),
-    converge(assocPath(['data', 'meta']), [
-        compose(renameKeys, path(['data', 'meta'])),
-        identity
-    ])
+  path(['data', 'meta']),
+  converge(assocPath(['data', 'meta']), [
+    compose(renameKeys, path(['data', 'meta'])),
+    identity
+  ])
 )
 
 export const setAxiosClientToken = curry(
-    (ax, token) => {
-        if (ax.setHeader) {
-            ax.setHeader('Authorization', `Bearer ${token}`)
-            ax.addResponseTransform(formatMeta)
-        } else if (path(['interceptors', 'request', 'use'])(ax)) {
-            ax.interceptors.request.use(config => ({
-                ...config,
-                headers: {
-                    ...config.headers,
-                    Authorization: `Bearer ${token}`
-                }
-            }))
+  (ax, token) => {
+    if (ax.setHeader) {
+      ax.setHeader('Authorization', `Bearer ${token}`)
+      ax.addResponseTransform(formatMeta)
+    } else if (path(['interceptors', 'request', 'use'])(ax)) {
+      ax.interceptors.request.use(config => ({
+        ...config,
+        headers: {
+          ...config.headers,
+          Authorization: `Bearer ${token}`
         }
-        return ax
+      }))
     }
+    return ax
+  }
 )
 
 export const removeAxiosClientToken = (ax) => {
-    if (ax.setHeader) {
-        // eslint-disable-next-line no-param-reassign
-        delete ax.headers.Authorization
-    } else if (path(['interceptors', 'request', 'use'])(ax)) {
-        ax.interceptors.request.use(config => ({
-            ...config,
-            headers: omit(['Authorization'])(config.headers)
-        }))
-    }
-    return ax
+  if (ax.setHeader) {
+    // eslint-disable-next-line no-param-reassign
+    delete ax.headers.Authorization
+  } else if (path(['interceptors', 'request', 'use'])(ax)) {
+    ax.interceptors.request.use(config => ({
+      ...config,
+      headers: omit(['Authorization'])(config.headers)
+    }))
+  }
+  return ax
 }
 
 export const setApolloClientToken = curry(
-    (apolloFetch, token) => {
-        apolloFetch.use(({options = {}}, fetchNext) => {
-            // eslint-disable-next-line no-param-reassign
-            options.headers = {
-                ...(options.headers || {}),
-                authorization: `Bearer ${token}`
-            }
-            fetchNext()
-        })
-        return apolloFetch
-    }
+  (apolloFetch, token) => {
+    apolloFetch.use(({options = {}}, fetchNext) => {
+      // eslint-disable-next-line no-param-reassign
+      options.headers = {
+        ...(options.headers || {}),
+        authorization: `Bearer ${token}`
+      }
+      fetchNext()
+    })
+    return apolloFetch
+  }
 )
 
 export const removeApolloClientToken = (apolloFetch) => {
-    apolloFetch.use(({options = {}}, fetchNext) => {
-        // eslint-disable-next-line no-param-reassign
-        options.headers = omit(['authorization'])(options.headers || {})
-        fetchNext()
-    })
-    return apolloFetch
+  apolloFetch.use(({options = {}}, fetchNext) => {
+    // eslint-disable-next-line no-param-reassign
+    options.headers = omit(['authorization'])(options.headers || {})
+    fetchNext()
+  })
+  return apolloFetch
 }
 
 /**
@@ -127,12 +127,12 @@ export const removeApolloClientToken = (apolloFetch) => {
  * @sig a -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> undefined
  */
 export const serviceAuthMiddleware = service => () => next => action => {
-    if ([VALIDATED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
-        setAxiosClientToken(service, path(['user', 'token', 'access_token'], action) || prop('token', action))
-    } else if (LOGOUT === action.type) {
-        removeAxiosClientToken(service)
-    }
-    next(action)
+  if ([VALIDATED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
+    setAxiosClientToken(service, path(['user', 'token', 'access_token'], action) || prop('token', action))
+  } else if (LOGOUT === action.type) {
+    removeAxiosClientToken(service)
+  }
+  next(action)
 }
 
 /**
@@ -150,14 +150,14 @@ export const serviceAuthMiddleware = service => () => next => action => {
  * @sig a -> {k: v} -> ({k: v} -> {k: v}) -> {k: v} -> undefined
  */
 export const apolloAuthMiddleWare = apolloFetch => () => next => action => {
-    if ([VALIDATED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
-        setApolloClientToken(apolloFetch, (
-            path(['user', 'token', 'access_token'], action) || prop('token', action)
-        ))
-    } else if (LOGOUT === action.type) {
-        removeApolloClientToken(apolloFetch)
-    }
-    next(action)
+  if ([VALIDATED_TOKEN, LOGIN, UPDATED_TOKEN].includes(action.type)) {
+    setApolloClientToken(apolloFetch, (
+      path(['user', 'token', 'access_token'], action) || prop('token', action)
+    ))
+  } else if (LOGOUT === action.type) {
+    removeApolloClientToken(apolloFetch)
+  }
+  next(action)
 }
 
 /**
@@ -174,25 +174,25 @@ export const apolloAuthMiddleWare = apolloFetch => () => next => action => {
  * @returns {Object} The dispatched action, potentially with a meta.token value set
  */
 export const addTokenToMeta = ({selector, localStorageKey = 'token'}) => ({getState}) => next => action => {
-    if (pathSatisfies(isPlainObj, ['meta'])) {
-        if (anyPass([
-            pipe(prop('meta'), keys, contains('token')),
-            path(['meta', 'worker']),
-            path(['meta', 'effect'])
-        ])(action)) {
-            let token
-            if (is(Function, selector)) {
-                token = selector(getState())
-            } else if (localStorageKey) {
-                token = localStorage.getItem(localStorageKey)
-            }
-            if (token) {
-                if (pathSatisfies(isPlainObj, ['meta', 'effect'])(action)) {
-                    return next(assocPath(['meta', 'effect', 'headers', 'authorization'], `Bearer ${token}`, action))
-                }
-                return next(assocPath(['meta', 'token'], token, action))
-            }
+  if (pathSatisfies(isPlainObj, ['meta'])) {
+    if (anyPass([
+      pipe(prop('meta'), keys, contains('token')),
+      path(['meta', 'worker']),
+      path(['meta', 'effect'])
+    ])(action)) {
+      let token
+      if (is(Function, selector)) {
+        token = selector(getState())
+      } else if (localStorageKey) {
+        token = localStorage.getItem(localStorageKey)
+      }
+      if (token) {
+        if (pathSatisfies(isPlainObj, ['meta', 'effect'])(action)) {
+          return next(assocPath(['meta', 'effect', 'headers', 'authorization'], `Bearer ${token}`, action))
         }
+        return next(assocPath(['meta', 'token'], token, action))
+      }
     }
-    return next(action)
+  }
+  return next(action)
 }

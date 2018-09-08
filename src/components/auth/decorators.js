@@ -16,43 +16,43 @@ const {selectors: {isAuthenticated, isAuthenticating, isNotAuthenticated, allSco
 const locationHelper = locationHelperBuilder({})
 
 export const withAuthentication = connectedRouterRedirect({
-    redirectPath: '/login',
-    authenticatedSelector: isAuthenticated,
-    wrapperDisplayName: 'Authenticator'
+  redirectPath: '/login',
+  authenticatedSelector: isAuthenticated,
+  wrapperDisplayName: 'Authenticator'
 })
 
 export const withPermission = (perm) => {
-    if (is(Array, perm)) {
-        const permissions = compose(map(safeString), filter(isStringieThingie))(perm)
-        return connectedAuthWrapper({
-            wrapperDisplayName: 'WithAllPermissions',
-            authenticatedSelector: either(
-                compose(not, scope),
-                compose(not, isEmpty, intersection(permissions), allScopes)
-            )
-        })
-    }
-
+  if (is(Array, perm)) {
+    const permissions = compose(map(safeString), filter(isStringieThingie))(perm)
     return connectedAuthWrapper({
-        wrapperDisplayName: 'WithSinglePermission',
-        authenticatedSelector: either(
-            compose(not, scope),
-            compose(contains(safeString(perm)), allScopes)
-        )
+      wrapperDisplayName: 'WithAllPermissions',
+      authenticatedSelector: either(
+        compose(not, scope),
+        compose(not, isEmpty, intersection(permissions), allScopes)
+      )
     })
+  }
+
+  return connectedAuthWrapper({
+    wrapperDisplayName: 'WithSinglePermission',
+    authenticatedSelector: either(
+      compose(not, scope),
+      compose(contains(safeString(perm)), allScopes)
+    )
+  })
 }
 
 export const untilAuthenticatedAndThenRedirectBack = connectedRouterRedirect({
-    redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/',
-    allowRedirectBack: false,
-    authenticatedSelector: isNotAuthenticated,
-    authenticatingSelector: isAuthenticating,
-    wrapperDisplayName: 'UntilAuthenticatedAndThenRedirectBack'
+  redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/',
+  allowRedirectBack: false,
+  authenticatedSelector: isNotAuthenticated,
+  authenticatingSelector: isAuthenticating,
+  wrapperDisplayName: 'UntilAuthenticatedAndThenRedirectBack'
 })
 
 export const untilAuthenticated = connectedRouterRedirect({
-    redirectPath: '/',
-    allowRedirectBack: false,
-    authenticatedSelector: isNotAuthenticated,
-    wrapperDisplayName: 'UntilAuthenticated'
+  redirectPath: '/',
+  allowRedirectBack: false,
+  authenticatedSelector: isNotAuthenticated,
+  wrapperDisplayName: 'UntilAuthenticated'
 })

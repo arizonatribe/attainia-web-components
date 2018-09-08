@@ -87,96 +87,96 @@ const IconWrapper = styled.div`
 /* eslint-enable indent */
 
 class Drawer extends PureComponent {
-    constructor(props) {
-        super(props)
-        this.state = {
-            isExpanded: !!props.isExpanded
-        }
+  constructor(props) {
+    super(props)
+    this.state = {
+      isExpanded: !!props.isExpanded
     }
+  }
     toggleDrawer = () => this.setState({isExpanded: !this.state.isExpanded})
     render() {
-        const {
-            className,
-            icon,
-            iconClick,
-            iconPosition,
-            isCollapsible,
-            showCaret,
-            title,
-            children,
-            contentStyles,
-            styles,
-            ...restOfProps
-        } = this.props
-        const isExpanded = !isCollapsible || this.state.isExpanded
-        return (
-            <DrawerStyle
-              {...restOfProps}
-              className={className}
-              backgroundColor={contentStyles.backgroundColor}
-              isExpanded={isExpanded}
-            >
-                <DrawerHeader
-                  onClick={this.toggleDrawer}
-                  isCollapsible={isCollapsible}
-                  showCaret={isCollapsible && showCaret}
-                  hasIcon={!!icon}
-                  iconPosition={regTest(/right/i, iconPosition) ? 'right' : 'left'}
-                  {...styles}
-                >
-                    {icon &&
-                        <IconWrapper onClick={iconClick}>
-                            {isStringieThingie(icon) ?
-                                <SimpleSvgIcon
-                                  icon={icon}
-                                  width={20}
-                                  height={20}
-                                /> : icon
-                            }
-                        </IconWrapper>
-                    }
-                    {isCollapsible && showCaret && <Chevron isOpen={isExpanded} />}
-                    {title && <Label>{title}</Label>}
-                </DrawerHeader>
-                <ContentWrapper isExpanded={isExpanded} {...contentStyles}>{children}</ContentWrapper>
-            </DrawerStyle>
-        )
+      const {
+        className,
+        icon,
+        iconClick,
+        iconPosition,
+        isCollapsible,
+        showCaret,
+        title,
+        children,
+        contentStyles,
+        styles,
+        ...restOfProps
+      } = this.props
+      const isExpanded = !isCollapsible || this.state.isExpanded
+      return (
+        <DrawerStyle
+          {...restOfProps}
+          className={className}
+          backgroundColor={contentStyles.backgroundColor}
+          isExpanded={isExpanded}
+        >
+          <DrawerHeader
+            onClick={this.toggleDrawer}
+            isCollapsible={isCollapsible}
+            showCaret={isCollapsible && showCaret}
+            hasIcon={!!icon}
+            iconPosition={regTest(/right/i, iconPosition) ? 'right' : 'left'}
+            {...styles}
+          >
+            {icon &&
+            <IconWrapper onClick={iconClick}>
+              {isStringieThingie(icon) ?
+                <SimpleSvgIcon
+                  icon={icon}
+                  width={20}
+                  height={20}
+                /> : icon
+              }
+            </IconWrapper>
+            }
+            {isCollapsible && showCaret && <Chevron isOpen={isExpanded} />}
+            {title && <Label>{title}</Label>}
+          </DrawerHeader>
+          <ContentWrapper isExpanded={isExpanded} {...contentStyles}>{children}</ContentWrapper>
+        </DrawerStyle>
+      )
     }
 }
 
 Drawer.propTypes = {
-    className: PropTypes.string,
-    isCollapsible: PropTypes.bool.isRequired,
-    isExpanded: PropTypes.bool.isRequired,
-    iconPosition: PropTypes.oneOf(['left', 'right']),
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    iconClick: PropTypes.func,
-    showCaret: PropTypes.bool.isRequired,
-    title: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    styles: PropTypes.shape({
-        columnGap: PropTypes.string,
-        fontSize: PropTypes.string,
-        color: PropTypes.string,
-        backgroundColor: PropTypes.string,
-        padding: PropTypes.string
-    }),
-    contentStyles: PropTypes.shape({
-        backgroundColor: PropTypes.string,
-        padding: PropTypes.string,
-        border: PropTypes.string
-    })
+  className: PropTypes.string,
+  isCollapsible: PropTypes.bool.isRequired,
+  isExpanded: PropTypes.bool.isRequired,
+  iconPosition: PropTypes.oneOf(['left', 'right']),
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  iconClick: PropTypes.func,
+  showCaret: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  styles: PropTypes.shape({
+    columnGap: PropTypes.string,
+    fontSize: PropTypes.string,
+    color: PropTypes.string,
+    backgroundColor: PropTypes.string,
+    padding: PropTypes.string
+  }),
+  contentStyles: PropTypes.shape({
+    backgroundColor: PropTypes.string,
+    padding: PropTypes.string,
+    border: PropTypes.string
+  })
 }
 
 Drawer.defaultProps = {
-    className: 'drawer',
-    isCollapsible: true,
-    isExpanded: true,
-    iconPosition: 'left',
-    iconClick: T,
-    showCaret: true,
-    contentStyles: {},
-    styles: {}
+  className: 'drawer',
+  isCollapsible: true,
+  isExpanded: true,
+  iconPosition: 'left',
+  iconClick: T,
+  showCaret: true,
+  contentStyles: {},
+  styles: {}
 }
 
 export default withTheme(Drawer)

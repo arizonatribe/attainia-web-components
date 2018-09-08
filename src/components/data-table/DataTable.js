@@ -31,11 +31,11 @@ const StyledTable = styled(Table)`
     }
     .public_fixedDataTable_bodyRow:hover .public_fixedDataTableCell_main {
         background-color: ${props =>
-        color(
-            path(['theme', 'colors', 'grayscale', 'lt'])(props)
-        ).mix(
-            color(path(['theme', 'colors', 'grayscale', 'md'])(props)), 0.1
-        ).hex()
+    color(
+      path(['theme', 'colors', 'grayscale', 'lt'])(props)
+    ).mix(
+      color(path(['theme', 'colors', 'grayscale', 'md'])(props)), 0.1
+    ).hex()
 };
     }
     .public_fixedDataTableRow_highlighted {
@@ -45,9 +45,9 @@ const StyledTable = styled(Table)`
 
 const TableHeader = styled.div`
     border: 1px solid ${props =>
-        color(
-            path(['theme', 'colors', 'grayscale', 'lt'])(props)
-        ).darken(0.1).hex()
+    color(
+      path(['theme', 'colors', 'grayscale', 'lt'])(props)
+    ).darken(0.1).hex()
 };
     border-bottom-style: none;
     padding: 8px;
@@ -59,9 +59,9 @@ const TableHeader = styled.div`
 
 const TableFooter = styled.div`
     border: 1px solid ${props =>
-        color(
-            path(['theme', 'colors', 'grayscale', 'lt'])(props)
-        ).darken(0.1).hex()
+    color(
+      path(['theme', 'colors', 'grayscale', 'lt'])(props)
+    ).darken(0.1).hex()
 };
     border-top-style: none;
     padding: 8px;
@@ -84,200 +84,200 @@ const LoadMoreButton = styled(Button)`
 `
 
 const RenderColumns = (headers, data, sortData, getSortedData) => (
-    headers.map((header) => {
-        switch (header.columnType) {
-            case ColumnType.TEXT: {
-                return <Column
-                  key={uuid()}
-                  header={<TooltipHeaderCell headerData={header} sortData={sortData} sortCallback={getSortedData} />}
-                  columnKey={header.key}
-                  cell={({rowIndex, columnKey}) => (<TextCell cellData={data.rows[rowIndex][columnKey]} />)}
-                  width={header.width}
-                  fixed={header.fixed}
-                />
-            }
-            case ColumnType.NUMBER: {
-                return <Column
-                  key={uuid()}
-                  header={
-                      <NumberTooltipHeaderCell
-                        headerData={header}
-                        sortData={sortData}
-                        sortCallback={getSortedData}
-                      />
-                  }
-                  columnKey={header.key}
-                  cell={({rowIndex, columnKey}) => (<NumberCell cellData={data.rows[rowIndex][columnKey]} />)}
-                  width={header.width}
-                  fixed={header.fixed}
-                />
-            }
-            case ColumnType.LINK: {
-                return <Column
-                  key={uuid()}
-                  header={<TooltipHeaderCell headerData={header} sortData={sortData} sortCallback={getSortedData} />}
-                  columnKey={header.key}
-                  cell={({rowIndex, columnKey}) => (<LinkCell cellData={data.rows[rowIndex][columnKey]} />)}
-                  width={header.width}
-                  fixed={header.fixed}
-                />
-            }
-            case ColumnType.IMAGE: {
-                return <Column
-                  key={uuid()}
-                  header={<TooltipHeaderCell headerData={header} sortData={sortData} sortCallback={getSortedData} />}
-                  columnKey={header.key}
-                  cell={({rowIndex, columnKey}) => (<ImageCell cellData={data.rows[rowIndex][columnKey]} />)}
-                  width={header.width}
-                  fixed={header.fixed}
-                />
-            }
-            case ColumnType.ICON_LINK: {
-                return <Column
-                  key={uuid()}
-                  header={<TooltipHeaderCell headerData={header} sortData={sortData} sortCallback={getSortedData} />}
-                  columnKey={header.key}
-                  cell={({rowIndex, columnKey}) => (<IconLinkCell cellData={data.rows[rowIndex][columnKey]} />)}
-                  width={header.width}
-                  fixed={header.fixed}
-                />
-            }
-            case ColumnType.INFO_TEXT: {
-                return <Column
-                  key={uuid()}
-                  header={<TooltipHeaderCell headerData={header} sortData={sortData} sortCallback={getSortedData} />}
-                  columnKey={header.key}
-                  cell={({rowIndex, columnKey}) => (
-                      <InfoIconToolTipTextCell
-                        cellData={data.rows[rowIndex][columnKey]}
-                      />
-                  )}
-                  width={header.width}
-                  fixed={header.fixed}
-                />
-            }
-            // no default
+  headers.map((header) => {
+    switch (header.columnType) {
+    case ColumnType.TEXT: {
+      return <Column
+        key={uuid()}
+        header={<TooltipHeaderCell headerData={header} sortData={sortData} sortCallback={getSortedData} />}
+        columnKey={header.key}
+        cell={({rowIndex, columnKey}) => (<TextCell cellData={data.rows[rowIndex][columnKey]} />)}
+        width={header.width}
+        fixed={header.fixed}
+      />
+    }
+    case ColumnType.NUMBER: {
+      return <Column
+        key={uuid()}
+        header={
+          <NumberTooltipHeaderCell
+            headerData={header}
+            sortData={sortData}
+            sortCallback={getSortedData}
+          />
         }
+        columnKey={header.key}
+        cell={({rowIndex, columnKey}) => (<NumberCell cellData={data.rows[rowIndex][columnKey]} />)}
+        width={header.width}
+        fixed={header.fixed}
+      />
+    }
+    case ColumnType.LINK: {
+      return <Column
+        key={uuid()}
+        header={<TooltipHeaderCell headerData={header} sortData={sortData} sortCallback={getSortedData} />}
+        columnKey={header.key}
+        cell={({rowIndex, columnKey}) => (<LinkCell cellData={data.rows[rowIndex][columnKey]} />)}
+        width={header.width}
+        fixed={header.fixed}
+      />
+    }
+    case ColumnType.IMAGE: {
+      return <Column
+        key={uuid()}
+        header={<TooltipHeaderCell headerData={header} sortData={sortData} sortCallback={getSortedData} />}
+        columnKey={header.key}
+        cell={({rowIndex, columnKey}) => (<ImageCell cellData={data.rows[rowIndex][columnKey]} />)}
+        width={header.width}
+        fixed={header.fixed}
+      />
+    }
+    case ColumnType.ICON_LINK: {
+      return <Column
+        key={uuid()}
+        header={<TooltipHeaderCell headerData={header} sortData={sortData} sortCallback={getSortedData} />}
+        columnKey={header.key}
+        cell={({rowIndex, columnKey}) => (<IconLinkCell cellData={data.rows[rowIndex][columnKey]} />)}
+        width={header.width}
+        fixed={header.fixed}
+      />
+    }
+    case ColumnType.INFO_TEXT: {
+      return <Column
+        key={uuid()}
+        header={<TooltipHeaderCell headerData={header} sortData={sortData} sortCallback={getSortedData} />}
+        columnKey={header.key}
+        cell={({rowIndex, columnKey}) => (
+          <InfoIconToolTipTextCell
+            cellData={data.rows[rowIndex][columnKey]}
+          />
+        )}
+        width={header.width}
+        fixed={header.fixed}
+      />
+    }
+          // no default
+    }
 
-        return <Column
-          key={uuid()}
-          header={<TooltipHeaderCell data={header} sortData={sortData} sortCallback={getSortedData} />}
-          columnKey={header.key}
-          cell={<TextCell data={data} />}
-          width={header.width}
-          fixed={header.fixed}
-        />
-    })
+    return <Column
+      key={uuid()}
+      header={<TooltipHeaderCell data={header} sortData={sortData} sortCallback={getSortedData} />}
+      columnKey={header.key}
+      cell={<TextCell data={data} />}
+      width={header.width}
+      fixed={header.fixed}
+    />
+  })
 )
 
 const RenderCheckColumn = (hasCheckColumn, rowSelected, data) => {
-    let checkColumn
+  let checkColumn
 
-    const handleCheck = (index) => {
-        const selected = (typeof data === 'undefined') ? false : !data.rows[index].selected
-        rowSelected(index, selected)
-    }
+  const handleCheck = (index) => {
+    const selected = (typeof data === 'undefined') ? false : !data.rows[index].selected
+    rowSelected(index, selected)
+  }
 
-    const isChecked = (index) => {
-        const checked = (typeof data === 'undefined') ? false : data.rows[index].selected
-        return checked
-    }
+  const isChecked = (index) => {
+    const checked = (typeof data === 'undefined') ? false : data.rows[index].selected
+    return checked
+  }
 
-    if (hasCheckColumn) {
-        checkColumn = (
-            <Column
-              header={<Cell />}
-              cell={({rowIndex}) => (
-                  <Cell>
-                      <input
-                        type="checkbox"
-                        onChange={() => handleCheck(rowIndex)}
-                        checked={isChecked(rowIndex)}
-                      />
-                  </Cell>
-              )}
-              width={35}
-              fixed
+  if (hasCheckColumn) {
+    checkColumn = (
+      <Column
+        header={<Cell />}
+        cell={({rowIndex}) => (
+          <Cell>
+            <input
+              type="checkbox"
+              onChange={() => handleCheck(rowIndex)}
+              checked={isChecked(rowIndex)}
             />
-        )
-    }
+          </Cell>
+        )}
+        width={35}
+        fixed
+      />
+    )
+  }
 
-    return checkColumn
+  return checkColumn
 }
 
 const handleNextPage = (pageData, pageCallBack) => {
-    pageCallBack(pageData.page + 1)
+  pageCallBack(pageData.page + 1)
 }
 
 const DataTable = ({
-    rowHeight,
-    tableWidth,
-    tableHeight,
-    headerHeight,
-    hasCheckColumn,
-    rowSelected,
-    getNextPage,
-    getSortedData,
-    headers,
-    data
+  rowHeight,
+  tableWidth,
+  tableHeight,
+  headerHeight,
+  hasCheckColumn,
+  rowSelected,
+  getNextPage,
+  getSortedData,
+  headers,
+  data
 }) =>
-    <div>
-        <TableHeader>{data.rows.length} total</TableHeader>
-        <StyledTable
-          rowsCount={data.rows.length}
-          rowHeight={rowHeight}
-          width={tableWidth}
-          height={tableHeight}
-          headerHeight={headerHeight}
-        >
-            {RenderCheckColumn(hasCheckColumn, rowSelected, data)}
-            {RenderColumns(headers, data, data.sortData, getSortedData)}
-        </StyledTable>
-        <ReactTooltip place="top" id="header-tooltip" effect="solid" />
-        <ReactTooltip place="top" id="cell-tooltip" effect="solid" />
-        <TableFooter>
-            <LoadMoreButton
-              onClick={() => handleNextPage(data.pageData, getNextPage)}
-              disabled={data.pageData.totalPages === data.pageData.page}
-            >
+  <div>
+    <TableHeader>{data.rows.length} total</TableHeader>
+    <StyledTable
+      rowsCount={data.rows.length}
+      rowHeight={rowHeight}
+      width={tableWidth}
+      height={tableHeight}
+      headerHeight={headerHeight}
+    >
+      {RenderCheckColumn(hasCheckColumn, rowSelected, data)}
+      {RenderColumns(headers, data, data.sortData, getSortedData)}
+    </StyledTable>
+    <ReactTooltip place="top" id="header-tooltip" effect="solid" />
+    <ReactTooltip place="top" id="cell-tooltip" effect="solid" />
+    <TableFooter>
+      <LoadMoreButton
+        onClick={() => handleNextPage(data.pageData, getNextPage)}
+        disabled={data.pageData.totalPages === data.pageData.page}
+      >
                 Load More
-            </LoadMoreButton>
-        </TableFooter>
-    </div>
+      </LoadMoreButton>
+    </TableFooter>
+  </div>
 
 DataTable.displayName = 'DataTable'
 DataTable.propTypes = {
-    rowHeight: PropTypes.number.isRequired,
-    tableWidth: PropTypes.number.isRequired,
-    tableHeight: PropTypes.number.isRequired,
-    headerHeight: PropTypes.number.isRequired,
-    hasCheckColumn: PropTypes.bool.isRequired,
-    rowSelected: PropTypes.func.isRequired,
-    getNextPage: PropTypes.func.isRequired,
-    getSortedData: PropTypes.func.isRequired,
-    headers: PropTypes.arrayOf(
-        PropTypes.shape({
-            name: PropTypes.string,
-            toolTip: PropTypes.string,
-            key: PropTypes.string,
-            width: PropTypes.number,
-            fixed: PropTypes.bool,
-            columnType: PropTypes.symbol
-        }),
-    ).isRequired,
-    data: PropTypes.shape({
-        sortData: PropTypes.shape({
-            columnKey: PropTypes.string,
-            sortDirection: PropTypes.string
-        }),
-        pageData: PropTypes.shape({
-            page: PropTypes.number,
-            totalPages: PropTypes.number,
-            pageSize: PropTypes.number,
-            totalResults: PropTypes.number
-        }),
-        rows: PropTypes.arrayOf(PropTypes.object).isRequired
-    }).isRequired
+  rowHeight: PropTypes.number.isRequired,
+  tableWidth: PropTypes.number.isRequired,
+  tableHeight: PropTypes.number.isRequired,
+  headerHeight: PropTypes.number.isRequired,
+  hasCheckColumn: PropTypes.bool.isRequired,
+  rowSelected: PropTypes.func.isRequired,
+  getNextPage: PropTypes.func.isRequired,
+  getSortedData: PropTypes.func.isRequired,
+  headers: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      toolTip: PropTypes.string,
+      key: PropTypes.string,
+      width: PropTypes.number,
+      fixed: PropTypes.bool,
+      columnType: PropTypes.symbol
+    }),
+  ).isRequired,
+  data: PropTypes.shape({
+    sortData: PropTypes.shape({
+      columnKey: PropTypes.string,
+      sortDirection: PropTypes.string
+    }),
+    pageData: PropTypes.shape({
+      page: PropTypes.number,
+      totalPages: PropTypes.number,
+      pageSize: PropTypes.number,
+      totalResults: PropTypes.number
+    }),
+    rows: PropTypes.arrayOf(PropTypes.object).isRequired
+  }).isRequired
 }
 
 export default DataTable

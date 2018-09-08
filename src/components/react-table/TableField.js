@@ -6,8 +6,8 @@ import TableFieldWrapperHoC from './TableFieldWrapperHoC'
 import TableFieldWithState from './TableFieldWithState'
 
 const FormFieldWrapperWithState = compose(
-    TableFieldWithState,
-    TableFieldWrapperHoC
+  TableFieldWithState,
+  TableFieldWrapperHoC
 )(BasicFormField)
 
 BasicFormField.displayName = 'BasicFormField'
@@ -17,7 +17,7 @@ FormFieldWrapperWithState.displayName = 'FormFieldWrapperWithState'
 const TableFormField = props => <FormFieldWrapperWithState {...props} />
 
 TableFormField.propTypes = {
-    name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired
 }
 
 export default TableFormField

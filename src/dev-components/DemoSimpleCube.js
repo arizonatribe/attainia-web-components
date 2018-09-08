@@ -16,25 +16,25 @@ const DimensionsContext = createContext('dimensions')
 
 const randomBetweenOneAnd100 = compose(multiply(300), Math.random)
 const randomizeDimensions = applySpec({
-    depth: randomBetweenOneAnd100,
-    height: randomBetweenOneAnd100,
-    width: randomBetweenOneAnd100
+  depth: randomBetweenOneAnd100,
+  height: randomBetweenOneAnd100,
+  width: randomBetweenOneAnd100
 })
 
 const CubeWrapper = () =>
-    <DimensionsContext.Consumer>
-        {dimensions => <SimpleCube maxSideLength={300} {...dimensions} />}
-    </DimensionsContext.Consumer>
+  <DimensionsContext.Consumer>
+    {dimensions => <SimpleCube maxSideLength={300} {...dimensions} />}
+  </DimensionsContext.Consumer>
 
 class DemoCube extends Component {
     state = randomizeDimensions()
     randomize = () => { this.setState(randomizeDimensions) }
     render = () =>
-        <DimensionsContext.Provider value={this.state}>
-            <Wrapper onClick={this.randomize}>
-                <CubeWrapper />
-            </Wrapper>
-        </DimensionsContext.Provider>
+      <DimensionsContext.Provider value={this.state}>
+        <Wrapper onClick={this.randomize}>
+          <CubeWrapper />
+        </Wrapper>
+      </DimensionsContext.Provider>
 }
 
 export default DemoCube

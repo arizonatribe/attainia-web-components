@@ -16,19 +16,19 @@ import TwoColorSvgIcon from './TwoColorSvgIcon'
 export * from './helpers'
 
 export {
-    Button,
-    ButtonLink,
-    Conditional,
-    ErrorMessage,
-    Link,
-    LinkButton,
-    Progress,
-    ReduxFormField,
-    SimpleSvgIcon,
-    SimpleCube,
-    SimpleMessage,
-    SimpleSpinner,
-    SpinningButton,
-    TwoColorSvgIcon,
-    renderConditional
+  Button,
+  ButtonLink,
+  Conditional,
+  ErrorMessage,
+  Link,
+  LinkButton,
+  Progress,
+  ReduxFormField,
+  SimpleSvgIcon,
+  SimpleCube,
+  SimpleMessage,
+  SimpleSpinner,
+  SpinningButton,
+  TwoColorSvgIcon,
+  renderConditional
 }

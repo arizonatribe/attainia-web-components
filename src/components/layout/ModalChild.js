@@ -30,17 +30,17 @@ const StyledModalContent = styled.div`
 `
 
 const ModalChild = ({closePortal, children}) => {
-    const id = uuid()
-    return (
-        <StyledModal id={id} onClick={when(pathEq(['target', 'id'], id), closePortal)}>
-            <StyledModalContent>{children}</StyledModalContent>
-        </StyledModal>
-    )
+  const id = uuid()
+  return (
+    <StyledModal id={id} onClick={when(pathEq(['target', 'id'], id), closePortal)}>
+      <StyledModalContent>{children}</StyledModalContent>
+    </StyledModal>
+  )
 }
 
 ModalChild.propTypes = {
-    closePortal: PropTypes.func,
-    children: PropTypes.node
+  closePortal: PropTypes.func,
+  children: PropTypes.node
 }
 
 export default ModalChild

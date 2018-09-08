@@ -13,9 +13,9 @@ const StyledAnchor = styled.a`
     }
     &:hover {
         color: ${props =>
-        color(
-            path(['theme', 'colors', 'secondary', 'lt'])(props)
-        ).lighten(0.1).hex()
+    color(
+      path(['theme', 'colors', 'secondary', 'lt'])(props)
+    ).lighten(0.1).hex()
 };
     }
     &:visited {
@@ -24,19 +24,19 @@ const StyledAnchor = styled.a`
 `
 
 export default class LinkCell extends React.PureComponent {
-    render() {
-        const {cellData: {link, label}, ...props} = this.props
-        return (
-            <Cell {...props}>
-                <StyledAnchor href={link}>{label}</StyledAnchor>
-            </Cell>
-        )
-    }
+  render() {
+    const {cellData: {link, label}, ...props} = this.props
+    return (
+      <Cell {...props}>
+        <StyledAnchor href={link}>{label}</StyledAnchor>
+      </Cell>
+    )
+  }
 }
 
 LinkCell.propTypes = {
-    cellData: PropTypes.shape({
-        link: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired
-    }).isRequired
+  cellData: PropTypes.shape({
+    link: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired
+  }).isRequired
 }

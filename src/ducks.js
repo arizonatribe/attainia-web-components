@@ -1,4 +1,4 @@
-import {createRow} from 'attadux'
+import {createRow} from 'ruddy'
 import auth from './components/auth/ducks'
 
 /**

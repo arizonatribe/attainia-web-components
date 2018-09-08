@@ -67,71 +67,71 @@ const StyledLoginForm = styled(Form)`
     }
 `
 class Login extends PureComponent {
-    render() {
-        const {
-            handleSubmit, toggleRememberMe, tryLogin,
-            email, loginLabel, rememberMeLabel,
-            hasAuthError, loading, rememberMe
-        } = this.props
+  render() {
+    const {
+      handleSubmit, toggleRememberMe, tryLogin,
+      email, loginLabel, rememberMeLabel,
+      hasAuthError, loading, rememberMe
+    } = this.props
 
-        return (
-            <ContentFullSize>
-                <StyledLoginForm onSubmit={handleSubmit(tryLogin)} {...this.props}>
-                    <header className="loginHeader">
-                        {hasAuthError ? <AuthError /> : <SimpleSvgIcon width="161" height="39" icon="primary" />}
-                    </header>
-                    <ReduxFormField
-                      id="LoginForm-email"
-                      className="email"
-                      placeholder="email"
-                      name="email"
-                      type="email"
-                      value={email}
-                    />
-                    <ReduxFormField
-                      id="LoginForm-password"
-                      className="password"
-                      placeholder="password"
-                      type="password"
-                      name="password"
-                    />
-                    <BasicFormField
-                      id="LoginForm-rememberMe"
-                      className="rememberMe"
-                      label={rememberMeLabel}
-                      type="checkbox"
-                      name="rememberMe"
-                      checked={rememberMe}
-                      value={rememberMe}
-                      handlers={{onChange: toggleRememberMe}}
-                    />
-                    <SpinningButton inProgress={loading} className="loginButton" type="submit">
-                        {loginLabel}
-                    </SpinningButton>
-                </StyledLoginForm>
-            </ContentFullSize>
-        )
-    }
+    return (
+      <ContentFullSize>
+        <StyledLoginForm onSubmit={handleSubmit(tryLogin)} {...this.props}>
+          <header className="loginHeader">
+            {hasAuthError ? <AuthError /> : <SimpleSvgIcon width="161" height="39" icon="primary" />}
+          </header>
+          <ReduxFormField
+            id="LoginForm-email"
+            className="email"
+            placeholder="email"
+            name="email"
+            type="email"
+            value={email}
+          />
+          <ReduxFormField
+            id="LoginForm-password"
+            className="password"
+            placeholder="password"
+            type="password"
+            name="password"
+          />
+          <BasicFormField
+            id="LoginForm-rememberMe"
+            className="rememberMe"
+            label={rememberMeLabel}
+            type="checkbox"
+            name="rememberMe"
+            checked={rememberMe}
+            value={rememberMe}
+            handlers={{onChange: toggleRememberMe}}
+          />
+          <SpinningButton inProgress={loading} className="loginButton" type="submit">
+            {loginLabel}
+          </SpinningButton>
+        </StyledLoginForm>
+      </ContentFullSize>
+    )
+  }
 }
 
 Login.propTypes = {
-    email: PropTypes.string,
-    loginLabel: PropTypes.string.isRequired,
-    rememberMeLabel: PropTypes.string.isRequired,
-    hasAuthError: PropTypes.bool.isRequired,
-    loading: PropTypes.bool.isRequired,
-    rememberMe: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    toggleRememberMe: PropTypes.func.isRequired,
-    tryLogin: PropTypes.func.isRequired
+  email: PropTypes.string,
+  loginLabel: PropTypes.string.isRequired,
+  rememberMeLabel: PropTypes.string.isRequired,
+  hasAuthError: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  rememberMe: PropTypes.bool.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  toggleRememberMe: PropTypes.func.isRequired,
+  tryLogin: PropTypes.func.isRequired
 }
 
 Login.defaultProps = {
-    loginLabel: 'Login',
-    rememberMeLabel: 'Remember Me',
-    hasAuthError: false,
-    loading: false,
-    rememberMe: false
+  loginLabel: 'Login',
+  rememberMeLabel: 'Remember Me',
+  hasAuthError: false,
+  loading: false,
+  rememberMe: false
 }
 
 export default Login

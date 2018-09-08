@@ -9,16 +9,16 @@ import ducks from './ducks'
 const {creators: {parsedToken}} = ducks
 
 export const withTokenParsing = (DecoratedComponent) => {
-    const WithParsing = ({parsedToken: pToken, ...passThroughProps}) =>
-        <ParseTokenFromStorage parsedToken={pToken}>
-            <DecoratedComponent {...passThroughProps} />
-        </ParseTokenFromStorage>
+  const WithParsing = ({parsedToken: pToken, ...passThroughProps}) =>
+    <ParseTokenFromStorage parsedToken={pToken}>
+      <DecoratedComponent {...passThroughProps} />
+    </ParseTokenFromStorage>
 
-    WithParsing.propTypes = {
-        parsedToken: PropTypes.func
-    }
+  WithParsing.propTypes = {
+    parsedToken: PropTypes.func
+  }
 
-    return withStatics(connect(null, {parsedToken})(WithParsing), DecoratedComponent)
+  return withStatics(connect(null, {parsedToken})(WithParsing), DecoratedComponent)
 }
 
 export default connect(null, {parsedToken})(ParseTokenFromStorage)

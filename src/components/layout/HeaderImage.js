@@ -36,21 +36,21 @@ const HeaderImage = styled.div`
 `
 
 HeaderImage.propTypes = {
-    backgroundImage: PropTypes.string,
-    styles: PropTypes.shape({
-        boxShadow: PropTypes.string,
-        height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-        opacity: PropTypes.number,
-        zIndex: PropTypes.number
-    })
+  backgroundImage: PropTypes.string,
+  styles: PropTypes.shape({
+    boxShadow: PropTypes.string,
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    opacity: PropTypes.number,
+    zIndex: PropTypes.number
+  })
 }
 
 HeaderImage.defaultProps = {
-    styles: {
-        height: '110px',
-        opacity: 0.3,
-        zIndex: -1
-    }
+  styles: {
+    height: '110px',
+    opacity: 0.3,
+    zIndex: -1
+  }
 }
 
 export default HeaderImage

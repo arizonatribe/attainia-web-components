@@ -16,21 +16,21 @@ const NextPageButton = styled(SpinningButton)`
 `
 
 NextPageButton.propTypes = {
-    caption: PropTypes.string.isRequired,
-    secondary: PropTypes.bool,
-    size: PropTypes.number.isRequired,
-    styles: PropTypes.shape({
-        color: PropTypes.string,
-        padding: PropTypes.string,
-        backgroundColor: PropTypes.string
-    })
+  caption: PropTypes.string.isRequired,
+  secondary: PropTypes.bool,
+  size: PropTypes.number.isRequired,
+  styles: PropTypes.shape({
+    color: PropTypes.string,
+    padding: PropTypes.string,
+    backgroundColor: PropTypes.string
+  })
 }
 
 NextPageButton.defaultProps = {
-    caption: 'Next Page',
-    secondary: true,
-    size: 16,
-    styles: {}
+  caption: 'Next Page',
+  secondary: true,
+  size: 16,
+  styles: {}
 }
 
 export default NextPageButton

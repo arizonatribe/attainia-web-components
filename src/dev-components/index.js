@@ -5,9 +5,9 @@ import DemoList from './DemoList'
 import DemoHome from './DemoHome'
 
 export {
-    DemoNotFound,
-    DemoSimpleCube,
-    DemoDrawers,
-    DemoList,
-    DemoHome
+  DemoNotFound,
+  DemoSimpleCube,
+  DemoDrawers,
+  DemoList,
+  DemoHome
 }

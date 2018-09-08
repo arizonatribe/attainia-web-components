@@ -43,11 +43,11 @@ const ListHeader = styled.ul`
     @supports (display: grid) {
         display: grid;
         grid-template-columns: 1fr${
-    props => props.numOfIconButtons > 0 && ` repeat(${props.numOfIconButtons}, 50px)`}${
-    props => props.hasAddButton && ' minmax(auto,140px)'};
+  props => props.numOfIconButtons > 0 && ` repeat(${props.numOfIconButtons}, 50px)`}${
+  props => props.hasAddButton && ' minmax(auto,140px)'};
         grid-template-rows: 50px;
         grid-template-areas: "title${props => Array(Number(props.numOfIconButtons)).fill(' icon')}${
-    props => props.hasAddButton && ' button'}";
+  props => props.hasAddButton && ' button'}";
         ${props => (Boolean(props.numOfIconButtons) || props.hasAddButton) && 'grid-column-gap: 3px;'}
 
         .titleAndSubtitle {
@@ -66,62 +66,62 @@ const ListHeader = styled.ul`
 `
 
 ListHeader.propTypes = {
-    alignTitle: PropTypes.oneOf(['center', 'start', 'end']),
-    hasAddButton: PropTypes.bool,
-    hasSubtitle: PropTypes.bool,
-    numOfIconButtons: PropTypes.number
+  alignTitle: PropTypes.oneOf(['center', 'start', 'end']),
+  hasAddButton: PropTypes.bool,
+  hasSubtitle: PropTypes.bool,
+  numOfIconButtons: PropTypes.number
 }
 
 const ContentHeader = ({
-    alignTitle, className, resourceTitle, resourceSubtitle, iconsButtons, hasAddButton, ...additionalProps
+  alignTitle, className, resourceTitle, resourceSubtitle, iconsButtons, hasAddButton, ...additionalProps
 }) =>
-    <ListHeader
-      {...pickBy(isNotNil, {
-          className,
-          alignTitle,
-          hasAddButton,
-          hasSubtitle: isNotNil(resourceSubtitle)
-      })}
-      numOfIconButtons={iconsButtons.length}
-    >
-        <Li className="titleAndSubtitle">
-            <h1 className="title">{formatResourceName(resourceTitle)}</h1>
-            {isNotNil(resourceSubtitle) ? <h2 className="subtitle">{`( ${resourceSubtitle} )`}</h2> : null}
-        </Li>
-        {iconsButtons.map(iconButton =>
-            <Li key={uuid()}>
-                <SimpleSvgIcon
-                  {...iconButton}
-                  fill={path(['theme', 'colors', 'secondary', 'default'])(additionalProps)}
-                />
-            </Li>
-        )}
-        {hasAddButton ?
-            <Li>
-                <LinkButton style={{padding: '12px 0'}}>
-                    <Link to={`/${formatRoutePath(resourceTitle)}/new`}>{formatButtonText(resourceTitle)}</Link>
-                </LinkButton>
-            </Li>
-            : null}
-    </ListHeader>
+  <ListHeader
+    {...pickBy(isNotNil, {
+      className,
+      alignTitle,
+      hasAddButton,
+      hasSubtitle: isNotNil(resourceSubtitle)
+    })}
+    numOfIconButtons={iconsButtons.length}
+  >
+    <Li className="titleAndSubtitle">
+      <h1 className="title">{formatResourceName(resourceTitle)}</h1>
+      {isNotNil(resourceSubtitle) ? <h2 className="subtitle">{`( ${resourceSubtitle} )`}</h2> : null}
+    </Li>
+    {iconsButtons.map(iconButton =>
+      <Li key={uuid()}>
+        <SimpleSvgIcon
+          {...iconButton}
+          fill={path(['theme', 'colors', 'secondary', 'default'])(additionalProps)}
+        />
+      </Li>
+    )}
+    {hasAddButton ?
+      <Li>
+        <LinkButton style={{padding: '12px 0'}}>
+          <Link to={`/${formatRoutePath(resourceTitle)}/new`}>{formatButtonText(resourceTitle)}</Link>
+        </LinkButton>
+      </Li>
+      : null}
+  </ListHeader>
 
 ContentHeader.propTypes = {
-    alignTitle: PropTypes.oneOf(['center', 'start', 'end']),
-    className: PropTypes.string,
-    hasAddButton: PropTypes.bool,
-    iconsButtons: PropTypes.arrayOf(PropTypes.shape({
-        icon: PropTypes.string.isRequired,
-        height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        onClick: PropTypes.func
-    })).isRequired,
-    resourceSubtitle: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    resourceTitle: PropTypes.string.isRequired
+  alignTitle: PropTypes.oneOf(['center', 'start', 'end']),
+  className: PropTypes.string,
+  hasAddButton: PropTypes.bool,
+  iconsButtons: PropTypes.arrayOf(PropTypes.shape({
+    icon: PropTypes.string.isRequired,
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onClick: PropTypes.func
+  })).isRequired,
+  resourceSubtitle: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  resourceTitle: PropTypes.string.isRequired
 }
 
 ContentHeader.defaultProps = {
-    iconsButtons: [],
-    resourceTitle: 'resource'
+  iconsButtons: [],
+  resourceTitle: 'resource'
 }
 
 export default withTheme(ContentHeader)

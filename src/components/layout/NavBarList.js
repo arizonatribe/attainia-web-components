@@ -102,13 +102,13 @@ const ToggleArrow = styled.li`
 `
 
 const navItems = {
-    padding: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    icon: PropTypes.string,
-    label: PropTypes.string,
-    link: PropTypes.string,
-    onClick: PropTypes.func,
-    iconHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    iconWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  padding: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  icon: PropTypes.string,
+  label: PropTypes.string,
+  link: PropTypes.string,
+  onClick: PropTypes.func,
+  iconHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  iconWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 /**
@@ -126,166 +126,166 @@ const navItems = {
  * @returns {*} The result from the onClick function
  */
 const handleClick = curry(
-    ({onClick, dispatch, ...restOfProps}, event) => {
-        if (is(Function, onClick)) {
-            const result = onClick(event, restOfProps)
-            if (is(Function, dispatch) && propSatisfies(isStringieThingie, 'type', result)) {
-                dispatch(result)
-            }
-            return result
-        }
-        return event
+  ({onClick, dispatch, ...restOfProps}, event) => {
+    if (is(Function, onClick)) {
+      const result = onClick(event, restOfProps)
+      if (is(Function, dispatch) && propSatisfies(isStringieThingie, 'type', result)) {
+        dispatch(result)
+      }
+      return result
     }
+    return event
+  }
 )
 
 const Action = ({width, height, icon, label, ...restOfProps}) =>
-    <NavAction className="nav-action" onClick={handleClick(restOfProps)}>
-        {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
-        {icon && !isImageUrl(icon) &&
-            <SimpleSvgIcon
-              width={width || 10}
-              height={height || 10}
-              icon={icon}
-              fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
-            />
-        }
-        {label && <span>{label}</span>}
-    </NavAction>
+  <NavAction className="nav-action" onClick={handleClick(restOfProps)}>
+    {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
+    {icon && !isImageUrl(icon) &&
+    <SimpleSvgIcon
+      width={width || 10}
+      height={height || 10}
+      icon={icon}
+      fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+    />
+    }
+    {label && <span>{label}</span>}
+  </NavAction>
 
 Action.propTypes = {...navItems}
 
 const Link = ({link, width, height, icon, label, ...restOfProps}) =>
-    <NavLink to={link}>
-        {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
-        {icon && !isImageUrl(icon) &&
-            <SimpleSvgIcon
-              width={width || 10}
-              height={height || 10}
-              icon={icon}
-              fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
-            />
-        }
-        {label && <span>{label}</span>}
-    </NavLink>
+  <NavLink to={link}>
+    {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
+    {icon && !isImageUrl(icon) &&
+    <SimpleSvgIcon
+      width={width || 10}
+      height={height || 10}
+      icon={icon}
+      fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+    />
+    }
+    {label && <span>{label}</span>}
+  </NavLink>
 
 Link.propTypes = {...navItems}
 
 const LabelAndIcon = ({width, height, icon, label, ...restOfProps}) =>
-    <NavAction className="nav-label">
-        {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
-        {icon && !isImageUrl(icon) &&
-            <SimpleSvgIcon
-              width={width || 10}
-              height={height || 10}
-              icon={icon}
-              fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
-            />
-        }
-        {label && <span>{label}</span>}
-    </NavAction>
+  <NavAction className="nav-label">
+    {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
+    {icon && !isImageUrl(icon) &&
+    <SimpleSvgIcon
+      width={width || 10}
+      height={height || 10}
+      icon={icon}
+      fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+    />
+    }
+    {label && <span>{label}</span>}
+  </NavAction>
 
 LabelAndIcon.propTypes = {...navItems}
 
 const IconOnly = ({width, height, icon, label, ...restOfProps}) =>
-    <NavAction className="nav-label">
-        {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
-        {(isStringieThingie(icon) && !isImageUrl(icon)) ?
-            <SimpleSvgIcon
-              width={width || 10}
-              height={height || 10}
-              icon={icon}
-              fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
-            /> : icon
-        }
-    </NavAction>
+  <NavAction className="nav-label">
+    {isImageUrl(icon) && <img alt={label} width={width || 10} height={height || 10} src={icon} />}
+    {(isStringieThingie(icon) && !isImageUrl(icon)) ?
+      <SimpleSvgIcon
+        width={width || 10}
+        height={height || 10}
+        icon={icon}
+        fill={pathOr('white', ['theme', 'colors', 'grayscale', 'white'])(restOfProps)}
+      /> : icon
+    }
+  </NavAction>
 
 IconOnly.propTypes = {...navItems}
 
 const NavMap = cond([
-    [propIs(Function, 'onClick'), Action],
-    [propSatisfies(isStringieThingie, 'link'), Link],
-    [propSatisfies(isStringieThingie, 'label'), LabelAndIcon],
-    [propSatisfies(isStringieThingie, 'icon'), IconOnly],
-    [T, always(null)]
+  [propIs(Function, 'onClick'), Action],
+  [propSatisfies(isStringieThingie, 'link'), Link],
+  [propSatisfies(isStringieThingie, 'label'), LabelAndIcon],
+  [propSatisfies(isStringieThingie, 'icon'), IconOnly],
+  [T, always(null)]
 ])
 
 NavMap.displayName = 'NavMap'
 NavMap.propTypes = {...navItems}
 
 const SubItem = cond([
-    [propEq('isIndented', true), props => <SubLi fontSize="14px" {...props} />],
-    [T, props => <Li {...props} />]
+  [propEq('isIndented', true), props => <SubLi fontSize="14px" {...props} />],
+  [T, props => <Li {...props} />]
 ])
 
 SubItem.displayName = 'SubItem'
 SubItem.propTypes = {
-    children: PropTypes.node,
-    isIndented: PropTypes.bool
+  children: PropTypes.node,
+  isIndented: PropTypes.bool
 }
 
 const NavBarList = ({className, items, toggleMenu, isCollapsed, ...restOfProps}) =>
-    <NavUl className={className} isCollapsed={isCollapsed}>
-        {items.map(({icon, link, label, iconWidth = 20, iconHeight = 20, items: subItems}) =>
-            <Li key={uuid()} role="presentation" isCollapsed={isCollapsed}>
-                {Array.isArray(subItems) && !isCollapsed ?
-                    <Drawer
-                      title={label}
-                      icon={icon}
-                      styles={{
-                          fontSize: '15px',
-                          fontWeight: 'normal',
-                          padding: '10px 15px',
-                          backgroundColor: 'transparent'
-                      }}
-                    >
-                        <Ul>
-                            {subItems.map(sm =>
-                                <SubItem key={uuid()} {...sm}>
-                                    <NavMap
-                                      {...{
-                                          ...restOfProps,
-                                          ...sm,
-                                          width: sm.iconWidth,
-                                          height: sm.iconHeight
-                                      }}
-                                    />
-                                </SubItem>
-                            )}
-                        </Ul>
-                    </Drawer> :
-                    <NavMap
-                      {...{
-                          ...restOfProps,
-                          width: iconWidth,
-                          height: iconHeight,
-                          label: isCollapsed ? '' : label,
-                          icon,
-                          link
-                      }}
-                    />
-                }
-            </Li>
-        )}
-        <ToggleArrow onClick={toggleMenu} isCollapsed={isCollapsed}>
-            {isCollapsed ? '' : 'Hide'}
-        </ToggleArrow>
-    </NavUl>
+  <NavUl className={className} isCollapsed={isCollapsed}>
+    {items.map(({icon, link, label, iconWidth = 20, iconHeight = 20, items: subItems}) =>
+      <Li key={uuid()} role="presentation" isCollapsed={isCollapsed}>
+        {Array.isArray(subItems) && !isCollapsed ?
+          <Drawer
+            title={label}
+            icon={icon}
+            styles={{
+              fontSize: '15px',
+              fontWeight: 'normal',
+              padding: '10px 15px',
+              backgroundColor: 'transparent'
+            }}
+          >
+            <Ul>
+              {subItems.map(sm =>
+                <SubItem key={uuid()} {...sm}>
+                  <NavMap
+                    {...{
+                      ...restOfProps,
+                      ...sm,
+                      width: sm.iconWidth,
+                      height: sm.iconHeight
+                    }}
+                  />
+                </SubItem>
+              )}
+            </Ul>
+          </Drawer> :
+          <NavMap
+            {...{
+              ...restOfProps,
+              width: iconWidth,
+              height: iconHeight,
+              label: isCollapsed ? '' : label,
+              icon,
+              link
+            }}
+          />
+        }
+      </Li>
+    )}
+    <ToggleArrow onClick={toggleMenu} isCollapsed={isCollapsed}>
+      {isCollapsed ? '' : 'Hide'}
+    </ToggleArrow>
+  </NavUl>
 
 NavBarList.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.shape({
-        ...navItems,
-        icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-        items: PropTypes.arrayOf(PropTypes.shape(navItems))
-    })),
-    toggleMenu: PropTypes.func,
-    isCollapsed: PropTypes.bool,
-    className: PropTypes.string.isRequired
+  items: PropTypes.arrayOf(PropTypes.shape({
+    ...navItems,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    items: PropTypes.arrayOf(PropTypes.shape(navItems))
+  })),
+  toggleMenu: PropTypes.func,
+  isCollapsed: PropTypes.bool,
+  className: PropTypes.string.isRequired
 }
 
 NavBarList.defaultProps = {
-    className: 'sidebar',
-    isCollapsed: false,
-    items: []
+  className: 'sidebar',
+  isCollapsed: false,
+  items: []
 }
 
 export default withTheme(NavBarList)

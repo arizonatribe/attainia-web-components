@@ -55,30 +55,30 @@ const MessageText = styled.p`
 `
 
 const StickyMessages = ({styles, message, clearMessage}) =>
-    <DetachedPosition>
-        <Portal node={document.getElementById('message-root')} key="sticky-messages">
-            <MessageWrapper hasMessage={!!message} {...styles}>
-                <MessageText>{etc(88)(message)}</MessageText>
-                <DismissButton onClick={clearMessage} />
-            </MessageWrapper>
-        </Portal>
-    </DetachedPosition>
+  <DetachedPosition>
+    <Portal node={document.getElementById('message-root')} key="sticky-messages">
+      <MessageWrapper hasMessage={!!message} {...styles}>
+        <MessageText>{etc(88)(message)}</MessageText>
+        <DismissButton onClick={clearMessage} />
+      </MessageWrapper>
+    </Portal>
+  </DetachedPosition>
 
 StickyMessages.propTypes = {
-    message: PropTypes.string,
-    clearMessage: PropTypes.func,
-    styles: PropTypes.shape({
-        color: PropTypes.string,
-        backgroundColor: PropTypes.string,
-        fontSize: PropTypes.string,
-        fontWeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    })
+  message: PropTypes.string,
+  clearMessage: PropTypes.func,
+  styles: PropTypes.shape({
+    color: PropTypes.string,
+    backgroundColor: PropTypes.string,
+    fontSize: PropTypes.string,
+    fontWeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  })
 }
 
 StickyMessages.defaultProps = {
-    message: '',
-    styles: {},
-    clearMessage: () => null
+  message: '',
+  styles: {},
+  clearMessage: () => null
 }
 
 export default withTheme(StickyMessages)

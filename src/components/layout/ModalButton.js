@@ -17,26 +17,26 @@ const ModalButtonWrapper = styled.section`
 `
 
 const ModalButton = ({caption, children}) =>
-    <ModalButtonWrapper>
-        <Modal
-          closeOnEsc
-          closeOnOutsideClick
-          node={document && document.getElementById('modal-root')}
-        >
-            {({ openPortal, closePortal, portal }) => [
-                <Button key="open-modal" onClick={openPortal}>{caption}</Button>,
-                portal(<ModalChild closePortal={closePortal}>{children}</ModalChild>)
-            ]}
-        </Modal>
-    </ModalButtonWrapper>
+  <ModalButtonWrapper>
+    <Modal
+      closeOnEsc
+      closeOnOutsideClick
+      node={document && document.getElementById('modal-root')}
+    >
+      {({ openPortal, closePortal, portal }) => [
+        <Button key="open-modal" onClick={openPortal}>{caption}</Button>,
+        portal(<ModalChild closePortal={closePortal}>{children}</ModalChild>)
+      ]}
+    </Modal>
+  </ModalButtonWrapper>
 
 ModalButton.propTypes = {
-    caption: PropTypes.string,
-    children: PropTypes.node
+  caption: PropTypes.string,
+  children: PropTypes.node
 }
 
 ModalButton.defaultProps = {
-    caption: 'Open Modal'
+  caption: 'Open Modal'
 }
 
 export default ModalButton

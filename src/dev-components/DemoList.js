@@ -35,80 +35,80 @@ const TableStyle = ReactTableStyle.extend`
 `
 
 const defaultColumns = [{
-    Header: 'Album',
-    accessor: 'title',
-    width: 300
+  Header: 'Album',
+  accessor: 'title',
+  width: 300
 }, {
-    Header: 'Artist',
-    accessor: 'artist',
-    width: 200
+  Header: 'Artist',
+  accessor: 'artist',
+  width: 200
 }, {
-    Header: 'Year',
-    accessor: 'year',
-    width: 75
+  Header: 'Year',
+  accessor: 'year',
+  width: 75
 }, {
-    id: 'genre',
-    Header: 'Genre',
-    accessor: ({genre = ''}) => genre.join(', '),
-    width: 250
+  id: 'genre',
+  Header: 'Genre',
+  accessor: ({genre = ''}) => genre.join(', '),
+  width: 250
 }]
 
 class DemoList extends PureComponent {
     state = {
-        albums: [...mockData.albums]
+      albums: [...mockData.albums]
     }
     filterList = ({search = ''}) => this.setState({
-        albums: search ?
-            filter(({title}) => fuzzyCurry(search, title))(this.state.albums) :
-            [...mockData.albums]
+      albums: search ?
+        filter(({title}) => fuzzyCurry(search, title))(this.state.albums) :
+        [...mockData.albums]
     })
     render() {
-        const {imgSrc} = this.props
-        return (
-            <DemoListContext.Provider value={this.state.albums}>
-                <PageWrapper>
-                    <HeaderImage backgroundImage={imgSrc} height="110px" />
-                    <Wrapper>
-                        <Drawer
-                          title="90s Albums"
-                          styles={{
-                              columnGap: '1em',
-                              backgroundColor: pathOr('crimson', ['theme', 'colors', 'primary', 'default'])(this.props)
-                          }}
-                          contentStyles={{
-                              backgroundColor: 'snow',
-                              border: '1px solid lightgray'
-                          }}
-                        >
-                            <TableStyle>
-                                <DemoListContext.Consumer>
-                                    {albums =>
-                                        <List
-                                          noTitle
-                                          findList={this.filterList}
-                                          entityName="album"
-                                          hasAddButton={false}
-                                          matchProp="title"
-                                          rows={mockData.albums}
-                                          searchResults={albums}
-                                          columns={defaultColumns}
-                                          pageSize={albums.length}
-                                          showPagination={false}
-                                          className="-striped"
-                                        />
-                                    }
-                                </DemoListContext.Consumer>
-                            </TableStyle>
-                        </Drawer>
-                    </Wrapper>
-                </PageWrapper>
-            </DemoListContext.Provider>
-        )
+      const {imgSrc} = this.props
+      return (
+        <DemoListContext.Provider value={this.state.albums}>
+          <PageWrapper>
+            <HeaderImage backgroundImage={imgSrc} height="110px" />
+            <Wrapper>
+              <Drawer
+                title="90s Albums"
+                styles={{
+                  columnGap: '1em',
+                  backgroundColor: pathOr('crimson', ['theme', 'colors', 'primary', 'default'])(this.props)
+                }}
+                contentStyles={{
+                  backgroundColor: 'snow',
+                  border: '1px solid lightgray'
+                }}
+              >
+                <TableStyle>
+                  <DemoListContext.Consumer>
+                    {albums =>
+                      <List
+                        noTitle
+                        findList={this.filterList}
+                        entityName="album"
+                        hasAddButton={false}
+                        matchProp="title"
+                        rows={mockData.albums}
+                        searchResults={albums}
+                        columns={defaultColumns}
+                        pageSize={albums.length}
+                        showPagination={false}
+                        className="-striped"
+                      />
+                    }
+                  </DemoListContext.Consumer>
+                </TableStyle>
+              </Drawer>
+            </Wrapper>
+          </PageWrapper>
+        </DemoListContext.Provider>
+      )
     }
 }
 
 DemoList.propTypes = {
-    imgSrc: PropTypes.string
+  imgSrc: PropTypes.string
 }
 
 export default withTheme(DemoList)

@@ -22,11 +22,11 @@ import {__, always, compose, curry, equals, insert, ifElse, join, nth, path, pro
  * for React Table's getTdProps
  */
 export const createIdForDetailColumn = (accessor = 'name', originalField = 'id', entityType = '') =>
-    (_, rowInfo, column) => (
-        propEq('id', accessor, column) ? {
-            id: `${entityType || prop('id', column)}:${path(['original', originalField], rowInfo) || ''}`
-        } : {}
-    )
+  (_, rowInfo, column) => (
+    propEq('id', accessor, column) ? {
+      id: `${entityType || prop('id', column)}:${path(['original', originalField], rowInfo) || ''}`
+    } : {}
+  )
 
 /**
  * Builds a formatted caption out of either a prefix, suffix or both. After
@@ -47,16 +47,16 @@ export const createIdForDetailColumn = (accessor = 'name', originalField = 'id',
  * return the fully formatted caption (including the count)
  */
 export const createTotalsCaption = (prefix = '', suffix = '', shouldCapitalize = true) =>
-    compose(
-        trim,
-        when(always(shouldCapitalize), capitalize),
-        ifElse(
-            compose(equals(1), nth(1)),
-            join(' '),
-            compose(pluralize, join(' '))
-        ),
-        insert(1, __, [prefix, suffix])
-    )
+  compose(
+    trim,
+    when(always(shouldCapitalize), capitalize),
+    ifElse(
+      compose(equals(1), nth(1)),
+      join(' '),
+      compose(pluralize, join(' '))
+    ),
+    insert(1, __, [prefix, suffix])
+  )
 
 /**
  * Fuzzy searches for a needle in a haystack (looks for a string fragment in

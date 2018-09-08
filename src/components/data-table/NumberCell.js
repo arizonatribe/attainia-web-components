@@ -11,16 +11,16 @@ const NumberStyledCell = styled(Cell)`
 `
 
 export default class NumberCell extends React.PureComponent {
-    render() {
-        const {cellData, ...props} = this.props
-        return (
-            <NumberStyledCell {...props}>
-                <span>{cellData}</span>
-            </NumberStyledCell>
-        )
-    }
+  render() {
+    const {cellData, ...props} = this.props
+    return (
+      <NumberStyledCell {...props}>
+        <span>{cellData}</span>
+      </NumberStyledCell>
+    )
+  }
 }
 
 NumberCell.propTypes = {
-    cellData: PropTypes.number.isRequired
+  cellData: PropTypes.number.isRequired
 }

@@ -37,45 +37,45 @@ const SortIcon = styled(SimpleSvgIcon)`
 `
 
 const flip = ({sortDirection = 'asc'} = {}, needIconName = false) => {
-    if (sortDirection === 'asc') {
-        return needIconName ? 'triangle_down' : 'desc'
-    }
+  if (sortDirection === 'asc') {
+    return needIconName ? 'triangle_down' : 'desc'
+  }
 
-    return needIconName ? 'triangle_up' : 'asc'
+  return needIconName ? 'triangle_up' : 'asc'
 }
 
 export default class TooltipHeaderCell extends React.PureComponent {
-    render() {
-        const {headerData: {key, toolTip, name}, sortData, sortCallback, ...props} = this.props
+  render() {
+    const {headerData: {key, toolTip, name}, sortData, sortCallback, ...props} = this.props
 
-        return (
-            <Cell {...props} data-tip={toolTip} data-for={'header-tooltip'}>
-                <FlexDiv>
-                    <LeftFlexSpan>
-                        <HeaderLink onClick={() => sortCallback(key, flip(sortData))}>{name}</HeaderLink>
-                    </LeftFlexSpan>
-                    <RightFlexSpan>
-                        {sortData.columnKey === key ? <SortIcon icon={flip(sortData, true)} /> : null}
-                    </RightFlexSpan>
-                </FlexDiv>
-            </Cell>
-        )
-    }
+    return (
+      <Cell {...props} data-tip={toolTip} data-for={'header-tooltip'}>
+        <FlexDiv>
+          <LeftFlexSpan>
+            <HeaderLink onClick={() => sortCallback(key, flip(sortData))}>{name}</HeaderLink>
+          </LeftFlexSpan>
+          <RightFlexSpan>
+            {sortData.columnKey === key ? <SortIcon icon={flip(sortData, true)} /> : null}
+          </RightFlexSpan>
+        </FlexDiv>
+      </Cell>
+    )
+  }
 }
 
 TooltipHeaderCell.propTypes = {
-    headerData: PropTypes.shape({
-        name: PropTypes.string,
-        toolTip: PropTypes.string,
-        key: PropTypes.string,
-        width: PropTypes.number,
-        fixed: PropTypes.bool,
-        columnType: PropTypes.symbol
-    }
-    ).isRequired,
-    sortData: PropTypes.shape({
-        columnKey: PropTypes.string,
-        sortDirection: PropTypes.string
-    }),
-    sortCallback: PropTypes.func
+  headerData: PropTypes.shape({
+    name: PropTypes.string,
+    toolTip: PropTypes.string,
+    key: PropTypes.string,
+    width: PropTypes.number,
+    fixed: PropTypes.bool,
+    columnType: PropTypes.symbol
+  }
+  ).isRequired,
+  sortData: PropTypes.shape({
+    columnKey: PropTypes.string,
+    sortDirection: PropTypes.string
+  }),
+  sortCallback: PropTypes.func
 }

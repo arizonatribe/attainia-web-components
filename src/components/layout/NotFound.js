@@ -13,20 +13,20 @@ const Message = styled(ContentCentered)`
 `
 
 const NotFound = ({message, location: {pathname}, fontSize}) =>
-    <Message fontSize={fontSize}>
-        {message || (`${pathname || window.location.pathname} was not found on this site`)}
-    </Message>
+  <Message fontSize={fontSize}>
+    {message || (`${pathname || window.location.pathname} was not found on this site`)}
+  </Message>
 
 NotFound.propTypes = {
-    message: PropTypes.string,
-    fontSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    location: PropTypes.shape({
-        pathname: PropTypes.string
-    }).isRequired
+  message: PropTypes.string,
+  fontSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  location: PropTypes.shape({
+    pathname: PropTypes.string
+  }).isRequired
 }
 
 NotFound.defaultProps = {
-    location: {}
+  location: {}
 }
 
 export default withTheme(NotFound)

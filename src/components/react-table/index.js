@@ -14,16 +14,16 @@ import TableFieldWrapperHoC from './TableFieldWrapperHoC'
 export * from './helpers'
 
 export {
-    AddButtonStyle,
-    BasicSearch,
-    IconHoverStyle,
-    List,
-    NextPageButton,
-    PagingButtons,
-    PreviousPageButton,
-    ReactTableStyle,
-    TableDropdown,
-    TableField,
-    TableFieldWithState,
-    TableFieldWrapperHoC
+  AddButtonStyle,
+  BasicSearch,
+  IconHoverStyle,
+  List,
+  NextPageButton,
+  PagingButtons,
+  PreviousPageButton,
+  ReactTableStyle,
+  TableDropdown,
+  TableField,
+  TableFieldWithState,
+  TableFieldWrapperHoC
 }

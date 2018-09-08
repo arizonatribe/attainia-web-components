@@ -19,6 +19,9 @@
       "babel-module": {
         "extensions": [".js", ".jsx"],
         "paths": [
+          "./.stories",
+          "./.stories/common",
+          "./.stories/data-table",
           "./src",
           "./src/components",
           "./src/components/auth",
@@ -51,19 +54,12 @@
     "import/no-extraneous-dependencies": "off",
     "import/no-unresolved": [
       "error", {
-        "ignore": ["^@awc", "^@globals$", "^@theme$"]
+        "ignore": ["^@rc", "^@globals$", "^@theme$"]
       }
     ],
     "indent": [
       "error",
-      4,
-      {
-        "SwitchCase": 1,
-        "ignoredNodes": [
-          "JSXAttribute",
-          "JSXSpreadAttribute"
-        ]
-      }
+      2
     ],
     "jsx-quotes": [
       "warn",
@@ -105,10 +101,6 @@
       "single"
     ],
     "react/jsx-filename-extension": "off",
-    "react/jsx-indent": [
-      "error",
-      4
-    ],
     "react/jsx-indent-props": [
       "error",
       2

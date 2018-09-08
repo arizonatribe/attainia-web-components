@@ -38,22 +38,22 @@ const Footer = styled.footer`
     }
 `
 const WrappedFooter = ({className}) =>
-    <Footer className={className}>
-        <small>
-            <span>2018 © Attainia, Inc. All Rights Reserved.</span>
-            <span> | </span>
-            <a href="http://www.attainia.com/privacy_policy">Privacy Policy</a>
-            <span> | </span>
-            <a href="http://www.attainia.com/terms_of_service">Terms of Service</a>
-        </small>
-    </Footer>
+  <Footer className={className}>
+    <small>
+      <span>2018 © Attainia, Inc. All Rights Reserved.</span>
+      <span> | </span>
+      <a href="http://www.attainia.com/privacy_policy">Privacy Policy</a>
+      <span> | </span>
+      <a href="http://www.attainia.com/terms_of_service">Terms of Service</a>
+    </small>
+  </Footer>
 
 WrappedFooter.propTypes = {
-    className: PropTypes.string.isRequired
+  className: PropTypes.string.isRequired
 }
 
 WrappedFooter.defaultProps = {
-    className: 'footer'
+  className: 'footer'
 }
 
 export default WrappedFooter

@@ -4,10 +4,10 @@ import styled, {withTheme} from 'styled-components'
 import {__, always, compose, either, is, lte, multiply, pathOr, prop, unless, when} from 'ramda'
 
 const makeProgress = compose(
-    when(lte(__, 1), multiply(100)),
-    unless(is(Number), always(1)),
-    Number,
-    prop('progress')
+  when(lte(__, 1), multiply(100)),
+  unless(is(Number), always(1)),
+  Number,
+  prop('progress')
 )
 
 const ProgressWrapper = styled.div`
@@ -41,24 +41,24 @@ const ContinuousProgress = styled.div`
 `
 
 const Progress = ({progress, center, continuous, styles}) =>
-    <ProgressWrapper center={center} {...styles}>
-        {continuous ? <ContinuousProgress /> : <ProgressBar progress={progress} {...styles} />}
-    </ProgressWrapper>
+  <ProgressWrapper center={center} {...styles}>
+    {continuous ? <ContinuousProgress /> : <ProgressBar progress={progress} {...styles} />}
+  </ProgressWrapper>
 
 Progress.propTypes = {
-    continuous: PropTypes.bool.isRequired,
-    progress: PropTypes.number,
-    center: PropTypes.bool,
-    styles: PropTypes.shape({
-        backgroundColor: PropTypes.string,
-        color: PropTypes.string,
-        height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    })
+  continuous: PropTypes.bool.isRequired,
+  progress: PropTypes.number,
+  center: PropTypes.bool,
+  styles: PropTypes.shape({
+    backgroundColor: PropTypes.string,
+    color: PropTypes.string,
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  })
 }
 
 Progress.defaultProps = {
-    progress: 0,
-    continuous: false
+  progress: 0,
+  continuous: false
 }
 
 export default withTheme(Progress)

@@ -24,13 +24,13 @@ const ErroMessageWithCloseIcon = styled(ErrorMessage)`
     }
 `
 const AuthError = ({error, clearError}) =>
-    <ErroMessageWithCloseIcon onClick={clearError}>
-        {error}
-    </ErroMessageWithCloseIcon>
+  <ErroMessageWithCloseIcon onClick={clearError}>
+    {error}
+  </ErroMessageWithCloseIcon>
 
 AuthError.propTypes = {
-    error: PropTypes.string,
-    clearError: PropTypes.func
+  error: PropTypes.string,
+  clearError: PropTypes.func
 }
 
 export default withTheme(AuthError)

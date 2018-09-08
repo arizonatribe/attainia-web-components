@@ -37,14 +37,14 @@ const SpinningButton = styled(Button)`
 /* eslint-enable indent */
 
 SpinningButton.propTypes = {
-    inProgress: PropTypes.bool,
-    size: PropTypes.number
+  inProgress: PropTypes.bool,
+  size: PropTypes.number
 }
 
 SpinningButton.defaultProps = {
-    inProgress: false,
-    secondary: false,
-    size: 32
+  inProgress: false,
+  secondary: false,
+  size: 32
 }
 
 export default SpinningButton

@@ -69,54 +69,54 @@ const ListHeader = styled.header`
     }
 `
 const Header = ({
-    className,
-    continuous,
-    progress,
-    fadingOutMessage,
-    statusMessage,
-    logoutCaption,
-    renderLogout,
-    ...restOfProps
+  className,
+  continuous,
+  progress,
+  fadingOutMessage,
+  statusMessage,
+  logoutCaption,
+  renderLogout,
+  ...restOfProps
 }) =>
-    <ListHeader className={className}>
-        <SimpleSvgIcon
-          icon="primary"
-          width="112"
-          height="36"
-          className="headerLogo"
-        />
-        <MessageWrapper fadingOutMessage={fadingOutMessage} hasMessage={!!statusMessage}>
-            {statusMessage}
-        </MessageWrapper>
-        <SimpleSvgIcon
-          className="notificationIcon"
-          icon="notification"
-          width="17"
-          height="20"
-          fill={pathOr('mediumgray', ['theme', 'colors', 'misc', 'gray', 'spanishGray'])(restOfProps)}
-        />
-        {renderLogout ?
-            renderLogout() :
-            <LogoutContainer className="logoutLink" asLink>{logoutCaption}</LogoutContainer>
-        }
-        <Progress continuous={continuous} progress={progress} styles={{ backgroundColor: 'white', height: '2px' }} />
-    </ListHeader>
+  <ListHeader className={className}>
+    <SimpleSvgIcon
+      icon="primary"
+      width="112"
+      height="36"
+      className="headerLogo"
+    />
+    <MessageWrapper fadingOutMessage={fadingOutMessage} hasMessage={!!statusMessage}>
+      {statusMessage}
+    </MessageWrapper>
+    <SimpleSvgIcon
+      className="notificationIcon"
+      icon="notification"
+      width="17"
+      height="20"
+      fill={pathOr('mediumgray', ['theme', 'colors', 'misc', 'gray', 'spanishGray'])(restOfProps)}
+    />
+    {renderLogout ?
+      renderLogout() :
+      <LogoutContainer className="logoutLink" asLink>{logoutCaption}</LogoutContainer>
+    }
+    <Progress continuous={continuous} progress={progress} styles={{ backgroundColor: 'white', height: '2px' }} />
+  </ListHeader>
 
 Header.propTypes = {
-    renderLogout: PropTypes.func,
-    className: PropTypes.string.isRequired,
-    continuous: PropTypes.bool,
-    fadingOutMessage: PropTypes.bool,
-    logoutCaption: PropTypes.string.isRequired,
-    statusMessage: PropTypes.string,
-    progress: PropTypes.number
+  renderLogout: PropTypes.func,
+  className: PropTypes.string.isRequired,
+  continuous: PropTypes.bool,
+  fadingOutMessage: PropTypes.bool,
+  logoutCaption: PropTypes.string.isRequired,
+  statusMessage: PropTypes.string,
+  progress: PropTypes.number
 }
 
 Header.defaultProps = {
-    renderLogout: null,
-    className: 'list-header',
-    fadingOutMessage: false,
-    logoutCaption: 'Logout'
+  renderLogout: null,
+  className: 'list-header',
+  fadingOutMessage: false,
+  logoutCaption: 'Logout'
 }
 
 export default withTheme(Header)

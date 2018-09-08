@@ -33,54 +33,54 @@ const TableStyle = ReactTableStyle.extend`
 `
 
 const defaultColumns = [{
-    Header: 'Album',
-    accessor: 'title',
-    width: 300
+  Header: 'Album',
+  accessor: 'title',
+  width: 300
 }, {
-    Header: 'Artist',
-    accessor: 'artist',
-    width: 200
+  Header: 'Artist',
+  accessor: 'artist',
+  width: 200
 }, {
-    Header: 'Year',
-    accessor: 'year',
-    width: 75
+  Header: 'Year',
+  accessor: 'year',
+  width: 75
 }, {
-    id: 'genre',
-    Header: 'Genre',
-    accessor: ({genre = ''}) => genre.join(', '),
-    width: 100
+  id: 'genre',
+  Header: 'Genre',
+  accessor: ({genre = ''}) => genre.join(', '),
+  width: 100
 }]
 
 const DemoDrawers = ({imgSrc, ...restOfProps}) =>
-    <PageWrapper>
-        <HeaderImage backgroundImage={imgSrc} height="110px" />
-        <Wrapper>
-            <Drawer
-              title="90s Albums"
-              styles={{
-                  columnGap: '1em',
-                  backgroundColor: pathOr('crimson', ['theme', 'colors', 'primary', 'default'])(restOfProps)
-              }}
-              contentStyles={{
-                  backgroundColor: 'snow',
-                  border: '1px solid lightgray'
-              }}
-            >
-                <TableStyle>
-                    <ReactTable
-                      data={mockData.albums}
-                      columns={defaultColumns}
-                      pageSize={mockData.albums.length}
-                      showPagination={false}
-                      className="-striped"
-                    />
-                </TableStyle>
-            </Drawer>
-        </Wrapper>
-    </PageWrapper>
+  <PageWrapper>
+    <HeaderImage backgroundImage={imgSrc} height="110px" />
+    <Wrapper>
+      <Drawer
+        title="90s Albums"
+        styles={{
+          columnGap: '1em',
+          backgroundColor: pathOr('crimson', ['theme', 'colors', 'primary', 'default'])(restOfProps)
+        }}
+        contentStyles={{
+          backgroundColor: 'snow',
+          border: '1px solid lightgray'
+        }}
+      >
+        <TableStyle>
+          <ReactTable
+            data={mockData.albums}
+            columns={defaultColumns}
+            pageSize={mockData.albums.length}
+            showPagination={false}
+            className="-striped"
+          />
+        </TableStyle>
+      </Drawer>
+    </Wrapper>
+  </PageWrapper>
 
 DemoDrawers.propTypes = {
-    imgSrc: PropTypes.string
+  imgSrc: PropTypes.string
 }
 
 export default withTheme(DemoDrawers)

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import {
-    ContentCentered,
-    ContentFullSize,
-    HeaderImage,
-    ContentHeader,
-    ContentWrapper,
-    ModalButton
+  ContentCentered,
+  ContentFullSize,
+  HeaderImage,
+  ContentHeader,
+  ContentWrapper,
+  ModalButton
 } from '../components/layout'
 
 const Greeting = styled.h1`
@@ -41,37 +41,37 @@ const HippocraticOath = `I swear by Apollo Physician, by Asclepius, by Health, b
 `
 
 const DemoHome = ({imgSrc}) =>
-    <ContentWrapper onMouseMove={this.pulse}>
-        <HeaderImage backgroundImage={imgSrc} height="110px" />
-        <ContentCentered>
-            <Greeting>Welcome to our site!</Greeting>
-        </ContentCentered>
-        <ContentCentered>
-            <ModalButton>
-                <ContentFullSize>
-                    <ContentHeader hasAddButton resourceTitle="idea" resourceSubtitle="good ones are always welcome!" />
-                    <HeaderImage styles={{zIndex: 0, opacity: 1}} backgroundImage={imgSrc} />
-                    <TextWrapper>
-                        <Greeting>You opened a Modal component</Greeting>
-                        <Description>
+  <ContentWrapper onMouseMove={this.pulse}>
+    <HeaderImage backgroundImage={imgSrc} height="110px" />
+    <ContentCentered>
+      <Greeting>Welcome to our site!</Greeting>
+    </ContentCentered>
+    <ContentCentered>
+      <ModalButton>
+        <ContentFullSize>
+          <ContentHeader hasAddButton resourceTitle="idea" resourceSubtitle="good ones are always welcome!" />
+          <HeaderImage styles={{zIndex: 0, opacity: 1}} backgroundImage={imgSrc} />
+          <TextWrapper>
+            <Greeting>You opened a Modal component</Greeting>
+            <Description>
                             Any kind of content can be placed into this modal (pictures, text, video, or complex forms).
                             Usually you would see some Lorem Ipsum filler text,
                             but since Attainia specializes in software for the medical industry,
                             we can try the Hippocratic Oath instead:
-                        </Description>
-                        <Excerpt>{HippocraticOath}</Excerpt>
-                        <Description>
+            </Description>
+            <Excerpt>{HippocraticOath}</Excerpt>
+            <Description>
                             The modal itself uses the React Portal API and is configured to close when you click
                             outside the modal window. Give it a shot!
-                        </Description>
-                    </TextWrapper>
-                </ContentFullSize>
-            </ModalButton>
-        </ContentCentered>
-    </ContentWrapper>
+            </Description>
+          </TextWrapper>
+        </ContentFullSize>
+      </ModalButton>
+    </ContentCentered>
+  </ContentWrapper>
 
 DemoHome.propTypes = {
-    imgSrc: PropTypes.string
+  imgSrc: PropTypes.string
 }
 
 export default DemoHome

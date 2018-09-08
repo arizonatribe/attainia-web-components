@@ -1,6 +1,6 @@
-# Attainia Web Components
+# Reactive Components
 
-This repository contains modularized JavaScript and CSS meant to be used in an Attainia web application (built using the React.js framework).
+Modularized JavaScript and CSS web components for React.js applications.
 
 ## Dependencies
 
@@ -26,13 +26,13 @@ These components may or may not implement one or many of the following dependenc
 
 Additionally, certain low-level libraries are also servicing these components:
 * [Ramda](https://www.npmjs.com/package/ramda) - Utils library (similar to Lodash) but more properly geared towards functional programming paradigms
-* [Attadux](https://github.com/Attainia/attadux) - A [modular ducks](https://github.com/erikras/ducks-modular-redux) implementation, forked from [extensible-duck](https://github.com/investtools/extensible-duck) to provide custom features (state machines, form validators, and middleware).
+* [Ruddy](https://github.com/arizonatribe/ruddy) - A [modular ducks](https://github.com/erikras/ducks-modular-redux) implementation, forked from [extensible-duck](https://github.com/investtools/extensible-duck) to provide custom features (state machines, form validators, and middleware).
 * [UUID](https://github.com/kelektiv/node-uuid) - Generates guids
 
-## Installing
+## Installation
 
 ```bash
-npm install attainia-web-components
+npm install reactive-components
 ```
 
 ## Usage
@@ -47,8 +47,7 @@ To add the reducer for the auth components into your application, just import th
 import {combineReducers} from 'redux'
 import {reducer as formReducer} from 'redux-form'
 
-/* reducer for the `auth` component(s) from attainia-web-componets library */
-import authDux from 'attainia-web-components/auth/ducks'
+import authDux from 'reactive-components/auth/ducks'
 
 /* your local reducers */
 import resourcesDux from './components/resources/ducks'
@@ -68,7 +67,7 @@ Now, your `Login.container.js` will have access to the `auth` section of your ap
 The React web components in this repository are imported just like any normal local web component:
 
 ```javascript
-import {Conditional} from 'attainia-web-components/common/Conditional';
+import {Conditional} from 'reactive-components/common/Conditional';
 
 export default (props) =>
     <Conditional condition={props.isLoggedIn}>
@@ -86,13 +85,10 @@ Using any container component will then work seamlessly, just import the `.conta
 import React from 'react';
 import {Provider} from 'react-redux';
 
-/* attainia web component */
-import Login from 'attainia-web-components/auth/Login.container';
+import Login from 'reactive-components/auth/Login.container';
 
-/* the Redux store */
 import store from './store';
 
-/* Local component */
 import ResourcesList from './components/resources/ResourcesList.container';
 
 export default (
@@ -300,7 +296,7 @@ __usage__:
 
 ```javascript
 import {Provider} from 'react-redux'
-import AuthProvider from 'attainia-web-components/auth/AuthProvider'
+import AuthProvider from 'reactive-components/auth/AuthProvider'
 
 export default (props) =>
     <Provider store={store}>
@@ -320,11 +316,11 @@ A simple component that subscribes to any logout events from the AuthProvider's 
 
 ### Error Message
 
-A very simple company branded (Attainia) styling around a basic `<div>` with error message text inside
+Simple styling around a basic `<div>` that holds error messages
 
 ### Login
 
-Renders the Attainia user authentication component, which expects an email and password to be provided. Additionally it links to [password reset](#password-help) and [user registration](#user-registration) components.
+Renders a componet for username/password authentication. Additionally it links to [password reset](#password-help) and [user registration](#user-registration) components.
 
 __options__:
 * `email` - [`String`] Optionally you can pre-populate the email field on the Login form
@@ -378,7 +374,7 @@ Based on [mathieuancelin](https://github.com/mathieuancelin) npm module [react-c
 In addition to the standard use:
 
 ```javascript
-import {Conditional} from 'attainia-web-components/common/Conditional';
+import {Conditional} from 'reactive-components/common/Conditional';
 
 export default (props) =>
     <Conditional condition={props.isLoggedIn}>
@@ -392,7 +388,7 @@ You can import the `renderConditional` function for use outside of JSX (ie, in a
 
 ```javascript
 import {connect} from 'react-redux';
-import {renderConditional} from 'attainia-web-components/common/Conditional';
+import {renderConditional} from 'reactive-components/common/Conditional';
 
 import ResourcesDetail from './ResourcesDetail';
 
@@ -409,7 +405,7 @@ export default renderConditional(
 
 ### Button
 
-A simple HTML button which has been styled according to company (Attainia) branding
+A simple styled HTML button
 
 ### Button Link
 

@@ -15,15 +15,15 @@ const SimpleWrapper = styled.div`
 `
 
 const SimpleMessage = ({className, message, ...restOfProps}) =>
-    <SimpleWrapper className={className} {...restOfProps}>{message}</SimpleWrapper>
+  <SimpleWrapper className={className} {...restOfProps}>{message}</SimpleWrapper>
 
 SimpleMessage.propTypes = {
-    className: PropTypes.string,
-    message: PropTypes.string
+  className: PropTypes.string,
+  message: PropTypes.string
 }
 
 SimpleMessage.defaultProps = {
-    className: 'simple-message'
+  className: 'simple-message'
 }
 
 export default withTheme(SimpleMessage)

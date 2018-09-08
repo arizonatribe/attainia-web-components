@@ -13,8 +13,8 @@
     ["module-resolver", {
       "root": ["./src"],
       "alias": {
-        "^@awc$": "./src/components/index.js",
-        "^@awc/(.+)": "./src/components/\\1",
+        "^@rc$": "./src/components/index.js",
+        "^@rc/(.+)": "./src/components/\\1",
         "^@globals$": "./src/globals.js",
         "^@stories": "./.stories/index.js",
         "^@stories/(.+)$": "./stories/\\1",

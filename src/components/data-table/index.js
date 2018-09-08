@@ -10,14 +10,14 @@ import TextCell from './TextCell'
 import TooltipHeaderCell from './TooltipHeaderCell'
 
 export {
-    DataTable,
-    ColumnType,
-    IconLinkCell,
-    ImageCell,
-    InfoIconToolTipTextCell,
-    LinkCell,
-    NumberCell,
-    NumberTooltipHeaderCell,
-    TextCell,
-    TooltipHeaderCell
+  DataTable,
+  ColumnType,
+  IconLinkCell,
+  ImageCell,
+  InfoIconToolTipTextCell,
+  LinkCell,
+  NumberCell,
+  NumberTooltipHeaderCell,
+  TextCell,
+  TooltipHeaderCell
 }

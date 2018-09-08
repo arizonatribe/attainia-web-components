@@ -16,29 +16,29 @@ const Wrapper = styled.div`
 `
 
 const PagingButtons = ({inProgress, isLastPage, isFirstPage, nextPage, prevPage}) =>
-    <Wrapper>
-        <Conditional condition={!isFirstPage}>
-            <PreviousPageButton inProgress={inProgress} type="button" onClick={prevPage} />
-        </Conditional>
-        <Conditional condition={!isLastPage}>
-            <NextPageButton inProgress={inProgress} type="button" onClick={nextPage} />
-        </Conditional>
-    </Wrapper>
+  <Wrapper>
+    <Conditional condition={!isFirstPage}>
+      <PreviousPageButton inProgress={inProgress} type="button" onClick={prevPage} />
+    </Conditional>
+    <Conditional condition={!isLastPage}>
+      <NextPageButton inProgress={inProgress} type="button" onClick={nextPage} />
+    </Conditional>
+  </Wrapper>
 
 PagingButtons.propTypes = {
-    inProgress: PropTypes.bool.isRequired,
-    isFirstPage: PropTypes.bool.isRequired,
-    isLastPage: PropTypes.bool.isRequired,
-    nextPage: PropTypes.func.isRequired,
-    prevPage: PropTypes.func.isRequired
+  inProgress: PropTypes.bool.isRequired,
+  isFirstPage: PropTypes.bool.isRequired,
+  isLastPage: PropTypes.bool.isRequired,
+  nextPage: PropTypes.func.isRequired,
+  prevPage: PropTypes.func.isRequired
 }
 
 PagingButtons.defaultProps = {
-    inProgress: false,
-    isFirstPage: false,
-    isLastPage: false,
-    nextPage: T,
-    prevPage: T
+  inProgress: false,
+  isFirstPage: false,
+  isLastPage: false,
+  nextPage: T,
+  prevPage: T
 }
 
 export default PagingButtons

@@ -10,9 +10,9 @@ export default styled.button`
     text-decoration: underline;
     color: ${pathOr('royalblue', ['theme', 'colors', 'secondary', 'dk'])};
     font-size: ${props => (
-        path(['styles', 'fontSize'])(props) ||
+    path(['styles', 'fontSize'])(props) ||
         pathOr('15px', ['theme', 'fonts', 'fontSize'])(props)
-    )};
+  )};
     &:focus {
         outline: none;
     }

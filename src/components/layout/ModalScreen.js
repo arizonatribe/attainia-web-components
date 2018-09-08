@@ -14,14 +14,14 @@ const Screen = styled.div`
 `
 
 const ModalScreen = ({onClick}) =>
-    <Screen onClick={onClick} />
+  <Screen onClick={onClick} />
 
 ModalScreen.propTypes = {
-    onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 }
 
 ModalScreen.defaultProps = {
-    onClick: () => {}
+  onClick: () => {}
 }
 
 export default ModalScreen

@@ -1,6 +1,6 @@
 import {createBrowserHistory} from 'history'
 import {mergeDeepLeft} from 'ramda'
-import {createMiddleware} from 'attadux'
+import {createMiddleware} from 'ruddy'
 import {syncHistoryWithStore, routerMiddleware} from 'react-router-redux'
 import {compose, createStore, applyMiddleware} from 'redux'
 import logger from 'redux-logger'
@@ -20,17 +20,17 @@ export const apolloFetch = createApolloFetch({uri: GRAPHQL_URL})
 const browserHistory = createBrowserHistory()
 
 const store = createStore(
-    reducers,
-    mergeDeepLeft({auth: {baseUrl: process.env.REACT_APP_AUTH_BASE_URL}}, initialState),
-    composeEnhancers(
-        applyMiddleware(
-            addTokenToMeta({selector: authDucks.selectors.token}),
-            createMiddleware(row),
-            apolloAuthMiddleWare(apolloFetch),
-            routerMiddleware(browserHistory),
-            logger
-        )
+  reducers,
+  mergeDeepLeft({auth: {baseUrl: process.env.REACT_APP_AUTH_BASE_URL}}, initialState),
+  composeEnhancers(
+    applyMiddleware(
+      addTokenToMeta({selector: authDucks.selectors.token}),
+      createMiddleware(row),
+      apolloAuthMiddleWare(apolloFetch),
+      routerMiddleware(browserHistory),
+      logger
     )
+  )
 )
 
 export const history = syncHistoryWithStore(browserHistory, store)

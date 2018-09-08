@@ -1,10 +1,10 @@
 {
-  "name": "attainia-web-components",
-  "version": "0.3.130",
-  "description": "A collection of Attainia branded web components to be used in an Attainia React.js web application.",
+  "name": "reactive-components",
+  "version": "1.0.0",
+  "description": "Modularized JavaScript and CSS web components for React.js applications.",
   "main": "index.js",
   "engines": {
-    "node": ">= 8.0.0"
+    "node": ">= 8.6.0"
   },
   "scripts": {
     "storybook": "NODE_PATH=src start-storybook -p 9001 -c .storybook",
@@ -30,24 +30,29 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Attainia/attainia-web-components.git"
+    "url": "git@github.com:arizonatribe/reactive-components.git"
   },
   "keywords": [
-    "attainia",
     "react",
+    "reactive",
+    "redux",
+    "web components",
+    "javascript",
+    "styled components",
+    "apollo",
+    "graphql",
     "component"
   ],
   "license": "Apache-2.0",
-  "author": "Attainia Developers <developers@attainia.com>",
+  "authors": [
+    "Attainia Developers <developers@attainia.com>",
+    "David Nunez <arizonatribe@gmail.com>"
+  ],
   "contributors": [
-    "Alex <alex.maskovyak@attainia.com>",
     "Ana <ana.tomboulian@attainia.com>",
-    "David <david.nunez@attainia.com>",
     "Lawrence <lawrence.grant@attainia.com>",
     "Michael <michael.tomcal@attainia.com>",
     "Jono <jono.mercier@attainia.com>",
-    "Glenn <glenn.siegman@attainia.com>",
-    "Marcos <marcos.gonzales@attainia.com>",
     "Sean <sean.mchugh@attainia.com>",
     "Tim <tim.graf@attainia.com>",
     "Usha <usha.kundapur@attainia.com>"
@@ -55,11 +60,11 @@
   "dependencies": {
     "apollo-fetch": "0.7.0",
     "articles": "0.2.2",
-    "attadux": "0.2.0",
+    "ruddy": "0.3.0",
     "attasist": "0.0.29",
     "babel-polyfill": "6.26.0",
     "color": "2.0.1",
-    "exact": "^0.8.0",
+    "exact": "0.8.0",
     "fixed-data-table-2": "0.8.1",
     "formatta": "0.0.10",
     "fuzzysearch": "1.0.3",
@@ -105,7 +110,7 @@
     "babel-eslint": "7.2.3",
     "babel-plugin-add-module-exports": "0.2.1",
     "babel-plugin-external-helpers": "6.22.0",
-    "babel-plugin-module-resolver": "3.0.0",
+    "babel-plugin-module-resolver": "3.1.1",
     "babel-plugin-ramda": "1.4.3",
     "babel-plugin-syntax-async-functions": "6.13.0",
     "babel-plugin-transform-object-rest-spread": "6.23.0",
@@ -115,12 +120,13 @@
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
     "copyfiles": "1.2.0",
-    "eslint": "4.11.0",
+    "eslint": "4.19.1",
     "eslint-config-airbnb": "15.1.0",
     "eslint-config-prettier": "2.6.0",
     "eslint-import-resolver-node": "0.3.1",
+    "eslint-import-resolver-babel-module": "4.0.0",
     "eslint-plugin-flowtype": "2.35.0",
-    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-import": "2.11.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.2.1",
     "formik": "0.11.10",
