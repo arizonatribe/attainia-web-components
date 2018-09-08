@@ -1,5 +1,5 @@
 {
-  "name": "reactive-components",
+  "name": "reactive-web-components",
   "version": "1.0.0",
   "description": "Modularized JavaScript and CSS web components for React.js applications.",
   "main": "index.js",
@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:arizonatribe/reactive-components.git"
+    "url": "git@github.com:arizonatribe/reactive-web-components.git"
   },
   "keywords": [
     "react",

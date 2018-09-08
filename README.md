@@ -1,4 +1,4 @@
-# Reactive Components
+# Reactive Web Components
 
 Modularized JavaScript and CSS web components for React.js applications.
 
@@ -32,7 +32,7 @@ Additionally, certain low-level libraries are also servicing these components:
 ## Installation
 
 ```bash
-npm install reactive-components
+npm install reactive-web-components
 ```
 
 ## Usage
@@ -47,7 +47,7 @@ To add the reducer for the auth components into your application, just import th
 import {combineReducers} from 'redux'
 import {reducer as formReducer} from 'redux-form'
 
-import authDux from 'reactive-components/auth/ducks'
+import authDux from 'reactive-web-components/auth/ducks'
 
 /* your local reducers */
 import resourcesDux from './components/resources/ducks'
@@ -67,7 +67,7 @@ Now, your `Login.container.js` will have access to the `auth` section of your ap
 The React web components in this repository are imported just like any normal local web component:
 
 ```javascript
-import {Conditional} from 'reactive-components/common/Conditional';
+import {Conditional} from 'reactive-web-components/common/Conditional';
 
 export default (props) =>
     <Conditional condition={props.isLoggedIn}>
@@ -85,7 +85,7 @@ Using any container component will then work seamlessly, just import the `.conta
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import Login from 'reactive-components/auth/Login.container';
+import Login from 'reactive-web-components/auth/Login.container';
 
 import store from './store';
 
@@ -296,7 +296,7 @@ __usage__:
 
 ```javascript
 import {Provider} from 'react-redux'
-import AuthProvider from 'reactive-components/auth/AuthProvider'
+import AuthProvider from 'reactive-web-components/auth/AuthProvider'
 
 export default (props) =>
     <Provider store={store}>
@@ -374,7 +374,7 @@ Based on [mathieuancelin](https://github.com/mathieuancelin) npm module [react-c
 In addition to the standard use:
 
 ```javascript
-import {Conditional} from 'reactive-components/common/Conditional';
+import {Conditional} from 'reactive-web-components/common/Conditional';
 
 export default (props) =>
     <Conditional condition={props.isLoggedIn}>
@@ -388,7 +388,7 @@ You can import the `renderConditional` function for use outside of JSX (ie, in a
 
 ```javascript
 import {connect} from 'react-redux';
-import {renderConditional} from 'reactive-components/common/Conditional';
+import {renderConditional} from 'reactive-web-components/common/Conditional';
 
 import ResourcesDetail from './ResourcesDetail';
 
